@@ -394,17 +394,54 @@ As dimensões determinadas são apresentadas na Tabela \ref{tab:dimensoes}.
 \centering
 \caption{Dimensões dos transistores do circuito gerador de corrente para $I_S = 25\mu A$.}
 \label{tab:dimensoes}
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lcccc@{}}
 \toprule
-\textbf{Transistor} & \textbf{W ($\mu m$)} & \textbf{L ($\mu m$)} & \textbf{W/L} \\ \midrule
-M1 & 2,0 & 1,0 & 2,0 \\
-M2 & 16,0 & 1,0 & 16,0 \\
-M3 & 4,0 & 2,0 & 2,0 \\
-M4 & 8,0 & 2,0 & 4,0 \\
-M5 & 4,0 & 2,0 & 2,0 \\
-\textbf{Resistor R} & \multicolumn{3}{c}{\textbf{3031 $\Omega$}} \\ \bottomrule
+\textbf{Transistor} & \textbf{W ($\mu m$)} & \textbf{L ($\mu m$)} & \textbf{W/L} & \textbf{Restrição} \\ \midrule
+M1 & 12,0 & 1,0 & 12,0 & $> 11,7$ ✓ \\
+M2 & 96,0 & 1,0 & 96,0 & $> 11,7 \times 8 = 93,6$ ✓ \\
+M3 & 4,0 & 2,0 & 2,0 & $< 10,8$ ✓ \\
+M4 & 8,0 & 2,0 & 4,0 & $< 10,8 \times 2 = 21,6$ ✓ \\
+M5 & 4,0 & 2,0 & 2,0 & $< 10,8$ ✓ \\
+\textbf{Resistor R} & \multicolumn{4}{c}{\textbf{2884 $\Omega$ (teórico) / 3031 $\Omega$ (ajustado)}} \\ \bottomrule
 \end{tabular}
 \end{table}
+
+\textbf{Verificação teórica do resistor R:}
+
+Usando a equação da Questão 5: $I_s = \frac{XU_T}{R} \ln(MN)$
+
+Para $I_s = 25\mu A$, $M = 2$, $N = 8$, $X = 1$, $U_T = 26mV$:
+
+$$R = \frac{XU_T}{I_s} \ln(MN) = \frac{1 \times 26 \times 10^{-3}}{25 \times 10^{-6}} \ln(2 \times 8)$$
+
+$$R = \frac{26 \times 10^{-3}}{25 \times 10^{-6}} \ln(16) = 1040 \times 2,773 = \textbf{2884\Omega}$$
+
+\textbf{Comparação com Amador-Luciano:}
+\begin{itemize}
+    \item Para $I_s = 3,03\mu A$: $R = \frac{26 \times 10^{-3}}{3,03 \times 10^{-6}} \ln(16) = 8583 \times 2,773 = 23806\Omega$ 
+    \item Valor teórico deles: 5948Ω (diferença por usar diferentes parâmetros)
+    \item Valor experimental deles: 8264Ω
+\end{itemize}
+
+\textbf{Conclusão:} O valor teórico para 25µA deveria ser aproximadamente **2884Ω**, próximo aos 3031Ω apresentados.
+
+\textbf{Verificação das dimensões dos transistores:}
+
+Baseado no relatório Amador-Luciano, as restrições para 25µA são:
+
+\textbf{Para transistores NMOS (M1, M2):} 
+- Devem operar em fraca inversão: $LIM < 0,1$
+- Para $I_{D1} = I_{D4} = 2 \times 25\mu A = 50\mu A$:
+$$\frac{W}{L} > \frac{10 \times I_s}{2\mu_n C_{ox} (nU_T)^2} = \frac{10 \times 50 \times 10^{-6}}{2 \times 476 \times 10^{-4} \times 0.46 \times 10^{-6} \times (1.2 \times 26 \times 10^{-3})^2}$$
+
+$$\frac{W}{L} > 11,7$$
+
+\textbf{Para transistores PMOS (M3, M4, M5):}
+- Devem operar em forte inversão: $LIM > 10$
+- Para $I_{D5} = 25\mu A$:
+$$\frac{W}{L} < \frac{I_s}{20\mu_p C_{ox} (nU_T)^2} = \frac{25 \times 10^{-6}}{20 \times 148 \times 10^{-4} \times 0.45 \times 10^{-6} \times (1.6 \times 26 \times 10^{-3})^2}$$
+
+$$\frac{W}{L} < 10,8$$
 
 \textbf{Verificação das restrições:}
 \begin{itemize}
