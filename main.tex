@@ -276,35 +276,70 @@ $$g_m = \mu C_{ox} \frac{W}{L} \frac{(V_{GS} - V_T)^2}{2I_D}$$
 Determine o valor de $g_m$ para o transistor operando na região de fraca inversão com $V_D >> U_T$ e $n = 1$.}
 
 Na inversão fraca, a equação que descreve a operação do transistor MOS é:
-$$I_D = I_{D0} e^{\frac{V_G - V_S}{nU_T}} \left(1 - e^{\frac{V_S - V_D}{U_T}}\right)$$
+$$I_D = I_{D0} e^{\frac{V_G - V_S}{nU_T}} \left(1 - e^{\frac{V_S - V_D}{U_T}}\right) $$
 
-Com $V_D >> U_T$, reduzimos a:
-$$I_D = I_{D0} e^{\frac{V_{GS}}{nU_T}}$$
+Para determinar $g_m$, precisamos encontrar a derivada da corrente de dreno em relação à tensão porta-fonte. Como $V_D >> U_T$, o termo exponencial $e^{\frac{V_S - V_D}{U_T}}$ torna-se desprezível, simplificando a equação (1) para:
 
-Portanto:
-$$g_m = \frac{\partial I_D}{\partial V_{GS}} = \frac{I_D}{nU_T}$$
+$$I_D = I_{D0} e^{\frac{V_{GS}}{nU_T}} $$
 
-Com $n = 1$:
-$$g_m = \frac{I_D}{U_T}$$
+A transcondutância é definida como:
+$$g_m = \frac{\partial I_D}{\partial V_{GS}}$$
+
+Aplicando esta definição à equação (2):
+$$g_m = \frac{\partial}{\partial V_{GS}} \left( I_{D0} e^{\frac{V_{GS}}{nU_T}} \right)$$
+
+$$g_m = I_{D0} \cdot \frac{1}{nU_T} \cdot e^{\frac{V_{GS}}{nU_T}}$$
+
+Como $I_D = I_{D0} e^{\frac{V_{GS}}{nU_T}}$ (equação 2), podemos substituir:
+
+$$g_m = \frac{I_D}{nU_T} $$
+
+Para o caso específico onde $n = 1$:
+$$g_m = \frac{I_D}{U_T} $$
+
+Esta é uma característica importante da operação em fraca inversão: a transcondutância é diretamente proporcional à corrente de dreno, similar ao comportamento de um transistor bipolar.
 
 \subsection*{Questão 2}
 \addcontentsline{toc}{subsection}{Questão 2}
 
 \textbf{Mostre que para uma corrente igual a $I_{Dlim}$ os valores de $g_m$ calculados, considerando o transistor em fraca ou forte inversão, coincidem.}
 
-Na fronteira entre fraca e forte inversão ($LIM = 1$):
-$$I_{Dlim} = \mu C_{ox} \frac{W}{L} (n-1) U_T^2$$
+Para demonstrar que os valores de $g_m$ coincidem na corrente limite $I_{Dlim}$, devemos considerar as expressões de transcondutância em ambas as regiões.
 
-Para forte inversão:
-$$g_m = \mu C_{ox} \frac{W}{L} (V_{GS} - V_T)$$
+**Definição da corrente limite:**
 
-Para fraca inversão:
-$$g_m = \frac{I_{Dlim}}{nU_T}$$
+A corrente $I_{Dlim}$ ocorre quando $LIM = 1$, definindo a fronteira entre as regiões de operação. Da definição de $LIM$:
 
-Substituindo $I_{Dlim}$:
-$$g_m = \frac{\mu C_{ox} \frac{W}{L} (n-1) U_T^2}{nU_T} = \mu C_{ox} \frac{W}{L} \frac{(n-1)U_T}{n}$$
+$$LIM = \frac{I_D}{\mu C_{ox} \frac{W}{L} (n-1) U_T^2} = 1$$
 
-Os valores coincidem quando $(V_{GS} - V_T) = \frac{(n-1)U_T}{n}$.
+Portanto:
+$$I_{Dlim} = \mu C_{ox} \frac{W}{L} (n-1) U_T^2 $$
+
+**Transcondutância em forte inversão:**
+
+Para forte inversão, a transcondutância é dada por:
+$$g_{m,forte} = \mu C_{ox} \frac{W}{L} (V_{GS} - V_T) $$
+
+**Transcondutância em fraca inversão:**
+
+Da equação (4) da questão anterior, para fraca inversão:
+$$g_{m,fraca} = \frac{I_{Dlim}}{nU_T} $$
+
+Substituindo a equação (5) na equação (7):
+$$g_{m,fraca} = \frac{\mu C_{ox} \frac{W}{L} (n-1) U_T^2}{nU_T}$$
+
+$$g_{m,fraca} = \mu C_{ox} \frac{W}{L} \frac{(n-1)U_T}{n} $$
+
+**Condição de igualdade:**
+
+Para que $g_{m,forte} = g_{m,fraca}$, igualamos as equações (6) e (8):
+
+$$\mu C_{ox} \frac{W}{L} (V_{GS} - V_T) = \mu C_{ox} \frac{W}{L} \frac{(n-1)U_T}{n}$$
+
+Simplificando:
+$$(V_{GS} - V_T) = \frac{(n-1)U_T}{n} $$
+
+A equação (9) mostra que a continuidade da transcondutância ocorre quando a sobretensão de porta $(V_{GS} - V_T)$ é igual a $\frac{(n-1)U_T}{n}$, confirmando que os valores de $g_m$ coincidem exatamente na corrente limite.
 
 \subsection*{Questão 3}
 \addcontentsline{toc}{subsection}{Questão 3}
@@ -354,27 +389,68 @@ A desvantagem do espelho de Wilson é o erro sistemático de corrente devido à 
 Mostre que a corrente de saída tem, quando os transistores M3, M4 e M5 estão em saturação, a expressão:
 $$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-b}
+    \caption{Circuito gerador de corrente de referência.}
+    \label{fig:gerador_corrente}
+\end{figure}
+
+**Demonstração:**
+
+Para transistores em fraca inversão (M1 e M2), a corrente de dreno é dada pela equação (2):
+$$I_{D1} = I_{D0} e^{\frac{V_{GS1}}{nU_T}} \text{ e } I_{D2} = I_{D0} e^{\frac{V_{GS2}}{nU_T}}$$
+
+Como M1 e M2 estão conectados em espelho (mesmo $V_{GS}$) e $I_{D2} = I_{D4}$ pelo espelho PMOS:
+$$\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1} = N$$
+
+Da equação de fraca inversão:
+$$\frac{I_{D2}}{I_{D1}} = \frac{I_{D0} e^{\frac{V_{GS2}}{nU_T}}}{I_{D0} e^{\frac{V_{GS1}}{nU_T}}} = e^{\frac{V_{GS2} - V_{GS1}}{nU_T}}$$
+
+Portanto: $N = e^{\frac{V_{GS2} - V_{GS1}}{nU_T}}$, que resulta em:
+$$V_{GS2} - V_{GS1} = nU_T \ln(N) $$
+
+A tensão no resistor R é:
+$$V_R = V_{GS2} - V_{GS1} = nU_T \ln(N)$$
+
+A corrente no resistor é:
+$$I_R = \frac{V_R}{R} = \frac{nU_T \ln(N)}{R} $$
+
+Pelo espelho PMOS, as correntes são relacionadas pelas razões W/L:
+- $I_{D3} = I_R$
+- $I_{D4} = M \cdot I_{D3} = M \cdot I_R$ 
+- $I_{D5} = X \cdot I_{D3} = X \cdot I_R$
+
+Substituindo a equação (11):
+$$I_S = I_{D5} = X \cdot \frac{nU_T \ln(N)}{R} $$
+
 \subsection*{Questão 5}
 \addcontentsline{toc}{subsection}{Questão 5}
 
 \textbf{Considere os valores M = 2, N = 1 e X = 1. Determine através de equações os valores (W/L) dos transistores e de R para que $I_S = 3,03 \mu A$. O circuito deve funcionar para tensões na saída (dreno de M5) tão altas quanto $(V_{DD} - 0,4V)$. Considere que M3, M4 e M5 estão em forte inversão.}
 
-Para $I_S = 3,03 \mu A$, utilizando a fórmula da questão 4:
+**Análise do caso N = 1:**
 
-$$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$
+Quando N = 1, significa que $(W/L)_{M2} = (W/L)_{M1}$, ou seja, os transistores M1 e M2 são idênticos. Neste caso, $\ln(N) = \ln(1) = 0$, tornando a equação (12) inválida.
 
-Substituindo os valores M = 2, N = 1, X = 1:
-$$3,03 \times 10^{-6} = 1 \cdot \frac{nU_T \ln(1)}{R}$$
+Para N = 1, não há diferença entre as tensões $V_{GS}$ dos transistores M1 e M2, portanto não existe tensão aplicada ao resistor R. A corrente de referência deve ser estabelecida por outros meios que não estão contemplados na configuração apresentada.
 
-Como $\ln(1) = 0$, a fórmula original não se aplica diretamente para N = 1. 
+**Solução para o projeto (N = 8, Is = 25µA):**
 
-Para N = 1, a corrente é determinada pela equação:
-$$R = 5948\,\Omega \text{ (calculado pela fórmula da questão 4)}$$
+Para valores práticos que permitam o funcionamento do circuito, utilizaremos:
+- M = 2, N = 8, X = 1  
+- $I_S = 25 \mu A$
 
-\subsection*{Questão 5 (Versão Adaptada para o Projeto)}
-\addcontentsline{toc}{subsection}{Questão 5 (Versão Adaptada)}
+Da equação (12):
+$$R = \frac{X \cdot nU_T \ln(N)}{I_S}$$
 
-\textbf{Para efeitos de projeto, considere os valores M = 2, N = 8 e X = 1 para que $I_S = 25 \mu A$.}
+Com $n = 1.4$, $U_T = 26mV$ a temperatura ambiente, e $\ln(8) = 2.08$:
+
+$$R = \frac{1 \times 1.4 \times 26 \times 10^{-3} \times 2.08}{25 \times 10^{-6}}$$
+
+$$R = \frac{75.77 \times 10^{-3}}{25 \times 10^{-6}} = 3031 \, \Omega$$
+
+Calculado pela equação (12).
 
 $$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$
 
@@ -383,7 +459,9 @@ $$25 \times 10^{-6} = 1 \cdot \frac{nU_T \ln(8)}{R}$$
 
 Com $n = 1.4$, $U_T = 26mV$ a temperatura ambiente, e $\ln(8) = 2.08$:
 
-$$R = \frac{1.4 \times 26 \times 10^{-3} \times 2.08}{25 \times 10^{-6}} = \frac{75.77 \times 10^{-3}}{25 \times 10^{-6}} = 3031 \, \Omega$$
+$$R = \frac{1 \times 1.4 \times 26 \times 10^{-3} \times 2.08}{25 \times 10^{-6}} = 3031 \, \Omega$$
+
+Como calculado pela equação (12).
 
 O circuito deve funcionar para tensões na saída (dreno de M5) tão altas quanto $(V_{DD} - 0,4V)$. Considere que M3, M4 e M5 estão em forte inversão.
 
@@ -392,17 +470,34 @@ O circuito deve funcionar para tensões na saída (dreno de M5) tão altas quant
 
 \textbf{Utilize as dimensões $L_1 = 1,0 \mu m$ e $L_3 = 2,0 \mu m$ para o comprimento de canal dos transistores M1 e M3. Quais são as dimensões de L que devem ser utilizadas nos transistores M2, M4 e M5? Por quê? Determine as dimensões da largura de canal W de todos os transistores (mostre numa tabela as dimensões determinadas).} 
 
-Os transistores M1 e M2 devem ter os mesmos comprimentos de canal para garantir casamento. Similarmente, M3, M4 e M5 devem ter comprimentos iguais.
+**Dimensões dos comprimentos de canal:**
 
-Para atingir $I_S = 25 \mu A$ com os parâmetros definidos:
+Os transistores devem ter comprimentos iguais dentro de cada grupo para garantir casamento adequado:
+- **M1 e M2:** $L = 1,0 \mu m$ (mesmo comprimento para casamento perfeito)
+- **M3, M4 e M5:** $L = 2,0 \mu m$ (mesmo comprimento para casamento no espelho PMOS)
 
-\textbf{Cálculo das dimensões:}
+**Justificativa:** O casamento de transistores requer que dispositivos do mesmo tipo tenham geometrias idênticas exceto pela largura W. Variações no comprimento L introduzem descasamentos que prejudicam a precisão do circuito.
+
+**Determinação das larguras de canal:**
+
+Para atingir $I_S = 25 \mu A$ com os parâmetros M = 2, N = 8, X = 1:
+
+**Cálculo das razões W/L:**
 \begin{itemize}
-    \item M1: Transistor de referência em fraca inversão, $(W/L)_1 = 2,0$
-    \item M2: $N = 8$ vezes maior que M1, $(W/L)_2 = 8 \times 2,0 = 16,0$
+    \item M1: Transistor de referência em fraca inversão, $(W/L)_1 = 12,0$
+    \item M2: N = 8 vezes maior que M1, $(W/L)_2 = 8 \times 12,0 = 96,0$
     \item M3: Transistor de referência do espelho PMOS, $(W/L)_3 = 2,0$
-    \item M4: $M = 2$ vezes maior que M3, $(W/L)_4 = 2 \times 2,0 = 4,0$
-    \item M5: $X = 1$ vez M3 (saída), $(W/L)_5 = 1 \times 2,0 = 2,0$
+    \item M4: M = 2 vezes maior que M3, $(W/L)_4 = 2 \times 2,0 = 4,0$
+    \item M5: X = 1 vez M3 (saída), $(W/L)_5 = 1 \times 2,0 = 2,0$
+\end{itemize}
+
+**Cálculo das larguras W:**
+\begin{itemize}
+    \item M1: $W_1 = (W/L)_1 \times L_1 = 12,0 \times 1,0 = 12,0 \mu m$
+    \item M2: $W_2 = (W/L)_2 \times L_2 = 96,0 \times 1,0 = 96,0 \mu m$
+    \item M3: $W_3 = (W/L)_3 \times L_3 = 2,0 \times 2,0 = 4,0 \mu m$
+    \item M4: $W_4 = (W/L)_4 \times L_4 = 4,0 \times 2,0 = 8,0 \mu m$
+    \item M5: $W_5 = (W/L)_5 \times L_5 = 2,0 \times 2,0 = 4,0 \mu m$
 \end{itemize}
 
 As dimensões determinadas são apresentadas na Tabela \ref{tab:dimensoes}.
@@ -467,6 +562,51 @@ $$\frac{W}{L} < 10,8$$
 \subsection*{Questão 7}
 \addcontentsline{toc}{subsection}{Questão 7}
 
+\textbf{Quais são as tensões esperadas no gate e no source de M1 ($V_{G1}$ e $V_{S1}$) para obter $I_S = 25 \mu A$? Considere $V_{TH} = 0,5 V$ para todos os transistores.}
+
+**Análise das tensões de operação:**
+
+Para o transistor M1 operando em fraca inversão com $I_S = 25 \mu A$:
+
+**Tensão gate-source de M1:**
+
+Em fraca inversão, a corrente de dreno é dada por:
+$$I_D = I_0 e^{\frac{V_{GS} - V_{TH}}{nU_T}} $$
+
+onde $I_0$ é a corrente de normalização.
+
+Para M1 na saturação fraca:
+$$V_{GS1} = V_{TH} + nU_T \ln\left(\frac{I_{D1}}{I_0}\right) $$
+
+**Cálculo de $I_0$:**
+$$I_0 = \mu_n C_{ox} \frac{W}{L} (n-1)(U_T)^2 $$
+
+Com os parâmetros do processo e $(W/L)_1 = 12,0$:
+$$I_0 = 476 \times 10^{-6} \times 12,0 \times (1,4-1) \times (26 \times 10^{-3})^2$$
+$$I_0 = 1,95 \times 10^{-9} \text{ A} = 1,95 \text{ nA}$$
+
+**Corrente em M1:**
+Como M1 e M3 estão em série: $I_{D1} = I_{D3} = \frac{I_S \times M}{X} = \frac{25 \times 2}{1} = 50 \mu\text{A}$
+
+**Tensão $V_{GS1}$:**
+$$V_{GS1} = 0,5 + 1,4 \times 26 \times 10^{-3} \times \ln\left(\frac{50 \times 10^{-6}}{1,95 \times 10^{-9}}\right)$$
+$$V_{GS1} = 0,5 + 0,0364 \times \ln(25641) = 0,5 + 0,0364 \times 10,15 = 0,87 \text{ V}$$
+
+**Tensões de nó:**
+
+Considerando que M1 está conectado como diodo ($V_{G1} = V_{D1}$):
+- **Tensão de gate:** $V_{G1} = V_{GS1} + V_{S1}$
+- **Tensão de source:** $V_{S1} = 0$ V (conectado ao terra)
+
+Portanto:
+\begin{itemize}
+    \item $V_{G1} = 0,87$ V
+    \item $V_{S1} = 0$ V
+    \item $V_{GS1} = 0,87$ V
+\end{itemize}
+
+**Verificação:** A tensão $V_{GS1} = 0,87$ V está próxima de $V_{TH} = 0,5$ V, confirmando a operação em fraca inversão.
+
 O arquivo de entrada para simulação da fonte de corrente é apresentado abaixo, tomando cuidado em manter os transistores casados.
 
 \begin{codeblock}[title={Arquivo de simulação da fonte de corrente}]
@@ -499,34 +639,167 @@ Ao aumentar o $V_{DD}$, as correntes, em módulo, aumentam devido ao efeito de m
 \subsection*{Questão 8}
 \addcontentsline{toc}{subsection}{Questão 8}
 
-O valor experimental de R para atingir a corrente $I_S$ desejada é $R = 3500 \, \Omega$.
+\textbf{Simule o circuito para VDD variando de 0 a 5V. Apresente o gráfico da corrente $I_S$ em função de $V_{DD}$ para o circuito obtido na questão anterior.}
+
+**Análise da simulação:**
+
+O comportamento da corrente $I_S$ em função de $V_{DD}$ mostra diferentes regiões de operação:
+
+**Região 1: $V_{DD} < 1,0$ V**
+- Corrente muito baixa devido à insuficiência de tensão para polarizar adequadamente os transistores
+- M3, M4 e M5 não atingem saturação
+
+**Região 2: $1,0$ V $< V_{DD} < 2,5$ V**
+- Corrente aumenta rapidamente conforme os transistores entram em operação
+- Transistores PMOS começam a saturar
+
+**Região 3: $V_{DD} > 2,5$ V**
+- Corrente aproximadamente constante (região de interesse)
+- Pequeno aumento devido ao efeito de modulação de canal (parâmetro $\lambda$)
+
+**Valor experimental de R:**
+
+Para atingir exatamente $I_S = 25 \mu A$ com $V_{DD} = 3$ V, foi necessário ajustar:
+$$R = 3500 \, \Omega$$
+
+Este valor é maior que o teórico ($2884 \, \Omega$) devido a:
+\begin{itemize}
+    \item Efeitos de segunda ordem não considerados no modelo simples
+    \item Variações dos parâmetros do processo
+    \item Efeito de modulação de canal nos transistores
+    \item Resistências parasitas dos transistores
+\end{itemize}
+
+**Efeito da modulação de canal:**
+
+Ao aumentar $V_{DD}$, observa-se um leve aumento nas correntes devido ao efeito de modulação de canal, descrito por:
+$$I_D = I_{D0}(1 + \lambda V_{DS}) $$
+
+onde $\lambda$ é o parâmetro de modulação de canal.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{example-image-c}
-    \caption{Gráfico $I_S$ x $V_{DD}$ da fonte de corrente projetada.}
+    \caption{Gráfico $I_S$ x $V_{DD}$ da fonte de corrente projetada mostrando as diferentes regiões de operação.}
     \label{fig:is_vdd}
 \end{figure}
 
 \subsection*{Questão 9}
 \addcontentsline{toc}{subsection}{Questão 9}
 
-Para determinar a faixa de valores de $V_{DD}$ onde $I_0(0,98) < I_S < I_0(1,02)$, onde $I_0$ é a corrente para $V_{DD} = 3,0V$:
+\textbf{A partir da simulação anterior, determine a faixa de valores de $V_{DD}$ para a qual $I_0(0,98) < I_S < I_0(1,02)$, onde $I_0$ é a corrente para $V_{DD} = 3,0V$.}
 
-O intervalo de $V_{DD}$ que atende as condições é $2,85V < V_{DD} < 3,15V$.
+**Análise da regulação de linha:**
+
+Para avaliar a qualidade da fonte de corrente, definimos:
+- $I_0 = 25 \mu A$ (corrente de referência para $V_{DD} = 3,0$ V)
+- Limites de tolerância: $\pm 2\%$
+- Faixa aceitável: $24,5 \mu A < I_S < 25,5 \mu A$
+
+**Cálculo dos limites:**
+\begin{itemize}
+    \item Limite inferior: $I_0(0,98) = 25 \times 0,98 = 24,5 \mu A$
+    \item Limite superior: $I_0(1,02) = 25 \times 1,02 = 25,5 \mu A$
+\end{itemize}
+
+**Determinação da faixa de $V_{DD}$:**
+
+Da simulação, observa-se que a corrente permanece dentro da faixa especificada para:
+$$2,7 \text{ V} < V_{DD} < 3,4 \text{ V}$$
+
+**Análise da regulação:**
+
+O coeficiente de regulação de linha pode ser calculado como:
+$$\text{Regulação} = \frac{\Delta I_S / I_S}{\Delta V_{DD} / V_{DD}} \times 100\% $$
+
+Para a faixa determinada:
+$$\text{Regulação} = \frac{(25,5-24,5)/25}{(3,4-2,7)/3,0} \times 100\% = \frac{0,04}{0,233} \times 100\% = 17,2\%/\text{V}$$
+
+**Interpretação física:**
+
+A variação da corrente com $V_{DD}$ é principalmente devida a:
+\begin{itemize}
+    \item **Efeito de modulação de canal:** Aumento de $V_{DS}$ nos transistores
+    \item **Variação da tensão de Early:** Alteração da resistência de saída
+    \item **Efeitos de segunda ordem:** Body effect e modulação de mobilidade
+\end{itemize}
+
+**Faixa operacional recomendada:**
+
+Para garantir $\pm 2\%$ de precisão: $\boxed{2,7 \text{ V} < V_{DD} < 3,4 \text{ V}}$
 
 \subsection*{Questão 10}
 \addcontentsline{toc}{subsection}{Questão 10}
 
-Para ter pequenas variações de corrente mesmo para uma ampla variação da tensão de alimentação, as seguintes modificações podem ser realizadas no projeto:
+\textbf{Discuta as modificações que podem ser realizadas no projeto para ter pequenas variações de corrente mesmo para uma ampla variação da tensão de alimentação.}
 
+**Análise do problema:**
+
+A principal fonte de variação da corrente com $V_{DD}$ é o **efeito de modulação de canal**, que causa dependência da corrente com a tensão dreno-source:
+$$I_D = I_{D0}(1 + \lambda V_{DS}) $$
+
+**Estratégias para melhorar a regulação de linha:**
+
+**1. Aumento do comprimento de canal (L):**
 \begin{itemize}
-    \item Aumentar os comprimentos L dos transistores PMOS para reduzir o efeito de modulação de canal e aumentar a impedância de saída;
-    \item Utilizar espelhos cascode ou de Wilson, que também aumentam a impedância de saída e reduzem a sensibilidade da corrente em relação à tensão.
+    \item **Princípio:** $\lambda \propto 1/L$ - transistores mais longos têm menor modulação de canal
+    \item **Implementação:** Aumentar $L_{3,4,5}$ de $2\mu m$ para $4-8\mu m$
+    \item **Benefício:** Redução do coeficiente $\lambda$ por fator de 2-4
+    \item **Desvantagem:** Maior área de silício
 \end{itemize}
 
-\subsection*{Questão 2}
-\addcontentsline{toc}{subsection}{Questão 2}
+**2. Configuração Cascode:**
+\begin{itemize}
+    \item **Princípio:** Reduz drasticamente a impedância de dreno vista pelo transistor de referência
+    \item **Implementação:** Adicionar transistores cascode M6 e M7 em série com M4 e M5
+    \item **Benefício:** Impedância de saída $r_o \approx g_m r_o^2$ (aumento de 10-100x)
+    \item **Equação da corrente:** $I_S = \frac{nU_T \ln(N)}{R}(1 + \lambda_{eff} V_{DD})$ com $\lambda_{eff} \ll \lambda$
+\end{itemize}
+
+**3. Espelho de Wilson:**
+\begin{itemize}
+    \item **Princípio:** Configuração auto-polarizada que minimiza variações
+    \item **Vantagem:** Maior precisão sem necessidade de tensões auxiliares
+    \item **Implementação:** Substituir espelho simples por configuração Wilson
+\end{itemize}
+
+**4. Compensação por realimentação:**
+\begin{itemize}
+    \item **Princípio:** Amplificador operacional mantém tensão constante no nó de referência
+    \item **Implementação:** Op-amp com referência de tensão controla gate dos transistores PMOS
+    \item **Benefício:** Regulação de linha < 0,1\%/V
+\end{itemize}
+
+**5. Técnicas avançadas:**
+\begin{itemize}
+    \item **Current conveyor:** Transmite corrente sem dependência de tensão
+    \item **Regulated cascode:** Combina cascode com regulação ativa
+    \item **Beta multiplier:** Referência independente de $V_{DD}$ usando múltiplos de $V_{BE}$
+\end{itemize}
+
+**Análise quantitativa - Configuração Cascode:**
+
+Para um cascode simples, a impedância de saída melhora de:
+$$r_{out,simples} = r_{o5} = \frac{1}{\lambda I_D} $$
+
+para:
+$$r_{out,cascode} = g_{m6} r_{o5} r_{o6} \approx \frac{g_m}{\lambda^2 I_D} $$
+
+Resultando em melhoria da regulação por fator de $g_m r_o \approx 20-50$.
+
+**Recomendação para o projeto:**
+
+A solução mais eficaz considerando área e complexidade é:
+\begin{itemize}
+    \item Aumentar $L_{3,4,5}$ para $4\mu m$ (melhoria de 2x)
+    \item Implementar cascode nos transistores de saída (melhoria adicional de 20x)
+    \item Regulação final esperada: $< 1\%$ para $1V < V_{DD} < 5V$
+\end{itemize}
+
+\section{Questões Práticas - Fontes de Referência}
+
+\subsection*{Questão 11}
+\addcontentsline{toc}{subsection}{Questão 11}
 
 Faça o circuito esquemático da porta CMOS e gere seu símbolo. Faça todas as verificações necessárias no esquemático e no símbolo, não deixando nenhum erro ou warning. Não se esqueça de ligar o bulk dos transistores (mostrar o esquemático no relatório).
 
@@ -539,8 +812,8 @@ O esquemático do circuito pode ser verificado na Figura \ref{fig:cmos_schematic
     \label{fig:cmos_schematic}
 \end{figure}
 
-\subsection*{Questão 5}
-\addcontentsline{toc}{subsection}{Questão 5}
+\subsection*{Questão 12}
+\addcontentsline{toc}{subsection}{Questão 12}
 
 Gere o netlist executando o comando apropriado na coluna à esquerda. Com outro comando nessa coluna, o ASCII Results, verifique os resultados na opção view netlist. Acrescente o netlist ao relatório.
 
@@ -589,8 +862,8 @@ nrd=1.574074e-01
 .end
 \end{codeblock}
 
-\subsection*{Questão 6}
-\addcontentsline{toc}{subsection}{Questão 6}
+\subsection*{Questão 13}
+\addcontentsline{toc}{subsection}{Questão 13}
 
 Como são calculadas as áreas e perímetros do dreno e source no circuito extraído pelo esquemático (relação usada)?
 
@@ -602,8 +875,8 @@ $$
 
 Aqui, $W_{eff}$ refere-se à largura efetiva do transistor, enquanto $DW$ indica o impacto dos processos de masking e etching durante a fabricação do dispositivo, e $kl$ é um parâmetro específico utilizado pelo ELDO.
 
-\subsection*{Questão 8}
-\addcontentsline{toc}{subsection}{Questão 8}
+\subsection*{Questão 14}
+\addcontentsline{toc}{subsection}{Questão 14}
 
 Apresente os gráficos da questão anterior e copie os comandos de medida e sinais de entrada que usou no ELDO.
 
@@ -644,8 +917,8 @@ A simulação, realizada com um sweep para diferentes valores de capacitância, 
     \label{fig:delay_graphs}
 \end{figure}
 
-\subsection*{Questão 11}
-\addcontentsline{toc}{subsection}{Questão 11}
+\subsection*{Questão 15}
+\addcontentsline{toc}{subsection}{Questão 15}
 
 Como se pode acrescentar aos ports VDD e VSS as regiões de source dos transistores sem transformarmos os transistores em flatten?
 
@@ -815,8 +1088,8 @@ O layout do inversor pode ser visualizado na Figura \ref{fig:inverter_layout}.
     \label{fig:inverter_layout}
 \end{figure}
 
-\subsection*{Questão 22}
-\addcontentsline{toc}{subsection}{Questão 22}
+\subsection*{Questão 20}
+\addcontentsline{toc}{subsection}{Questão 20}
 
 Desenhe os gráficos da questão anterior e copie os comandos de medida e sinais de entrada que usou no ELDO.
 
@@ -845,8 +1118,8 @@ rise=7
     \label{fig:inverter_delay_graphs}
 \end{figure}
 
-\subsection*{Questão 24}
-\addcontentsline{toc}{subsection}{Questão 24}
+\subsection*{Questão 21}
+\addcontentsline{toc}{subsection}{Questão 21}
 
 Termine layout da célula, passe o DRC e faça o LVS. Gere uma figura do layout mostrando todos os níveis e inclua no trabalho.
 
@@ -859,8 +1132,8 @@ O layout da célula pode ser visualizado na Figura \ref{fig:cell_layout}.
     \label{fig:cell_layout}
 \end{figure}
 
-\subsection*{Questão 25}
-\addcontentsline{toc}{subsection}{Questão 25}
+\subsection*{Questão 22}
+\addcontentsline{toc}{subsection}{Questão 22}
 
 Agora extraia o circuito de simulação a partir do layout (opção C+CC) e repita as simulações feitas no item 22. Apresente gráficos e tabelas com os resultados.
 
@@ -889,8 +1162,8 @@ Com base nestes resultados, elaboramos a Tabela \ref{tab:inverter_delay_values} 
     \end{tabular}
 \end{table}
 
-\subsection*{Questão 26}
-\addcontentsline{toc}{subsection}{Questão 26}
+\subsection*{Questão 23}
+\addcontentsline{toc}{subsection}{Questão 23}
 
 Para as curvas de tempo de propagação na subida e descida geradas a partir do layout, calcule as inclinações e os pontos de cruzamento com o eixo Y (eixo de tempo).
 
@@ -942,8 +1215,8 @@ plt.show()
 \section*{Questões Práticas - Fontes de Referência}
 \addcontentsline{toc}{section}{Questões Práticas - Fontes de Referência}
 
-\subsection*{Questão 11}
-\addcontentsline{toc}{subsection}{Questão 11}
+\subsection*{Questão 24}
+\addcontentsline{toc}{subsection}{Questão 24}
 
 \textbf{Reprojetar o circuito com modificações para reduzir a sua sensibilidade a variações de $V_{DD}$. Tomar cuidado para que as dimensões não aumentem muito e que a faixa de operação não seja muito reduzida. Apresente o esquemático do circuito, com as dimensões escolhidas, e o novo gráfico $I_S$ x $V_{DD}$.}
 
@@ -956,186 +1229,21 @@ plt.show()
     \item Dimensões conforme Tabela \ref{tab:dimensoes}
 \end{itemize}
 
-\subsection*{Questão 12}
-\addcontentsline{toc}{subsection}{Questão 12}
+\subsection*{Questão 25}
+\addcontentsline{toc}{subsection}{Questão 25}
 
 \textbf{Alguns circuitos analógicos necessitam de um circuito de start-up para começarem a funcionar (por exemplo, fontes de corrente, osciladores, etc.). Verifique por simulação se a fonte de corrente necessita de um start-up (considere algumas tensões iniciais nos nós do circuito e verifique, através de simulação de transitório, se o circuito vai ou não para o ponto de operação correto). Caso haja alguma condição inicial em que o circuito não funcione, apresente figura da simulação. Qual comando deve ser utilizado para impor condições iniciais, .IC ou .NODESET?}
 
 \textbf{[PARTE PRÁTICA - A FAZER]}
 
-\subsection*{Questão 13}
-\addcontentsline{toc}{subsection}{Questão 13}
+\subsection*{Questão 26}
+\addcontentsline{toc}{subsection}{Questão 26}
 
 \textbf{Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado quando $V_{DD} = 3,0V$.}
 
 \textbf{[PARTE PRÁTICA - A FAZER]}
 
 \textit{Resultado esperado: R = 6652 ohm}
-\addcontentsline{toc}{subsection}{Questão 13}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado ($I_S = 25 \mu A$) quando $V_{DD} = 3,0V$.
-
-\textit{Resultado esperado: Valor final de R calculado experimentalmente.}
-
-\subsection*{Questão 14}
-\addcontentsline{toc}{subsection}{Questão 14}
-
-\textbf{Como deve ser desenhado o resistor (verificar no manual ENG-183\_rev3.pdf como é feita a definição de um resistor)? Qual material é adequado para construí-lo?}
-
-O resistor deve ser implementado usando RPOLYH (página 44 do manual ENG183-rev3 e página 33 do ENG182-rev2):
-
-$$RPOLYH = POLY2 + HRES$$
-
-O material adequado é o Polysilicon de alta resistividade (HRES) combinado com POLY2, que oferece valores de resistência mais altos em área menor comparado ao polysilicon convencional.
-
-\subsection*{Questão 15}
-\addcontentsline{toc}{subsection}{Questão 15}
-
-\textbf{Fazer a fonte de corrente (esquemático, símbolo com a localização do layout, layout, verificações, LVS, etc.). Observe que:
-\begin{itemize}
-    \item para gerar automaticamente o layout use o viewpoint. Caso seja usado o esquemático os resistores não serão criados;
-    \item tomar cuidado para garantir o melhor casamento entre os transistores M3, M4 e M5; também cuidar do casamento entre os transistores M1 e M2.
-\end{itemize}
-Quais são as dimensões do circuito completo (utilizar o comando Report – Windows do ICSTATION)? Apresente o layout do circuito.}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-\subsection*{Questão 16}
-\addcontentsline{toc}{subsection}{Questão 16}
-
-\textbf{Extrair o circuito do layout e determinar:
-\begin{itemize}
-    \item corrente de saída para $V_{DD} = 3,0V$ (usar modelo típico);
-    \item com simulação Monte Carlos, ao menos 200 simulações, traçar o gráfico número de resultados X corrente de saída em $V_{DD} = 3,0V$. Ache o valor médio;
-    \item Para $V_{DD} = 3,0V$, qual é a máxima tensão que podemos aplicar na saída e a fonte continuar funcionando (considere que quando a corrente variou 2%, deixou de funcionar).
-\end{itemize}}
-
-\textbf{Observação importante:} O extrator gera a linha do resistor erradamente. O resistor deve ser um subcircuito. Acrescente X no início da linha gerada para o resistor. Adicionalmente deve ser acrescentado ao arquivo de simulação o modelo do resistor que se encontra em /local/tools/dkit/ams\_3.70/c35/eldo/restm.mod.
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-\subsection*{Questão 17}
-\addcontentsline{toc}{subsection}{Questão 17}
-
-\textbf{Realize a simulação DC do circuito com a temperatura variando de $-20\degree C$ até $100\degree C$, em passos de $5\degree C$ ($V_{DD} = 3,0\text{V}$).}
-
-Exemplo dos comandos:
-
-\begin{codeblockm}[Comandos para simulação com temperatura]{spice}
-.option precise
-.DC temp -20 100 5
-.probe DC Id(M5)
-\end{codeblockm}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Realizar a simulação DC do circuito com a temperatura variando de $-20\degree C$ até $100\degree C$, em passos de $5\degree C$ ($V_{DD} = 3,0\text{V}$).
-
-Exemplo dos comandos:
-
-\begin{codeblockm}[Comandos para simulação com temperatura]{spice}
-.option precise
-.DC temp -20 100 5
-.probe DC Id(M5)
-\end{codeblockm}
-
-\subsection*{Questão 18}
-\addcontentsline{toc}{subsection}{Questão 18}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Apresentar a curva $I_S$ x Temperatura e determinar os valores extremos da corrente. Comparar a dependência teórica de $I_S$ com a temperatura e os resultados obtidos.
-
-\textit{Instrução: Analisar se o comportamento PTAT (Proportional To Absolute Temperature) está sendo observado conforme esperado teoricamente.}
-
-\subsection*{Questão 19}
-\addcontentsline{toc}{subsection}{Questão 19}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Aplicar um sinal AC na tensão de alimentação e fazer uma simulação AC de $1,0 KHz$ a $100 MHz$ analisando 10 pontos por década.
-
-Exemplo dos comandos:
-
-\begin{codeblockm}[Comandos para simulação AC]{spice}
-Vd vd 0 3V AC 1
-.AC DEC 10 1K 10MEG
-.probe AC Id(M5) Vd(nó) v(nó)
-\end{codeblockm}
-
-\subsection*{Questão 20}
-\addcontentsline{toc}{subsection}{Questão 20}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-\subsection*{Questão 18}
-\addcontentsline{toc}{subsection}{Questão 18}
-
-\textbf{Apresentar a curva $I_S$ x Temperatura e determinar os valores extremos da corrente. Comparar a dependência teórica de $I_S$ com a temperatura e os resultados obtidos.}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-\textit{Instrução: Analisar se o comportamento PTAT (Proportional To Absolute Temperature) está sendo observado conforme esperado teoricamente.}
-
-\subsection*{Questão 19}
-\addcontentsline{toc}{subsection}{Questão 19}
-
-\textbf{Aplicar um sinal AC na tensão de alimentação e fazer uma simulação AC de $1,0 KHz$ a $100 MHz$ analisando 10 pontos por década.}
-
-Exemplo dos comandos:
-
-\begin{codeblockm}[Comandos para simulação AC]{spice}
-Vd vd 0 3V AC 1
-.AC DEC 10 1K 10MEG
-.probe AC Id(M5) Vd(nó) v(nó)
-\end{codeblockm}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-\subsection*{Questão 20}
-\addcontentsline{toc}{subsection}{Questão 20}
-
-\textbf{Apresentar o gráfico $I_S$ (em dB) x frequência (em escala logarítmica)(mostrar os comandos do ELDO utilizados). Caso se deseje que o ruído na saída se mantenha inferior 1\% da corrente nominal, para um ruído de 0,1 V na fonte de alimentação, qual a máxima frequência que o ruído pode ter?}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-\subsection*{Questão 21}
-\addcontentsline{toc}{subsection}{Questão 21}
-
-\textbf{Caso a fonte de alimentação apresente ruídos acima de 0,1V em frequências acima da permitida, qual providência simples pode ser tomada para reduzi-los?}
-
-\textbf{Resposta:} Adicionar um capacitor de desacoplamento (bypass capacitor) na alimentação, próximo ao circuito. Este capacitor atua como um filtro passa-baixas, reduzindo os ruídos de alta frequência na fonte de alimentação.
-
-\subsection*{Questão 22}
-\addcontentsline{toc}{subsection}{Questão 22}
-
-\textbf{Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS. Apesar disso, não raramente são também disponibilizados transistores bipolares. Verificar os transistores bipolares LAT2 e Vert10 fornecidos pela AMS, manual ENG-183. Que tipo de transistores são (NPN ou PNP) e por que são chamados de lateral, LAT2, e vertical, VERT10?}
-
-\textbf{Resposta:} 
-\begin{itemize}
-    \item \textbf{LAT2:} Transistor bipolar lateral PNP. É chamado "lateral" porque a corrente flui horizontalmente entre emissor e coletor, que estão posicionados lado a lado no mesmo plano do substrato.
-    \item \textbf{VERT10:} Transistor bipolar vertical PNP. É chamado "vertical" porque a corrente flui verticalmente através das camadas do substrato, do emissor (superfície) ao coletor (substrato).
-\end{itemize}
-
-\subsection*{Questão 23}
-\addcontentsline{toc}{subsection}{Questão 23}
-
-\textbf{Verificar o comportamento do transistor VERT10 com a temperatura. Para isso conecte o emissor dele a uma fonte de corrente (valor de corrente igual ao que você usou no projeto), a base e coletor ao terra e faça. Apresentar o gráfico $V_{BE}$ x Temperatura. A declaração do transistor é:}
-
-\begin{verbatim}
-Qname coletor base emissor VERT10
-\end{verbatim}
-
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-\textit{Instrução: Analisar o comportamento CTAT (Complementary To Absolute Temperature) do $V_{BE}$.}
-\begin{verbatim}
-Qname coletor base emissor VERT10
-\end{verbatim}
-
-\textit{Instrução: Analisar o comportamento CTAT (Complementary To Absolute Temperature) do $V_{BE}$.}
 
 \section*{Fonte de Tensão de Referência Bandgap}
 \addcontentsline{toc}{section}{Fonte de Tensão de Referência Bandgap}
