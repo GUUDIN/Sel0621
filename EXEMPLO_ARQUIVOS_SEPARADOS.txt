@@ -1,0 +1,22 @@
+% EXEMPLO: Como modificar main.tex para usar arquivos separados
+% 
+% Substitua a seção "Questões" por:
+
+\section*{Questões}
+\addcontentsline{toc}{section}{Questões}
+
+% Pedro trabalha neste arquivo:
+\input{sections/pedro_questoes}
+
+% Seu amigo trabalha neste arquivo:  
+\input{sections/amigo_questoes}
+
+% VANTAGENS:
+% 1. Cada um trabalha em arquivo separado
+% 2. Menos conflitos no Git
+% 3. Fácil de dividir trabalho
+% 4. Se der problema, só afeta uma seção
+
+% DESVANTAGENS:
+% 1. Um pouco mais complexo inicialmente
+% 2. Precisa coordenar numeração de figuras/tabelas
