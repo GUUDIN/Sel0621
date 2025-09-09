@@ -1,0 +1,46 @@
+# LaTeX auxiliary files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.listing
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+# LaTeX build outputs
+*.pdf
+
+# Minted/Pygments cache
+_minted/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# LaTeX compilation outputs
+*.bcf
+*.run.xml
+*.blg
+*.bbl

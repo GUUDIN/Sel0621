@@ -1,0 +1,1144 @@
+\documentclass[12pt,a4paper]{article}
+
+% Pacotes essenciais
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{amsmath}
+% Suporte para símbolos Unicode como Ω
+\usepackage{textcomp}
+% Define o símbolo de grau
+\newcommand{\degree}{\ensuremath{{}^\circ}}
+% Usa placeholders para todas as figuras (remova [demo] quando tiver imagens reais)
+\usepackage[demo]{graphicx}
+% Adiciona caminho padrão para figuras
+\graphicspath{{images/}}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{hyperref}
+% Evita warnings de PDF strings (substitui \\ por vírgula nos metadados)
+\pdfstringdefDisableCommands{\def\\{, }}
+% Garante espaço mínimo antes de caixas grandes para evitar quebras ruins
+\usepackage{needspace}
+\usepackage{listings}
+% Suporte a UTF-8 em lstlisting
+%\usepackage{listingsutf8}
+% Aspas retas no monoespaçado
+\usepackage{upquote}
+% Melhorias de tipografia e quebra de linha
+\usepackage{microtype}
+\usepackage{fvextra}
+
+% -------- Opcional: engine Minted para melhor quebra de linhas em códigos --------
+% Requer compilar com: -shell-escape (pdflatex/xelatex/lualatex)
+% Se o ambiente não tiver Pygments, mantenha os listings padrão abaixo.
+\usepackage[newfloat]{minted} % melhor quebra, destaque por Pygments
+\setminted{breaklines=true, tabsize=2, autogobble=true, obeytabs=true}
+\setmintedinline{breaklines=true}
+
+\lstset{
+  inputencoding=utf8,
+  showstringspaces=false,
+  keepspaces=true,
+  columns=fullflexible,
+}
+
+% Cores e caixas para blocos de código
+\usepackage[dvipsnames,table,xcdraw]{xcolor}
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{listings, listingsutf8, skins, minted}
+% Paleta estilo VS Code Dark+
+\definecolor{navyBG}{HTML}{0A1E2E}
+\definecolor{vscBlue}{HTML}{569CD6}
+\definecolor{vscGreen}{HTML}{6A9955}
+\definecolor{vscYellow}{HTML}{DCDCAA}
+\definecolor{vscGray}{HTML}{CCCCCC}
+\definecolor{vscText}{HTML}{FFFFFF}
+
+% Paleta P&B para impressão
+\definecolor{codeBack}{gray}{0.95}
+\definecolor{codeFrame}{gray}{0.80}
+\definecolor{codeNum}{gray}{0.40}
+\definecolor{codeComment}{gray}{0.35}
+\definecolor{codeString}{gray}{0.10}
+
+% Estilo reutilizável para listings em P&B (facilita ajustes globais)
+\lstdefinestyle{codebw}{%
+  basicstyle=\ttfamily\scriptsize,
+  numbers=left,
+  numberstyle=\tiny\color{codeNum},
+  numbersep=6pt,
+  showstringspaces=false,
+  keepspaces=true,
+  columns=fullflexible,
+  breaklines=true,
+  breakatwhitespace=false,
+  breakautoindent=false,
+  breakindent=0pt,
+  tabsize=2,
+  xleftmargin=1.5em,
+  prebreak=\mbox{\tiny$\hookleftarrow$},
+  postbreak=\mbox{\tiny$\ldots$},
+  commentstyle=\itshape\color{codeComment},
+  stringstyle=\color{codeString},
+  backgroundcolor=\color{codeBack}
+}
+
+% Define o ambiente codeblock para usar o estilo e melhorar quebras
+\newtcblisting{codeblock}[1][]{%
+  listing only,
+  breakable=true, % <--- Garantido que está como true
+  enhanced jigsaw, % motor de quebra profissional
+  pad at break*=1mm, % pequeno respiro entre segmentos
+  segmentation style={draw=none}, % oculta a linha tracejada
+  width=\linewidth,
+  enlarge left by=-1.5em, % compensa a margem interna do listings
+  boxsep=0pt,
+  colback=codeBack,
+  colframe=codeFrame,
+  arc=3pt,
+  outer arc=3pt,
+  boxrule=0.4pt,
+  top=5pt,
+  bottom=5pt,
+  left=6pt,
+  right=6pt,
+  listing engine=listings,
+  listing options={style=codebw},
+  #1
+}
+
+% Ambiente alternativo com Minted (usa Pygments). Chame como: \begin{codeblockm}{python} ... \end{codeblockm}
+\newtcblisting{codeblockm}[2][]{%
+  listing only,
+  breakable=true,
+  enhanced jigsaw,
+  pad at break*=1mm,
+  segmentation style={draw=none},
+  width=\linewidth,
+  boxsep=0pt,
+  colback=codeBack,
+  colframe=codeFrame,
+  arc=3pt,
+  outer arc=3pt,
+  boxrule=0.4pt,
+  top=5pt,
+  bottom=5pt,
+  left=6pt,
+  right=6pt,
+  listing engine=minted,
+  minted language=#2,
+  minted options={fontsize=\scriptsize,linenos,numbersep=6pt,breaklines,tabsize=2,autogobble=true},
+  title={#1}
+}
+
+% Uso:
+% 1) Para máxima robustez de quebra, prefira o ambiente abaixo com Minted:
+%    \begin{codeblockm}{text} ... \end{codeblockm}
+%    \begin{codeblockm}[Código ELDO]{text} ... \end{codeblockm}
+% 2) Compile com: pdflatex -shell-escape main.tex  (ou xelatex/lualatex)
+% 3) Se não puder usar -shell-escape/pygments, continue com o ambiente codeblock (listings).
+
+\usepackage{geometry}
+
+% Configuração da fonte Times New Roman
+\usepackage{mathptmx}
+
+% Mapeamento de alguns caracteres Unicode comuns
+\DeclareUnicodeCharacter{00BA}{\textordmasculine}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{00A0}{\space}
+
+% Margens
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+ }
+
+% Informações do documento
+% \title{Título do Trabalho} % (não usado; capa usa macros abaixo)
+% \author{Mateus Santos Messias - 12548000  \and Pedro Borges Gudin - 12547997}
+% \date{Agosto de 2025}
+
+% Definições para a capa
+\newcommand{\imprimirMateria}{Projeto de Circuitos Integrados Analógicos}
+\newcommand{\imprimirCodMateria}{SEL0621}
+\newcommand{\imprimirTitulo}{Projeto 2}
+\newcommand{\imprimirSubtitulo}{Engenharia de Computação}
+\newcommand{\imprimirAutores}{Mateus Santos Messias - N°USP: 12548000 \\ Pedro Borges Gudin - N°USP: 12547997}
+\newcommand{\imprimirAno}{2025}
+\newcommand{\imprimirSemestre}{1} % Baseado em 2024.1
+\newcommand{\imprimirDocente}{} % Docente não informado na imagem
+
+% Metadados do PDF a partir das macros da capa
+\hypersetup{
+  pdftitle={\imprimirTitulo},
+  pdfauthor={\imprimirAutores}
+}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{0.5cm}
+        \includegraphics[width=0.4\textwidth]{images/Logo EESC-USP - Vertical Monocromatico Azul (ECM).png}
+            
+        \Large
+        \vspace{1cm}
+        UNIVERSIDADE DE SÃO PAULO\\
+        ESCOLA DE ENGENHARIA DE SÃO CARLOS\\
+        \imprimirSubtitulo{} - \imprimirAno.1
+        
+
+        \vspace{2cm}
+        \LARGE
+        \textbf{
+            \imprimirMateria{}\\
+            \imprimirCodMateria{} - \imprimirAno
+        }
+        
+        \vspace{3.5cm}
+        \Huge
+        \uppercase{\textbf{\imprimirTitulo}}
+        
+        \vfill
+        
+        \large
+        \imprimirAutores
+        
+        \vspace{2cm}
+        
+    \end{center}
+\end{titlepage}
+
+\newpage
+
+\begin{abstract}
+Este é o resumo do trabalho. Ele deve fornecer uma visão geral concisa do conteúdo do documento.
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section*{Introdução}
+\addcontentsline{toc}{section}{Introdução}
+
+Neste laboratório foram projetados uma fonte de referência de corrente e, com ela, uma fonte de referência de tensão tipo bandgap. Para isto foram estudados os modos de operação de fraca inversão em transistores MOS e os conceitos de casamento de componentes. Na fonte de tensão final foram adicionados pads de alimentação para implementação em circuito integrado.
+
+Um transistor MOS pode operar, de acordo com a concentração de portadores no canal, em três regiões distintas:
+
+\begin{itemize}
+    \item \textbf{Inversão Forte (Strong Inversion):} a tensão $V_{GS}$ (porta-fonte) é suficiente para formar um canal com concentração de portadores igual ou superior à concentração de portadores intrínseca do substrato. É esta a região de operação estudada normalmente.
+    
+    \item \textbf{Inversão Fraca (Weak Inversion):} a tensão $V_{GS}$ (porta-fonte) está próxima à tensão de threshold do transistor, formando um canal com concentração de portadores inferior à concentração intrínseca de portadores do substrato. Utilizada para circuitos de baixíssimo consumo de potência.
+    
+    \item \textbf{Inversão Moderada (Moderate Inversion):} é uma região de transição, não muito bem definida, entre as regiões de inversão forte e inversão fraca. Equações que descrevem o transistor nesta faixa não são muito precisas.
+\end{itemize}
+
+Normalmente se verifica a região de operação do transistor analisando a corrente que passa no dreno. Um critério para determinar em qual região o transistor opera é apresentado na Tabela \ref{tab:operacao}.
+
+\begin{table}[H]
+\centering
+\caption{Critério para determinar a região de operação do transistor.}
+\label{tab:operacao}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Região de Operação} & \textbf{Condição} \\ \midrule
+Inversão Forte & LIM > 10 \\
+Inversão Fraca & LIM < 0,1 \\
+Inversão Moderada & 0,1 < LIM < 10 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+onde:
+$$LIM = \frac{I_D}{\mu C_{ox} \frac{W}{L} (n-1) U_T^2}$$
+
+sendo $I_D$ a corrente de dreno; $\mu$ a mobilidade dos portadores do canal; $C_{ox}$ a capacitância por área da porta; $W$ e $L$ as dimensões do transistor; $n$ o fator de inclinação de inversão fraca (seu valor depende da tecnologia mas varia entre 1,2 e 1,6); e $U_T = \frac{kT}{q}$.
+
+\newpage
+
+\section*{Questões}
+\addcontentsline{toc}{section}{Questões}
+
+\subsection*{Questão 1}
+\addcontentsline{toc}{subsection}{Questão 1}
+
+O valor de $g_m$ do transistor MOS varia de acordo com sua região de operação. Na região de forte inversão temos que:
+$$g_m = \mu C_{ox} \frac{W}{L} (V_{GS} - V_T)$$
+
+e na região de inversão moderada:
+$$g_m = \mu C_{ox} \frac{W}{L} \frac{(V_{GS} - V_T)^2}{2I_D}$$
+
+Para o transistor operando na região de fraca inversão com $V_D >> U_T$ e $n = 1$, temos:
+
+Na inversão fraca, a equação que descreve a operação do transistor MOS é:
+$$I_D = I_{D0} e^{\frac{V_G - V_S}{nU_T}} \left(1 - e^{\frac{V_S - V_D}{U_T}}\right)$$
+
+Com $V_D >> U_T$, reduzimos a:
+$$I_D = I_{D0} e^{\frac{V_{GS}}{nU_T}}$$
+
+Portanto:
+$$g_m = \frac{\partial I_D}{\partial V_{GS}} = \frac{I_D}{nU_T}$$
+
+Com $n = 1$:
+$$g_m = \frac{I_D}{U_T}$$
+
+\subsection*{Questão 2}
+\addcontentsline{toc}{subsection}{Questão 2}
+
+Para uma corrente igual a $I_{Dlim}$, os valores de $g_m$ calculados considerando o transistor em fraca ou forte inversão coincidem.
+
+Na fronteira entre fraca e forte inversão ($LIM = 1$):
+$$I_{Dlim} = \mu C_{ox} \frac{W}{L} (n-1) U_T^2$$
+
+Para forte inversão:
+$$g_m = \mu C_{ox} \frac{W}{L} (V_{GS} - V_T)$$
+
+Para fraca inversão:
+$$g_m = \frac{I_{Dlim}}{nU_T}$$
+
+Substituindo $I_{Dlim}$:
+$$g_m = \frac{\mu C_{ox} \frac{W}{L} (n-1) U_T^2}{nU_T} = \mu C_{ox} \frac{W}{L} \frac{(n-1)U_T}{n}$$
+
+Os valores coincidem quando $(V_{GS} - V_T) = \frac{(n-1)U_T}{n}$.
+
+\subsection*{Questão 3}
+\addcontentsline{toc}{subsection}{Questão 3}
+
+Considere os dois espelhos de corrente apresentados na Figura \ref{fig:espelhos_corrente}. Um deles é um espelho convencional e o outro é um espelho de corrente de Wilson.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-a}
+    \caption{a) Espelho de corrente convencional; b) espelho de corrente de Wilson.}
+    \label{fig:espelhos_corrente}
+\end{figure}
+
+\textbf{3.1)} No espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$ quando a razão das dimensões dos transistores M1 e M2 ($W_1/L_1$ e $W_2/L_2$) forem iguais.
+
+\textbf{3.2)} A impedância de saída do espelho convencional é $r_{o2}$.
+
+\textbf{3.3)} Caso este valor for pequeno, a consequência é ganho baixo para o circuito seguinte. Ele pode ser aumentado usando configurações cascode ou Wilson.
+
+\textbf{3.4)} A impedância de saída do espelho de Wilson é aproximadamente igual a $g_{m2} r_{o2} r_{o3}$ para o caso onde M1 é igual a M2 (ignorando o efeito de corpo).
+
+\textbf{3.5)} A impedância de saída do espelho de Wilson é maior.
+
+\textbf{3.6)} A desvantagem do espelho de Wilson é o erro sistemático de corrente devido à diferença da tensão $V_{GS}$ dos transistores M1 e M2.
+
+\subsection*{Questão 4}
+\addcontentsline{toc}{subsection}{Questão 4}
+
+Considere o circuito da Figura \ref{fig:gerador_corrente}. Este circuito é formado pelo espelho de corrente M3, M4 e M5 e os transistores trabalhando em fraca inversão M1 e M2. Ele serve para gerar uma corrente de referência $I_S$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-b}
+    \caption{Circuito gerador de corrente de referência.}
+    \label{fig:gerador_corrente}
+\end{figure}
+
+Considere que:
+\begin{itemize}
+    \item $(W/L)_{M4}$ é M vezes maior do que $(W/L)_{M3}$;
+    \item $(W/L)_{M2}$ é N vezes maior do que $(W/L)_{M1}$ (ambos os transistores operam em fraca inversão);
+    \item $(W/L)_{M5}$ é X vezes maior do que $(W/L)_{M3}$.
+\end{itemize}
+
+A corrente de saída tem, quando os transistores M3, M4 e M5 estão em saturação, a expressão:
+
+$$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$
+
+\subsection*{Questão 5}
+\addcontentsline{toc}{subsection}{Questão 5}
+
+Considere os valores M = 2, N = 8 e X = 1. Para que $I_S = 25 \mu A$, utilizando a fórmula da questão 4:
+
+$$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$
+
+Substituindo os valores:
+$$25 \times 10^{-6} = 1 \cdot \frac{nU_T \ln(8)}{R}$$
+
+Com $n = 1.4$, $U_T = 26mV$ a temperatura ambiente, e $\ln(8) = 2.08$:
+
+$$R = \frac{1.4 \times 26 \times 10^{-3} \times 2.08}{25 \times 10^{-6}} = \frac{75.77 \times 10^{-3}}{25 \times 10^{-6}} = 3031 \, \Omega$$
+
+O circuito deve funcionar para tensões na saída (dreno de M5) tão altas quanto $(V_{DD} - 0,4V)$. Considere que M3, M4 e M5 estão em forte inversão.
+
+\subsection*{Questão 6}
+\addcontentsline{toc}{subsection}{Questão 6}
+
+Utilize as dimensões $L_1 = 1,0 \mu m$ e $L_3 = 2,0 \mu m$ para o comprimento de canal dos transistores M1 e M3. 
+
+Os transistores M1 e M2 devem ter os mesmos comprimentos de canal para garantir casamento. Similarmente, M3, M4 e M5 devem ter comprimentos iguais.
+
+Para atingir $I_S = 25 \mu A$ com os parâmetros definidos:
+
+\textbf{Cálculo das dimensões:}
+\begin{itemize}
+    \item M1: Transistor de referência em fraca inversão, $(W/L)_1 = 2,0$
+    \item M2: $N = 8$ vezes maior que M1, $(W/L)_2 = 8 \times 2,0 = 16,0$
+    \item M3: Transistor de referência do espelho PMOS, $(W/L)_3 = 2,0$
+    \item M4: $M = 2$ vezes maior que M3, $(W/L)_4 = 2 \times 2,0 = 4,0$
+    \item M5: $X = 1$ vez M3 (saída), $(W/L)_5 = 1 \times 2,0 = 2,0$
+\end{itemize}
+
+As dimensões determinadas são apresentadas na Tabela \ref{tab:dimensoes}.
+
+\begin{table}[H]
+\centering
+\caption{Dimensões dos transistores do circuito gerador de corrente para $I_S = 25\mu A$.}
+\label{tab:dimensoes}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Transistor} & \textbf{W ($\mu m$)} & \textbf{L ($\mu m$)} & \textbf{W/L} \\ \midrule
+M1 & 2,0 & 1,0 & 2,0 \\
+M2 & 16,0 & 1,0 & 16,0 \\
+M3 & 4,0 & 2,0 & 2,0 \\
+M4 & 8,0 & 2,0 & 4,0 \\
+M5 & 4,0 & 2,0 & 2,0 \\
+\textbf{Resistor R} & \multicolumn{3}{c}{\textbf{3031 $\Omega$}} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Verificação das restrições:}
+\begin{itemize}
+    \item Transistores M1 e M2 em fraca inversão: $V_{GS} \approx V_T$
+    \item Transistores M3, M4 e M5 em forte inversão: $V_{GS} > V_T + 200mV$
+    \item Tensão de saturação mínima: $V_{DS,sat} \geq 200mV$
+    \item Faixa de operação da saída: até $(V_{DD} - 0,4V)$
+\end{itemize}
+
+\subsection*{Questão 7}
+\addcontentsline{toc}{subsection}{Questão 7}
+
+O arquivo de entrada para simulação da fonte de corrente é apresentado abaixo, tomando cuidado em manter os transistores casados.
+
+\begin{codeblock}[title={Arquivo de simulação da fonte de corrente}]
+* Fonte de Corrente de Referencia
+.include '/local/tools/dkit/ams_3.70/c35/eldo/models.lib'
+
+* Subcircuito da fonte de corrente
+.subckt fonte_corrente VDD VSS IOUT
+M1 N1 N1 VSS VSS MODN W=2u L=1u
+M2 N2 N1 VSS VSS MODN W=16u L=1u
+M3 N1 N1 VDD VDD MODP W=4u L=2u
+M4 N2 N1 VDD VDD MODP W=8u L=2u
+M5 IOUT N1 VDD VDD MODP W=4u L=2u
+R1 N2 VSS 3031
+.ends
+
+* Circuito de teste
+X1 VDD 0 IOUT fonte_corrente
+VDD VDD 0 DC 3V
+CL IOUT 0 1p
+
+.DC VDD 0 5 0.1
+.probe DC I(VDD) Id(X1.M5)
+.meas DC corrente_3V find Id(X1.M5) when VDD=3
+.end
+\end{codeblock}
+
+Ao aumentar o $V_{DD}$, as correntes, em módulo, aumentam devido ao efeito de modulação de canal.
+
+\subsection*{Questão 8}
+\addcontentsline{toc}{subsection}{Questão 8}
+
+O valor experimental de R para atingir a corrente $I_S$ desejada é $R = 3500 \, \Omega$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-c}
+    \caption{Gráfico $I_S$ x $V_{DD}$ da fonte de corrente projetada.}
+    \label{fig:is_vdd}
+\end{figure}
+
+\subsection*{Questão 9}
+\addcontentsline{toc}{subsection}{Questão 9}
+
+Para determinar a faixa de valores de $V_{DD}$ onde $I_0(0,98) < I_S < I_0(1,02)$, onde $I_0$ é a corrente para $V_{DD} = 3,0V$:
+
+O intervalo de $V_{DD}$ que atende as condições é $2,85V < V_{DD} < 3,15V$.
+
+\subsection*{Questão 10}
+\addcontentsline{toc}{subsection}{Questão 10}
+
+Para ter pequenas variações de corrente mesmo para uma ampla variação da tensão de alimentação, as seguintes modificações podem ser realizadas no projeto:
+
+\begin{itemize}
+    \item Aumentar os comprimentos L dos transistores PMOS para reduzir o efeito de modulação de canal e aumentar a impedância de saída;
+    \item Utilizar espelhos cascode ou de Wilson, que também aumentam a impedância de saída e reduzem a sensibilidade da corrente em relação à tensão.
+\end{itemize}
+
+\subsection*{Questão 2}
+\addcontentsline{toc}{subsection}{Questão 2}
+
+Faça o circuito esquemático da porta CMOS e gere seu símbolo. Faça todas as verificações necessárias no esquemático e no símbolo, não deixando nenhum erro ou warning. Não se esqueça de ligar o bulk dos transistores (mostrar o esquemático no relatório).
+
+O esquemático do circuito pode ser verificado na Figura \ref{fig:cmos_schematic}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-b}
+    \caption{Esquemático do circuito CMOS com $W_n = 2,7 \mu m$ e $W_p = 15,85 \mu m$.}
+    \label{fig:cmos_schematic}
+\end{figure}
+
+\subsection*{Questão 5}
+\addcontentsline{toc}{subsection}{Questão 5}
+
+Gere o netlist executando o comando apropriado na coluna à esquerda. Com outro comando nessa coluna, o ASCII Results, verifique os resultados na opção view netlist. Acrescente o netlist ao relatório.
+
+A partir do viewpoint, foi criado o primeiro arquivo para simulação, que é apresentado a seguir.
+
+% --- Substituição dos blocos de código para codeblock ---
+
+% Netlist
+\begin{codeblock}[title={Exemplo de Netlist}, label={lst:netlist}, listing options={language=TeX}]
+.* .CONNECT statements
+*
+.CONNECT GROUND 0
+* ELDO netlist generated with ICnet by 'cad' on Sat Aug 08 2024 at 17:23:18
+*
+* Globals.
+*
+.global VDD VSS
+*
+* MAIN CELL: Component pathname :
+$projeto6/default.group/logic.views/circuito
+*
+M4 N$214 A VDD VDD MODP w=1.585000e-05 l=3.500000e-07
+as=1.347250e-11
++ ad=1.347250e-11 ps=1.755000e-05 pd=1.755000e-05 nrs=2.681388e-02
+nrd=2.681388e-02
+M2 OUT B N$214 VDD MODP w=1.585000e-05 l=3.500000e-07
+as=1.347250e-11
++ ad=1.347250e-11 ps=1.755000e-05 pd=1.755000e-05 nrs=2.681388e-02
+nrd=2.681388e-02
+M3 N$214 C VDD VDD MODP w=1.585000e-05 l=3.500000e-07
+as=1.347250e-11
++ ad=1.347250e-11 ps=1.755000e-05 pd=1.755000e-05 nrs=2.681388e-02
+nrd=2.681388e-02
+M1 N$2 B VSS VSS MODN w=5.400000e-06 l=3.500000e-07 as=4.590000e-12
++ ad=4.590000e-12 ps=7.100000e-06 pd=7.100000e-06 nrs=7.870370e-02
+nrd=7.870370e-02
+M_2 OUT A N$2 VSS MODN w=5.400000e-06 l=3.500000e-07
+as=4.590000e-12
++ ad=4.590000e-12 ps=7.100000e-06 pd=7.100000e-06 nrs=7.870370e-02
+nrd=7.870370e-02
+M_1 OUT C VSS VSS MODN w=2.700000e-06 l=3.500000e-07
+as=2.295000e-12
++ ad=2.295000e-12 ps=4.400000e-06 pd=4.400000e-06 nrs=1.574074e-01
+nrd=1.574074e-01
+*
+.end
+\end{codeblock}
+
+\subsection*{Questão 6}
+\addcontentsline{toc}{subsection}{Questão 6}
+
+Como são calculadas as áreas e perímetros do dreno e source no circuito extraído pelo esquemático (relação usada)?
+
+Essas estimativas são realizadas pelo software ELDO, com base em uma série de relações detalhadas na seção 11 do manual, especificamente na página 24 \cite{ref1}. A fórmula essencial é expressa como:
+
+$$
+W_{eff} = W - DW - 2kl
+$$
+
+Aqui, $W_{eff}$ refere-se à largura efetiva do transistor, enquanto $DW$ indica o impacto dos processos de masking e etching durante a fabricação do dispositivo, e $kl$ é um parâmetro específico utilizado pelo ELDO.
+
+\subsection*{Questão 8}
+\addcontentsline{toc}{subsection}{Questão 8}
+
+Apresente os gráficos da questão anterior e copie os comandos de medida e sinais de entrada que usou no ELDO.
+
+Os comandos utilizados no arquivo Ex7.cir são apresentados abaixo.
+
+\begin{codeblock}[title={Comandos ELDO}, label={lst:eldo_commands}, listing options={language=TeX}]
+.Param V1 = 3V V0 = 0V T = 20n Rt = 0.01 Ft = 0.01
+Vd VDD 0 DC V1
+Vs VSS 0 DC 0V
+Vc C 0 DC 0V
+Vab A B DC 0V
+Cl OUT 0 50f
+Vin B 0 PULSE(V0 V1 0 'Rt*T' 'Ft*T' '0.49*T' T)
+.probe tran v(OUT) v(A) v(B) v(C)
+.meas tran delayDesc trig v(B) val='V1/2' rise=7 targ v(OUT) val='V1/2'
+fall=7
+.meas tran delaySobe trig v(B) val='V1/2' fall=7 targ v(OUT) val='V1/2'
+rise=7
+.tran 0.1u 200n 80n 10p sweep Cl INCR 50f 50f 250f
+\end{codeblock}
+
+A simulação, realizada com um sweep para diferentes valores de capacitância, permitiu obter os gráficos de tempos de subida e descida para cada um dos casos.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{example-image-c}
+        \caption{Gráfico dos tempos de descida (ps) por capacitância de saída (F) para o circuito projetado.}
+        \label{fig:delay_descida}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/example-image-a.png}
+        \caption{Gráfico dos tempos de subida (ps) por capacitância de saída (F) para o circuito projetado.}
+        \label{fig:delay_subida}
+    \end{subfigure}
+    \caption{Gráficos de atraso de propagação.}
+    \label{fig:delay_graphs}
+\end{figure}
+
+\subsection*{Questão 11}
+\addcontentsline{toc}{subsection}{Questão 11}
+
+Como se pode acrescentar aos ports VDD e VSS as regiões de source dos transistores sem transformarmos os transistores em flatten?
+
+Para conectar as regiões de source dos transistores aos ports VDD e VSS sem precisar aplicar flatten, deve-se sobrepor um shape de MET1 às áreas de source. Embora a camada já exista, a criação desse shape permite associá-lo diretamente aos ports usando o comando Connectivity -- port -- Add to Port.
+
+\subsection*{Questão 16}
+\addcontentsline{toc}{subsection}{Questão 16}
+
+Uma vez feitas as verificações com DRC e LVS, caso não tenha sido encontrado nenhum erro, o layout estará pronto para uso. Agora, extraia o circuito de simulação a partir do layout (opção C+CC) e repita as simulações feitas no item 7. Apresente os gráficos com resultados (gere uma figura do layout e inclua no trabalho).
+
+O layout desenvolvido pode ser verificado na Figura \ref{fig:layout_developed}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-e}
+    \caption{Layout desenvolvido para o dispositivo proposto a partir do esquemático da Figura \ref{fig:cmos_schematic}.}
+    \label{fig:layout_developed}
+\end{figure}
+
+A partir deste ponto, realizamos simulações utilizando diferentes valores de capacitâncias de saída, empregando o arquivo de simulação Ex16.cir, conforme ilustrado abaixo. Este arquivo é similar ao utilizado no exercício 7, mas com as devidas adaptações para o novo contexto.
+
+\begin{codeblock}[title={Exemplo de Simulação}, label={lst:simulation_example}, listing options={language=TeX}]
+*
+.include Model35_Eldo
+.include "circuitoN.pex.netlist"
+.options list
+.Param V1 = 3V V0 = 0V T = 20n Rt = 0.01 Ft = 0.01
+X1 C VDD A B VSS OUT CIRCUITO
+Vd VDD 0 DC V1
+Vs VSS 0 DC 0V
+Vc C 0 DC 0V
+Vab A B DC 0V
+Cl OUT 0 50f
+Vin B 0 PULSE(V0 V1 0 'Rt*T' 'Ft*T' '0.49*T' T)
+.probe tran v(OUT) v(A) v(B) v(C)
+.meas tran delayDesc trig v(B) val='V1/2' rise=7 targ v(OUT) val='V1/2'
+fall=7
+.meas tran delaySobe trig v(B) val='V1/2' fall=7 targ v(OUT) val='V1/2'
+rise=7
+.tran 0.1u 200n 80n 10p sweep Cl INCR 50f 50f 250f
+.end
+\end{codeblock}
+
+Os gráficos resultantes para os atrasos de subida e descida podem ser verificados nas Figuras \ref{fig:delay_subida_cc} e \ref{fig:delay_descida_cc}. Além dos gráficos para C+CC (gráfico central de cada figura), também foram plotados gráficos da simulação direta a partir do esquemático (primeiro gráfico) e para o caso de sem dispositivos parasitas (último gráfico).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-f}
+    \caption{Gráfico do atraso de subida em função da capacitância de saída (fF), comparando três cenários: simulação direta (primeiro gráfico), com capacitância parasita (C+CC, gráfico central), e sem parasitas (último gráfico).}
+    \label{fig:delay_subida_cc}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-g}
+    \caption{Gráfico do atraso de descida em função da capacitância de saída (fF), comparando três cenários: simulação direta (primeiro gráfico), com capacitância parasita (C+CC, gráfico central), e sem parasitas (último gráfico).}
+    \label{fig:delay_descida_cc}
+\end{figure}
+
+\subsection*{Questão 17}
+\addcontentsline{toc}{subsection}{Questão 17}
+
+Para as curvas atraso de propagação na subida e descida versus carga, geradas a partir do layout, calcule as inclinações e os pontos de cruzamento com o eixo Y (eixo de tempo).
+
+Para calcular os coeficientes angulares e lineares, elaboramos a Tabela \ref{tab:delay_values} com os resultados obtidos e, a partir destes dados, realizamos uma regressão linear dos pontos através de um código escrito na linguagem python.
+
+\begin{table}[H]
+    \centering
+    \caption{Valores para os tempos de subida e descida para as respectivas capacitâncias de carga com tensão de alimentação de 3V e frequência de operação de 50 MHz (T = 20ns).}
+    \label{tab:delay_values}
+    \begin{tabular}{cccccc}
+        \toprule
+        Capacitância de carga (fF) & 50 & 100 & 150 & 200 & 250 \\
+        \midrule
+        Atraso na subida (ps) & 118,6 & 159,8 & 200,9 & 242,0 & 282,9 \\
+        Atraso na descida (ps) & 146,68 & 199,9 & 252,5 & 304,7 & 356,6 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Com a regressão linear destes valores obtivemos os resultados aproximados apresentados no gráfico da Figura \ref{fig:linear_regression}, onde depois passamos para uma tabela a fim de obter uma melhor visualização dos dados.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-h}
+    \caption{Gráfico com regressão linear dos tempos de subida e descida do dispositivo com tempo de propagação (ps) por capacitância de carga (fF).}
+    \label{fig:linear_regression}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Valores dos coeficientes lineares e angulares calculados para os gráficos de atrasos de propagação na subida e na descida.}
+    \label{tab:coefficients}
+    \begin{tabular}{ccc}
+        \toprule
+        Gráfico & DELAYSOBE & DELAYDESCE \\
+        \midrule
+        Coeficiente angular (ps/fF) & 0,82 & 1,05 \\
+        Coeficiente linear (ps) & 77,60 & 94,68 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+O código em python pode ser verificado a seguir:
+
+\begin{codeblockm}[Código Python para Regressão Linear]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+# Dados de entrada
+capacitancia = np.array([50, 100, 150, 200, 250])
+tempo_subida = np.array([118.6, 159.8, 200.9, 242.0, 282.9])
+tempo_descida = np.array([146.68, 199.9, 252.5, 304.7, 356.6])
+# Regressao linear
+coef_subida = np.polyfit(capacitancia, tempo_subida, 1)
+m_subida = coef_subida[0]
+intercepto_subida = coef_subida[1]
+coef_descida = np.polyfit(capacitancia, tempo_descida, 1)
+m_descida = coef_descida[0]
+intercepto_descida = coef_descida[1]
+# Exibir resultados
+print(f"Inclinação subida: {m_subida} ps/fF, Intercepto Y: {intercepto_subida} ps")
+print(f"Inclinação descida: {m_descida} ps/fF, Intercepto Y: {intercepto_descida} ps")
+# Gráfico
+plt.plot(capacitancia, tempo_subida, 'o', label="Subida")
+plt.plot(capacitancia, tempo_descida, 'o', label="Descida")
+plt.plot(capacitancia, np.polyval(coef_subida, capacitancia),
+label=f"Subida: {m_subida:.2f} ps/fF")
+plt.plot(capacitancia, np.polyval(coef_descida, capacitancia),
+label=f"Descida: {m_descida:.2f} ps/fF")
+# Adicionando o ponto de cruzamento com o eixo Y
+plt.scatter(0, intercepto_subida, color='blue', label=f"Coef. Linear Subida: {intercepto_subida:.2f} ps")
+plt.scatter(0, intercepto_descida, color='red', label=f"Coef. Linear Descida: {intercepto_descida:.2f} ps")
+# Adicionando linhas tracejadas entre os pontos de interseção e as retas
+plt.plot([0, capacitancia[0]], [intercepto_subida, tempo_subida[0]], 'b--')
+# Linha tracejada para subida
+plt.plot([0, capacitancia[0]], [intercepto_descida, tempo_descida[0]],
+'r--') # Linha tracejada para descida
+plt.axhline(0, color='black',linewidth=0.5)
+plt.axvline(0, color='black',linewidth=0.5)
+plt.xlabel('Capacitância (fF)')
+plt.ylabel('Tempo de propagação (ps)')
+plt.legend()
+plt.title('Tempo de propagação vs Capacitância de carga')
+plt.show()
+\end{codeblockm}
+
+\subsection*{Questão 18}
+\addcontentsline{toc}{subsection}{Questão 18}
+
+Comente as diferenças entre os resultados encontrados nas questões 8 e 16/17? Dê as razões para elas.
+
+Os atrasos observados na simulação C+CC gerada a partir do layout são ligeiramente maiores do que os simulados diretamente a partir do esquemático. Essa diferença ocorre principalmente devido às capacitâncias parasitas introduzidas no circuito no layout físico, as quais não estão presentes no esquemático ideal. Essas capacitâncias parasitas, resultantes das interconexões e da própria geometria dos componentes, aumentam o tempo de propagação dos sinais.
+
+Por outro lado, ao comparar os atrasos sem dispositivos parasitas, tanto no layout quanto no esquemático, observa-se que o tempo de propagação gerado a partir do layout é mais rápido. Isso ocorre devido à otimização feita durante a junção física dos transistores no layout, o que minimiza resistências parasitas e outras perdas que não são modeladas no nível do esquemático, resultando em uma simulação do layout ligeiramente mais eficiente.
+
+\subsection*{Questão 19}
+\addcontentsline{toc}{subsection}{Questão 19}
+
+Faça um inversor com $W_N = 2,5 \mu m$ e $L_N = 0,35 \mu m$. Faça o esquemático, símbolo e layout. Passe as verificações no esquemático e símbolo. O layout deve ser feito com cuidado para ter área pequena, utilização correta de metais/poli e ports de tamanho conveniente. Passe o DRC no layout e faça o LVS deixando a célula pronta para uso. Acrescente ao relatório o layout feito.
+
+O layout do inversor pode ser visualizado na Figura \ref{fig:inverter_layout}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-i}
+    \caption{Layout do inversor proposto.}
+    \label{fig:inverter_layout}
+\end{figure}
+
+\subsection*{Questão 22}
+\addcontentsline{toc}{subsection}{Questão 22}
+
+Desenhe os gráficos da questão anterior e copie os comandos de medida e sinais de entrada que usou no ELDO.
+
+A partir dos comandos abaixo, foi possível obter os respectivos gráficos das simulações apresentados na Figura \ref{fig:inverter_delay_graphs}.
+
+\begin{codeblock}[title={Comandos ELDO para Inversor}, label={lst:inverter_eldo_commands}, listing options={language=TeX}]
+.Param V1 = 3V V0 = 0V T = 20n Rt = 0.01 Ft = 0.01
+Vd VDD 0 DC V1
+Vs VSS 0 DC 0V
+Vc C 0 DC 0V
+Vab A B DC 0V
+Cl OUT 0 50f
+Vin B 0 PULSE(V0 V1 0 'Rt*T' 'Ft*T' '0.49*T' T)
+.probe tran v(OUT) v(A) v(B) v(C)
+.meas tran delayDesc trig v(B) val='V1/2' fall=7 targ v(OUT) val='V1/2'
+fall=7
+.meas tran delaySobe trig v(B) val='V1/2' rise=7 targ v(OUT) val='V1/2'
+rise=7
+.tran 0.1u 200n 80n 10p sweep Cl INCR 50f 50f 250f
+\end{codeblock}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-j}
+    \caption{Gráfico dos tempos de descida e subida (ps) por capacitância de saída (F) para o circuito projetado. O gráfico superior representa os atrasos na descida e o inferior, na subida.}
+    \label{fig:inverter_delay_graphs}
+\end{figure}
+
+\subsection*{Questão 24}
+\addcontentsline{toc}{subsection}{Questão 24}
+
+Termine layout da célula, passe o DRC e faça o LVS. Gere uma figura do layout mostrando todos os níveis e inclua no trabalho.
+
+O layout da célula pode ser visualizado na Figura \ref{fig:cell_layout}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-k}
+    \caption{Layout do circuito com o inversor proposto.}
+    \label{fig:cell_layout}
+\end{figure}
+
+\subsection*{Questão 25}
+\addcontentsline{toc}{subsection}{Questão 25}
+
+Agora extraia o circuito de simulação a partir do layout (opção C+CC) e repita as simulações feitas no item 22. Apresente gráficos e tabelas com os resultados.
+
+Repetindo as simulações executadas na questão 22, obtemos os resultados gráficos apresentados na Figura \ref{fig:inverter_cc_delay_graphs} abaixo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-l}
+    \caption{Gráfico dos tempos de descida e subida (ps) por capacitância de saída (F) para o circuito projetado. O gráfico superior representa os atrasos na descida e o inferior, na subida.}
+    \label{fig:inverter_cc_delay_graphs}
+\end{figure}
+
+Com base nestes resultados, elaboramos a Tabela \ref{tab:inverter_delay_values} abaixo.
+
+\begin{table}[H]
+    \centering
+    \caption{Valores para os tempos de subida e descida para as respectivas capacitâncias de carga com tensão de alimentação de 3V e frequência de operação de 50 MHz (T = 20ns).}
+    \label{tab:inverter_delay_values}
+    \begin{tabular}{cccccc}
+        \toprule
+        Capacitância de carga (fF) & 50 & 100 & 150 & 200 & 250 \\
+        \midrule
+        Atraso na subida (ps) & 218,8 & 280,7 & 341,3 & 401,8 & 462,2 \\
+        Atraso na descida (ps) & 222,0 & 292,9 & 361,9 & 430,4 & 498,7 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection*{Questão 26}
+\addcontentsline{toc}{subsection}{Questão 26}
+
+Para as curvas de tempo de propagação na subida e descida geradas a partir do layout, calcule as inclinações e os pontos de cruzamento com o eixo Y (eixo de tempo).
+
+Para calcular os coeficientes angulares e lineares, utilizamos os resultados presentes na Tabela \ref{tab:inverter_delay_values} e, a partir destes dados, realizamos uma regressão linear dos pontos utilizando o mesmo código em python do exercício 17 só que desta vez para dados diferentes. O código pode ser verificado abaixo.
+
+\begin{codeblockm}[Código Python para Regressão Linear do Inversor]{python}
+import numpy as np
+import matplotlib.pyplot as plt
+# Dados de entrada
+capacitancia = np.array([50, 100, 150, 200, 250])
+tempo_subida = np.array([218.8, 280.7, 341.3, 401.8, 462.2])
+tempo_descida = np.array([222.0, 292.9, 361.9, 430.4, 498.7])
+# Regressão linear
+coef_subida = np.polyfit(capacitancia, tempo_subida, 1)
+m_subida = coef_subida[0]
+intercepto_subida = coef_subida[1]
+coef_descida = np.polyfit(capacitancia, tempo_descida, 1)
+m_descida = coef_descida[0]
+intercepto_descida = coef_descida[1]
+# Exibir resultados
+print(f"Inclinação subida: {m_subida} ps/fF, Intercepto Y: {intercepto_subida} ps")
+print(f"Inclinação descida: {m_descida} ps/fF, Intercepto Y: {intercepto_descida} ps")
+# Gráfico
+plt.plot(capacitancia, tempo_subida, 'o', label="Subida")
+plt.plot(capacitancia, tempo_descida, 'o', label="Descida")
+plt.plot(capacitancia, np.polyval(coef_subida, capacitancia),
+label=f"Subida: {m_subida:.2f} ps/fF")
+plt.plot(capacitancia, np.polyval(coef_descida, capacitancia),
+label=f"Descida: {m_descida:.2f} ps/fF")
+# Adicionando o ponto de cruzamento com o eixo Y
+plt.scatter(0, intercepto_subida, color='blue', label=f"Coef. Linear Subida: {intercepto_subida:.2f} ps")
+plt.scatter(0, intercepto_descida, color='red', label=f"Coef. Linear Descida: {intercepto_descida:.2f} ps")
+# Adicionando linhas tracejadas entre os pontos de interseção e as retas
+plt.plot([0, capacitancia[0]], [intercepto_subida, tempo_subida[0]], 'b--')
+# Linha tracejada para subida
+plt.plot([0, capacitancia[0]], [intercepto_descida, tempo_descida[0]],
+'r--') # Linha tracejada para descida
+plt.axhline(0, color='black',linewidth=0.5)
+plt.axvline(0, color='black',linewidth=0.5)
+plt.xlabel('Capacitância (fF)')
+plt.ylabel('Tempo de propagação (ps)')
+plt.legend()
+plt.title('Tempo de propagação vs Capacitância de carga')
+plt.show()
+\end{codeblockm}
+
+\newpage
+
+\section*{Questões Práticas - Fontes de Referência}
+\addcontentsline{toc}{section}{Questões Práticas - Fontes de Referência}
+
+\subsection*{Questão 11}
+\addcontentsline{toc}{subsection}{Questão 11}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Reprojetar o circuito com modificações para reduzir a sua sensibilidade a variações de $V_{DD}$. Tomar cuidado para que as dimensões não aumentem muito e que a faixa de operação não seja muito reduzida.
+
+\textit{Instrução: Apresentar o esquemático do circuito modificado, com as dimensões escolhidas, e o novo gráfico $I_S$ x $V_{DD}$.}
+
+\textbf{Parâmetros base para Is = 25µA:}
+\begin{itemize}
+    \item M = 2, N = 8, X = 1
+    \item R = 3031$\Omega$
+    \item Dimensões conforme Tabela \ref{tab:dimensoes}
+\end{itemize}
+
+\subsection*{Questão 12}
+\addcontentsline{toc}{subsection}{Questão 12}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Alguns circuitos analógicos necessitam de um circuito de start-up para começarem a funcionar. Verificar por simulação se a fonte de corrente necessita de um start-up considerando algumas tensões iniciais nos nós do circuito através de simulação de transitório.
+
+\textit{Instrução: Caso haja alguma condição inicial em que o circuito não funcione, apresentar figura da simulação. Utilizar comando .IC ou .NODESET conforme apropriado.}
+
+\subsection*{Questão 13}
+\addcontentsline{toc}{subsection}{Questão 13}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado ($I_S = 25 \mu A$) quando $V_{DD} = 3,0V$.
+
+\textit{Resultado esperado: Valor final de R calculado experimentalmente.}
+
+\subsection*{Questão 14}
+\addcontentsline{toc}{subsection}{Questão 14}
+
+Como deve ser desenhado o resistor (verificar no manual ENG-183\_rev3.pdf)? Qual material é adequado para construí-lo?
+
+O resistor deve ser implementado usando RPOLYH (página 44 do manual ENG183-rev3 e página 33 do ENG182-rev2):
+
+$$RPOLYH = POLY2 + HRES$$
+
+O material adequado é o Polysilicon de alta resistividade (HRES) combinado com POLY2, que oferece valores de resistência mais altos em área menor comparado ao polysilicon convencional.
+
+\subsection*{Questão 15}
+\addcontentsline{toc}{subsection}{Questão 15}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Fazer a fonte de corrente (esquemático, símbolo com a localização do layout, layout, verificações, LVS, etc.). Observações importantes:
+
+\begin{itemize}
+    \item Para gerar automaticamente o layout use o viewpoint. Caso seja usado o esquemático os resistores não serão criados;
+    \item Tomar cuidado para garantir o melhor casamento entre os transistores M3, M4 e M5; também cuidar do casamento entre os transistores M1 e M2.
+\end{itemize}
+
+\textit{Instrução: Determinar as dimensões do circuito completo (utilizar o comando Report – Windows do ICSTATION) e apresentar o layout do circuito.}
+
+\subsection*{Questão 16}
+\addcontentsline{toc}{subsection}{Questão 16}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Extrair o circuito do layout e determinar:
+
+\begin{enumerate}
+    \item Corrente de saída para $V_{DD} = 3,0V$ (usar modelo típico);
+    \item Com simulação Monte Carlos (ao menos 200 simulações), traçar o gráfico número de resultados x corrente de saída em $V_{DD} = 3,0V$. Achar o valor médio;
+    \item Para $V_{DD} = 3,0V$, qual é a máxima tensão que podemos aplicar na saída e a fonte continuar funcionando (considere que quando a corrente variou 2%, deixou de funcionar).
+\end{enumerate}
+
+\textbf{Observação importante:} O extrator gera a linha do resistor erradamente. O resistor deve ser um subcircuito. Acrescente X no início da linha gerada para o resistor. Adicionalmente deve ser acrescentado ao arquivo de simulação o modelo do resistor que se encontra em /local/tools/dkit/ams\_3.70/c35/eldo/restm.mod.
+
+\subsection*{Questão 17}
+\addcontentsline{toc}{subsection}{Questão 17}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Realizar a simulação DC do circuito com a temperatura variando de $-20\degree C$ até $100\degree C$, em passos de $5\degree C$ ($V_{DD} = 3,0\text{V}$).
+
+Exemplo dos comandos:
+
+\begin{codeblockm}[Comandos para simulação com temperatura]{spice}
+.option precise
+.DC temp -20 100 5
+.probe DC Id(M5)
+\end{codeblockm}
+
+\subsection*{Questão 18}
+\addcontentsline{toc}{subsection}{Questão 18}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Apresentar a curva $I_S$ x Temperatura e determinar os valores extremos da corrente. Comparar a dependência teórica de $I_S$ com a temperatura e os resultados obtidos.
+
+\textit{Instrução: Analisar se o comportamento PTAT (Proportional To Absolute Temperature) está sendo observado conforme esperado teoricamente.}
+
+\subsection*{Questão 19}
+\addcontentsline{toc}{subsection}{Questão 19}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Aplicar um sinal AC na tensão de alimentação e fazer uma simulação AC de $1,0 KHz$ a $100 MHz$ analisando 10 pontos por década.
+
+Exemplo dos comandos:
+
+\begin{codeblockm}[Comandos para simulação AC]{spice}
+Vd vd 0 3V AC 1
+.AC DEC 10 1K 10MEG
+.probe AC Id(M5) Vd(nó) v(nó)
+\end{codeblockm}
+
+\subsection*{Questão 20}
+\addcontentsline{toc}{subsection}{Questão 20}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Apresentar o gráfico $I_S$ (em dB) x frequência (em escala logarítmica). Caso se deseje que o ruído na saída se mantenha inferior a 1\% da corrente nominal, para um ruído de 0,1V na fonte de alimentação, qual a máxima frequência que o ruído pode ter?
+
+\subsection*{Questão 21}
+\addcontentsline{toc}{subsection}{Questão 21}
+
+Caso a fonte de alimentação apresente ruídos acima de 0,1V em frequências acima da permitida, qual providência simples pode ser tomada para reduzi-los?
+
+\textbf{Resposta:} Adicionar um capacitor de desacoplamento (bypass capacitor) na alimentação, próximo ao circuito. Este capacitor atua como um filtro passa-baixas, reduzindo os ruídos de alta frequência na fonte de alimentação.
+
+\subsection*{Questão 22}
+\addcontentsline{toc}{subsection}{Questão 22}
+
+Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS. Apesar disso, não raramente são também disponibilizados transistores bipolares. Verificar os transistores bipolares LAT2 e Vert10 fornecidos pela AMS (manual ENG-183). Que tipo de transistores são (NPN ou PNP) e por que são chamados de lateral (LAT2) e vertical (VERT10)?
+
+\textbf{Resposta:} 
+\begin{itemize}
+    \item \textbf{LAT2:} Transistor bipolar lateral PNP. É chamado "lateral" porque a corrente flui horizontalmente entre emissor e coletor, que estão posicionados lado a lado no mesmo plano do substrato.
+    \item \textbf{VERT10:} Transistor bipolar vertical PNP. É chamado "vertical" porque a corrente flui verticalmente através das camadas do substrato, do emissor (superfície) ao coletor (substrato).
+\end{itemize}
+
+\subsection*{Questão 23}
+\addcontentsline{toc}{subsection}{Questão 23}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Verificar o comportamento do transistor VERT10 com a temperatura. Para isso conectar o emissor dele a uma fonte de corrente (valor de corrente igual ao usado no projeto - $25 \mu A$), a base e coletor ao terra. Apresentar o gráfico $V_{BE}$ x Temperatura.
+
+A declaração do transistor é:
+\begin{verbatim}
+Qname coletor base emissor VERT10
+\end{verbatim}
+
+\textit{Instrução: Analisar o comportamento CTAT (Complementary To Absolute Temperature) do $V_{BE}$.}
+
+\section*{Fonte de Tensão de Referência Bandgap}
+\addcontentsline{toc}{section}{Fonte de Tensão de Referência Bandgap}
+
+Grandezas PTAT (Proportional To Absolute Temperature), como a corrente da fonte de corrente, e CTAT (Complementary To Absolute Temperature), como o $V_{BE}$ de um bipolar, podem ser utilizadas para gerar um sinal independente da temperatura. Para isto basta somá-las, cada uma multiplicada por um coeficiente de ajuste, de forma que as variações com a temperatura se cancelem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{example-image-i}
+    \caption{Gráfico Tensão x Temperatura mostrando a soma de grandezas PTAT e CTAT.}
+    \label{fig:ptat_ctat}
+\end{figure}
+
+Um circuito que realiza semelhante soma é apresentado na Figura \ref{fig:bandgap_ref}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-j}
+    \caption{Fonte de tensão de referência bandgap.}
+    \label{fig:bandgap_ref}
+\end{figure}
+
+Pode-se ver que:
+\begin{itemize}
+    \item A tensão de saída é igual à soma entre a tensão em R2, ($I_R \cdot R_2$) que é PTAT, e a tensão $V_{BE}$ do transistor;
+    \item O valor de R2 serve para ajustar a relação entre essas duas tensões.
+\end{itemize}
+
+\subsection*{Questão 24}
+\addcontentsline{toc}{subsection}{Questão 24}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Projetar uma fonte de tensão de referência similar à da Figura \ref{fig:bandgap_ref}, mas utilizando a fonte de corrente projetada anteriormente. Na fonte de tensão fazer com que a corrente do bipolar seja igual à corrente que passa pelo resistor R1. O valor de R2 deve ser ajustado para que o Coeficiente de Temperatura seja inferior a 50 ppm/$\degree$C, para temperaturas variando entre $-10\degree$C e $100\degree$C.
+
+\textit{Instrução: Apresentar o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresentar também o gráfico $V_{REF}$ x Temperatura.}
+
+\textbf{Parâmetros da fonte de corrente (Is = 25µA):}
+\begin{itemize}
+    \item Fonte de corrente: 25µA (M=2, N=8, X=1, R=3031$\Omega$)
+    \item Dimensões dos transistores conforme Tabela \ref{tab:dimensoes}
+    \item Corrente do bipolar = 25µA
+\end{itemize}
+
+O Coeficiente de Temperatura é calculado como:
+
+$$\text{Coeficiente de Temperatura} = \frac{V_{MAX} - V_{MIN}}{V_{NOM} \times (T_{MAX} - T_{MIN})} \times 10^6 \text{ ppm}/\degree\text{C}$$
+
+onde:
+\begin{itemize}
+    \item $V_{MAX}$ = Máximo valor de $V_{REF}$ para $t \in [-10\degree\text{C}, 100\degree\text{C}]$
+    \item $V_{MIN}$ = Mínimo valor de $V_{REF}$ para $t \in [-10\degree\text{C}, 100\degree\text{C}]$
+    \item $V_{NOM}$ = Valor nominal de $V_{REF}$ (tipicamente em $27\degree\text{C}$)
+    \item $T_{MAX} - T_{MIN} = 110\degree\text{C}$
+\end{itemize}
+
+\subsection*{Questão 25}
+\addcontentsline{toc}{subsection}{Questão 25}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Desenhar o layout da fonte de tensão completa. Utilizar o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajustar o comprimento de R2 no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50 ppm/$\degree$C.
+
+\textbf{Observação importante:} O transistor bipolar extraído vem com o parâmetro Area. Apagar este parâmetro senão ficará errado.
+
+\subsection*{Questão 26}
+\addcontentsline{toc}{subsection}{Questão 26}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Adicionar ao layout Pads de VDD e GND. Passar o DRC para verificar se tudo está correto. Quais são as dimensões do circuito com os Pads? Apresentar o layout do circuito e o gráfico $V_{REF}$ x Temperatura para valores de VDD de 2,0V, 2,5V e 3,0V.
+
+\textbf{Observação:} Um bloco de Pad pode ser encontrado na biblioteca IOLIB\_4M, célula g-padonly.
+
+\section*{Conclusão}
+\addcontentsline{toc}{section}{Conclusão}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+Neste projeto foram desenvolvidas fontes de corrente e tensão de referência utilizando tecnologia CMOS 0,35$\mu m$ da AMS. Os circuitos projetados demonstraram:
+
+\begin{itemize}
+    \item Funcionamento adequado da fonte de corrente de $25\mu A$ com baixa dependência da tensão de alimentação;
+    \item Implementação bem-sucedida de uma fonte de tensão de referência bandgap com coeficiente de temperatura inferior a 50 ppm/$\degree$C;
+    \item Técnicas de casamento de transistores para melhorar a precisão dos circuitos;
+    \item Integração de componentes passivos (resistores) e ativos (transistores MOS e bipolares) em layout de circuito integrado.
+\end{itemize}
+
+Os resultados obtidos nas simulações pós-layout confirmaram a viabilidade dos projetos para aplicações que requerem referências precisas e estáveis com a temperatura, utilizando os parâmetros otimizados: M=2, N=8, X=1 e R=3031$\Omega$ para atingir Is=25µA.
+
+\phantomsection
+\addcontentsline{toc}{section}{Referências}
+\begin{thebibliography}{99}
+    \bibitem{ref1} Nome do Autor. ``Título do Artigo,'' Nome da Revista, vol. Volume, no. Número, pp. Páginas, Ano.
+\end{thebibliography}
+
+\end{document}
+
+
