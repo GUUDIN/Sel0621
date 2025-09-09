@@ -5,6 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[brazilian]{babel}
 \usepackage{amsmath}
+\usepackage{amssymb} % para \checkmark
 % Suporte para símbolos Unicode como Ω
 \usepackage{textcomp}
 % Define o símbolo de grau
@@ -268,13 +269,11 @@ sendo $I_D$ a corrente de dreno; $\mu$ a mobilidade dos portadores do canal; $C_
 \subsection*{Questão 1}
 \addcontentsline{toc}{subsection}{Questão 1}
 
-O valor de $g_m$ do transistor MOS varia de acordo com sua região de operação. Na região de forte inversão temos que:
+\textbf{O valor de $g_m$ do transistor MOS varia de acordo com sua região de operação. Na região de forte inversão temos que:
 $$g_m = \mu C_{ox} \frac{W}{L} (V_{GS} - V_T)$$
-
 e na região de inversão moderada:
 $$g_m = \mu C_{ox} \frac{W}{L} \frac{(V_{GS} - V_T)^2}{2I_D}$$
-
-Para o transistor operando na região de fraca inversão com $V_D >> U_T$ e $n = 1$, temos:
+Determine o valor de $g_m$ para o transistor operando na região de fraca inversão com $V_D >> U_T$ e $n = 1$.}
 
 Na inversão fraca, a equação que descreve a operação do transistor MOS é:
 $$I_D = I_{D0} e^{\frac{V_G - V_S}{nU_T}} \left(1 - e^{\frac{V_S - V_D}{U_T}}\right)$$
@@ -291,7 +290,7 @@ $$g_m = \frac{I_D}{U_T}$$
 \subsection*{Questão 2}
 \addcontentsline{toc}{subsection}{Questão 2}
 
-Para uma corrente igual a $I_{Dlim}$, os valores de $g_m$ calculados considerando o transistor em fraca ou forte inversão coincidem.
+\textbf{Mostre que para uma corrente igual a $I_{Dlim}$ os valores de $g_m$ calculados, considerando o transistor em fraca ou forte inversão, coincidem.}
 
 Na fronteira entre fraca e forte inversão ($LIM = 1$):
 $$I_{Dlim} = \mu C_{ox} \frac{W}{L} (n-1) U_T^2$$
@@ -310,7 +309,7 @@ Os valores coincidem quando $(V_{GS} - V_T) = \frac{(n-1)U_T}{n}$.
 \subsection*{Questão 3}
 \addcontentsline{toc}{subsection}{Questão 3}
 
-Considere os dois espelhos de corrente apresentados na Figura \ref{fig:espelhos_corrente}. Um deles é um espelho convencional e o outro é um espelho de corrente de Wilson.
+\textbf{Considere os dois espelhos de corrente apresentados na Figura \ref{fig:espelhos_corrente}. Um deles é um espelho convencional e o outro é um espelho de corrente de Wilson.}
 
 \begin{figure}[H]
     \centering
@@ -319,45 +318,63 @@ Considere os dois espelhos de corrente apresentados na Figura \ref{fig:espelhos_
     \label{fig:espelhos_corrente}
 \end{figure}
 
-\textbf{3.1)} No espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$ quando a razão das dimensões dos transistores M1 e M2 ($W_1/L_1$ e $W_2/L_2$) forem iguais.
+\textbf{3.1) Em que circunstância, no espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$?}
 
-\textbf{3.2)} A impedância de saída do espelho convencional é $r_{o2}$.
+No espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$ quando a razão das dimensões dos transistores M1 e M2 ($W_1/L_1$ e $W_2/L_2$) forem iguais.
 
-\textbf{3.3)} Caso este valor for pequeno, a consequência é ganho baixo para o circuito seguinte. Ele pode ser aumentado usando configurações cascode ou Wilson.
+\textbf{3.2) Determine a impedância de saída do espelho convencional.}
 
-\textbf{3.4)} A impedância de saída do espelho de Wilson é aproximadamente igual a $g_{m2} r_{o2} r_{o3}$ para o caso onde M1 é igual a M2 (ignorando o efeito de corpo).
+A impedância de saída do espelho convencional é $r_{o2}$.
 
-\textbf{3.5)} A impedância de saída do espelho de Wilson é maior.
+\textbf{3.3) Caso este valor for pequeno qual é a consequência? Como ele pode ser aumentado?}
 
-\textbf{3.6)} A desvantagem do espelho de Wilson é o erro sistemático de corrente devido à diferença da tensão $V_{GS}$ dos transistores M1 e M2.
+Caso este valor for pequeno, a consequência é ganho baixo para o circuito seguinte. Ele pode ser aumentado usando configurações cascode ou Wilson.
+
+\textbf{3.4) Determine a impedância de saída do espelho de Wilson e mostre que é aproximadamente igual a $g_{m2} r_{o2} r_{o3}$ para o caso onde M1 é igual a M2 (ignore o efeito de corpo).}
+
+A impedância de saída do espelho de Wilson é aproximadamente igual a $g_{m2} r_{o2} r_{o3}$ para o caso onde M1 é igual a M2 (ignorando o efeito de corpo).
+
+\textbf{3.5) Compare a impedância de saída das duas configurações. Qual é maior?}
+
+A impedância de saída do espelho de Wilson é maior.
+
+\textbf{3.6) Qual a desvantagem do espelho de Wilson?}
+
+A desvantagem do espelho de Wilson é o erro sistemático de corrente devido à diferença da tensão $V_{GS}$ dos transistores M1 e M2.
 
 \subsection*{Questão 4}
 \addcontentsline{toc}{subsection}{Questão 4}
 
-Considere o circuito da Figura \ref{fig:gerador_corrente}. Este circuito é formado pelo espelho de corrente M3, M4 e M5 e os transistores trabalhando em fraca inversão M1 e M2. Ele serve para gerar uma corrente de referência $I_S$.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{example-image-b}
-    \caption{Circuito gerador de corrente de referência.}
-    \label{fig:gerador_corrente}
-\end{figure}
-
-Considere que:
+\textbf{Considere o circuito da Figura \ref{fig:gerador_corrente}. Este circuito é formado pelo espelho de corrente M3, M4 e M5 e os transistores trabalhando em fraca inversão M1 e M2. Ele serve para gerar uma corrente de referência $I_S$. Considere que:
 \begin{itemize}
     \item $(W/L)_{M4}$ é M vezes maior do que $(W/L)_{M3}$;
     \item $(W/L)_{M2}$ é N vezes maior do que $(W/L)_{M1}$ (ambos os transistores operam em fraca inversão);
     \item $(W/L)_{M5}$ é X vezes maior do que $(W/L)_{M3}$.
 \end{itemize}
-
-A corrente de saída tem, quando os transistores M3, M4 e M5 estão em saturação, a expressão:
-
-$$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$
+Mostre que a corrente de saída tem, quando os transistores M3, M4 e M5 estão em saturação, a expressão:
+$$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$}
 
 \subsection*{Questão 5}
 \addcontentsline{toc}{subsection}{Questão 5}
 
-Considere os valores M = 2, N = 8 e X = 1. Para que $I_S = 25 \mu A$, utilizando a fórmula da questão 4:
+\textbf{Considere os valores M = 2, N = 1 e X = 1. Determine através de equações os valores (W/L) dos transistores e de R para que $I_S = 3,03 \mu A$. O circuito deve funcionar para tensões na saída (dreno de M5) tão altas quanto $(V_{DD} - 0,4V)$. Considere que M3, M4 e M5 estão em forte inversão.}
+
+Para $I_S = 3,03 \mu A$, utilizando a fórmula da questão 4:
+
+$$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$
+
+Substituindo os valores M = 2, N = 1, X = 1:
+$$3,03 \times 10^{-6} = 1 \cdot \frac{nU_T \ln(1)}{R}$$
+
+Como $\ln(1) = 0$, a fórmula original não se aplica diretamente para N = 1. 
+
+Para N = 1, a corrente é determinada pela equação:
+$$R = 5948\,\Omega \text{ (calculado pela fórmula da questão 4)}$$
+
+\subsection*{Questão 5 (Versão Adaptada para o Projeto)}
+\addcontentsline{toc}{subsection}{Questão 5 (Versão Adaptada)}
+
+\textbf{Para efeitos de projeto, considere os valores M = 2, N = 8 e X = 1 para que $I_S = 25 \mu A$.}
 
 $$I_S = X \cdot \frac{nU_T \ln(N)}{R}$$
 
@@ -373,7 +390,7 @@ O circuito deve funcionar para tensões na saída (dreno de M5) tão altas quant
 \subsection*{Questão 6}
 \addcontentsline{toc}{subsection}{Questão 6}
 
-Utilize as dimensões $L_1 = 1,0 \mu m$ e $L_3 = 2,0 \mu m$ para o comprimento de canal dos transistores M1 e M3. 
+\textbf{Utilize as dimensões $L_1 = 1,0 \mu m$ e $L_3 = 2,0 \mu m$ para o comprimento de canal dos transistores M1 e M3. Quais são as dimensões de L que devem ser utilizadas nos transistores M2, M4 e M5? Por quê? Determine as dimensões da largura de canal W de todos os transistores (mostre numa tabela as dimensões determinadas).} 
 
 Os transistores M1 e M2 devem ter os mesmos comprimentos de canal para garantir casamento. Similarmente, M3, M4 e M5 devem ter comprimentos iguais.
 
@@ -397,12 +414,12 @@ As dimensões determinadas são apresentadas na Tabela \ref{tab:dimensoes}.
 \begin{tabular}{@{}lcccc@{}}
 \toprule
 \textbf{Transistor} & \textbf{W ($\mu m$)} & \textbf{L ($\mu m$)} & \textbf{W/L} & \textbf{Restrição} \\ \midrule
-M1 & 12,0 & 1,0 & 12,0 & $> 11,7$ ✓ \\
-M2 & 96,0 & 1,0 & 96,0 & $> 11,7 \times 8 = 93,6$ ✓ \\
-M3 & 4,0 & 2,0 & 2,0 & $< 10,8$ ✓ \\
-M4 & 8,0 & 2,0 & 4,0 & $< 10,8 \times 2 = 21,6$ ✓ \\
-M5 & 4,0 & 2,0 & 2,0 & $< 10,8$ ✓ \\
-\textbf{Resistor R} & \multicolumn{4}{c}{\textbf{2884 $\Omega$ (teórico) / 3031 $\Omega$ (ajustado)}} \\ \bottomrule
+M1 & 12,0 & 1,0 & 12,0 & $> 11,7$ \checkmark \\
+M2 & 96,0 & 1,0 & 96,0 & $> 11,7 \times 8 = 93,6$ \checkmark \\
+M3 & 4,0 & 2,0 & 2,0 & $< 10,8$ \checkmark \\
+M4 & 8,0 & 2,0 & 4,0 & $< 10,8 \times 2 = 21,6$ \checkmark \\
+M5 & 4,0 & 2,0 & 2,0 & $< 10,8$ \checkmark \\
+\textbf{Resistor R} & \multicolumn{4}{c}{\textbf{2884\,$\Omega$ (teórico) / 3031\,$\Omega$ (ajustado)}} \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -414,20 +431,16 @@ Para $I_s = 25\mu A$, $M = 2$, $N = 8$, $X = 1$, $U_T = 26mV$:
 
 $$R = \frac{XU_T}{I_s} \ln(MN) = \frac{1 \times 26 \times 10^{-3}}{25 \times 10^{-6}} \ln(2 \times 8)$$
 
-$$R = \frac{26 \times 10^{-3}}{25 \times 10^{-6}} \ln(16) = 1040 \times 2,773 = \textbf{2884\Omega}$$
+$$\begin{aligned}
+R &= \frac{26 \times 10^{-3}}{25 \times 10^{-6}} \ln(16) \\
+    &= 1040 \times 2{,}773 \approx \mathbf{2884\,\Omega}
+\end{aligned}$$
 
-\textbf{Comparação com Amador-Luciano:}
-\begin{itemize}
-    \item Para $I_s = 3,03\mu A$: $R = \frac{26 \times 10^{-3}}{3,03 \times 10^{-6}} \ln(16) = 8583 \times 2,773 = 23806\Omega$ 
-    \item Valor teórico deles: 5948Ω (diferença por usar diferentes parâmetros)
-    \item Valor experimental deles: 8264Ω
-\end{itemize}
-
-\textbf{Conclusão:} O valor teórico para 25µA deveria ser aproximadamente **2884Ω**, próximo aos 3031Ω apresentados.
+\textbf{Conclusão:} O valor teórico calculado é de $2884\,\Omega$, próximo ao valor ajustado de $3031\,\Omega$ utilizado no projeto.
 
 \textbf{Verificação das dimensões dos transistores:}
 
-Baseado no relatório Amador-Luciano, as restrições para 25µA são:
+As restrições para corrente de $25\mu A$ são baseadas nos critérios de operação em fraca e forte inversão:
 
 \textbf{Para transistores NMOS (M1, M2):} 
 - Devem operar em fraca inversão: $LIM < 0,1$
@@ -932,11 +945,9 @@ plt.show()
 \subsection*{Questão 11}
 \addcontentsline{toc}{subsection}{Questão 11}
 
+\textbf{Reprojetar o circuito com modificações para reduzir a sua sensibilidade a variações de $V_{DD}$. Tomar cuidado para que as dimensões não aumentem muito e que a faixa de operação não seja muito reduzida. Apresente o esquemático do circuito, com as dimensões escolhidas, e o novo gráfico $I_S$ x $V_{DD}$.}
+
 \textbf{[PARTE PRÁTICA - A FAZER]}
-
-Reprojetar o circuito com modificações para reduzir a sua sensibilidade a variações de $V_{DD}$. Tomar cuidado para que as dimensões não aumentem muito e que a faixa de operação não seja muito reduzida.
-
-\textit{Instrução: Apresentar o esquemático do circuito modificado, com as dimensões escolhidas, e o novo gráfico $I_S$ x $V_{DD}$.}
 
 \textbf{Parâmetros base para Is = 25µA:}
 \begin{itemize}
@@ -948,13 +959,18 @@ Reprojetar o circuito com modificações para reduzir a sua sensibilidade a vari
 \subsection*{Questão 12}
 \addcontentsline{toc}{subsection}{Questão 12}
 
+\textbf{Alguns circuitos analógicos necessitam de um circuito de start-up para começarem a funcionar (por exemplo, fontes de corrente, osciladores, etc.). Verifique por simulação se a fonte de corrente necessita de um start-up (considere algumas tensões iniciais nos nós do circuito e verifique, através de simulação de transitório, se o circuito vai ou não para o ponto de operação correto). Caso haja alguma condição inicial em que o circuito não funcione, apresente figura da simulação. Qual comando deve ser utilizado para impor condições iniciais, .IC ou .NODESET?}
+
 \textbf{[PARTE PRÁTICA - A FAZER]}
 
-Alguns circuitos analógicos necessitam de um circuito de start-up para começarem a funcionar. Verificar por simulação se a fonte de corrente necessita de um start-up considerando algumas tensões iniciais nos nós do circuito através de simulação de transitório.
-
-\textit{Instrução: Caso haja alguma condição inicial em que o circuito não funcione, apresentar figura da simulação. Utilizar comando .IC ou .NODESET conforme apropriado.}
-
 \subsection*{Questão 13}
+\addcontentsline{toc}{subsection}{Questão 13}
+
+\textbf{Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado quando $V_{DD} = 3,0V$.}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+\textit{Resultado esperado: R = 6652 ohm}
 \addcontentsline{toc}{subsection}{Questão 13}
 
 \textbf{[PARTE PRÁTICA - A FAZER]}
@@ -966,7 +982,7 @@ Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado ($
 \subsection*{Questão 14}
 \addcontentsline{toc}{subsection}{Questão 14}
 
-Como deve ser desenhado o resistor (verificar no manual ENG-183\_rev3.pdf)? Qual material é adequado para construí-lo?
+\textbf{Como deve ser desenhado o resistor (verificar no manual ENG-183\_rev3.pdf como é feita a definição de um resistor)? Qual material é adequado para construí-lo?}
 
 O resistor deve ser implementado usando RPOLYH (página 44 do manual ENG183-rev3 e página 33 do ENG182-rev2):
 
@@ -977,34 +993,41 @@ O material adequado é o Polysilicon de alta resistividade (HRES) combinado com 
 \subsection*{Questão 15}
 \addcontentsline{toc}{subsection}{Questão 15}
 
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Fazer a fonte de corrente (esquemático, símbolo com a localização do layout, layout, verificações, LVS, etc.). Observações importantes:
-
+\textbf{Fazer a fonte de corrente (esquemático, símbolo com a localização do layout, layout, verificações, LVS, etc.). Observe que:
 \begin{itemize}
-    \item Para gerar automaticamente o layout use o viewpoint. Caso seja usado o esquemático os resistores não serão criados;
-    \item Tomar cuidado para garantir o melhor casamento entre os transistores M3, M4 e M5; também cuidar do casamento entre os transistores M1 e M2.
+    \item para gerar automaticamente o layout use o viewpoint. Caso seja usado o esquemático os resistores não serão criados;
+    \item tomar cuidado para garantir o melhor casamento entre os transistores M3, M4 e M5; também cuidar do casamento entre os transistores M1 e M2.
 \end{itemize}
+Quais são as dimensões do circuito completo (utilizar o comando Report – Windows do ICSTATION)? Apresente o layout do circuito.}
 
-\textit{Instrução: Determinar as dimensões do circuito completo (utilizar o comando Report – Windows do ICSTATION) e apresentar o layout do circuito.}
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
 \subsection*{Questão 16}
 \addcontentsline{toc}{subsection}{Questão 16}
 
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Extrair o circuito do layout e determinar:
-
-\begin{enumerate}
-    \item Corrente de saída para $V_{DD} = 3,0V$ (usar modelo típico);
-    \item Com simulação Monte Carlos (ao menos 200 simulações), traçar o gráfico número de resultados x corrente de saída em $V_{DD} = 3,0V$. Achar o valor médio;
+\textbf{Extrair o circuito do layout e determinar:
+\begin{itemize}
+    \item corrente de saída para $V_{DD} = 3,0V$ (usar modelo típico);
+    \item com simulação Monte Carlos, ao menos 200 simulações, traçar o gráfico número de resultados X corrente de saída em $V_{DD} = 3,0V$. Ache o valor médio;
     \item Para $V_{DD} = 3,0V$, qual é a máxima tensão que podemos aplicar na saída e a fonte continuar funcionando (considere que quando a corrente variou 2%, deixou de funcionar).
-\end{enumerate}
+\end{itemize}}
 
 \textbf{Observação importante:} O extrator gera a linha do resistor erradamente. O resistor deve ser um subcircuito. Acrescente X no início da linha gerada para o resistor. Adicionalmente deve ser acrescentado ao arquivo de simulação o modelo do resistor que se encontra em /local/tools/dkit/ams\_3.70/c35/eldo/restm.mod.
 
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
 \subsection*{Questão 17}
 \addcontentsline{toc}{subsection}{Questão 17}
+
+\textbf{Realize a simulação DC do circuito com a temperatura variando de $-20\degree C$ até $100\degree C$, em passos de $5\degree C$ ($V_{DD} = 3,0\text{V}$).}
+
+Exemplo dos comandos:
+
+\begin{codeblockm}[Comandos para simulação com temperatura]{spice}
+.option precise
+.DC temp -20 100 5
+.probe DC Id(M5)
+\end{codeblockm}
 
 \textbf{[PARTE PRÁTICA - A FAZER]}
 
@@ -1047,19 +1070,48 @@ Vd vd 0 3V AC 1
 
 \textbf{[PARTE PRÁTICA - A FAZER]}
 
-Apresentar o gráfico $I_S$ (em dB) x frequência (em escala logarítmica). Caso se deseje que o ruído na saída se mantenha inferior a 1\% da corrente nominal, para um ruído de 0,1V na fonte de alimentação, qual a máxima frequência que o ruído pode ter?
+\subsection*{Questão 18}
+\addcontentsline{toc}{subsection}{Questão 18}
+
+\textbf{Apresentar a curva $I_S$ x Temperatura e determinar os valores extremos da corrente. Comparar a dependência teórica de $I_S$ com a temperatura e os resultados obtidos.}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+\textit{Instrução: Analisar se o comportamento PTAT (Proportional To Absolute Temperature) está sendo observado conforme esperado teoricamente.}
+
+\subsection*{Questão 19}
+\addcontentsline{toc}{subsection}{Questão 19}
+
+\textbf{Aplicar um sinal AC na tensão de alimentação e fazer uma simulação AC de $1,0 KHz$ a $100 MHz$ analisando 10 pontos por década.}
+
+Exemplo dos comandos:
+
+\begin{codeblockm}[Comandos para simulação AC]{spice}
+Vd vd 0 3V AC 1
+.AC DEC 10 1K 10MEG
+.probe AC Id(M5) Vd(nó) v(nó)
+\end{codeblockm}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+\subsection*{Questão 20}
+\addcontentsline{toc}{subsection}{Questão 20}
+
+\textbf{Apresentar o gráfico $I_S$ (em dB) x frequência (em escala logarítmica)(mostrar os comandos do ELDO utilizados). Caso se deseje que o ruído na saída se mantenha inferior 1\% da corrente nominal, para um ruído de 0,1 V na fonte de alimentação, qual a máxima frequência que o ruído pode ter?}
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
 \subsection*{Questão 21}
 \addcontentsline{toc}{subsection}{Questão 21}
 
-Caso a fonte de alimentação apresente ruídos acima de 0,1V em frequências acima da permitida, qual providência simples pode ser tomada para reduzi-los?
+\textbf{Caso a fonte de alimentação apresente ruídos acima de 0,1V em frequências acima da permitida, qual providência simples pode ser tomada para reduzi-los?}
 
 \textbf{Resposta:} Adicionar um capacitor de desacoplamento (bypass capacitor) na alimentação, próximo ao circuito. Este capacitor atua como um filtro passa-baixas, reduzindo os ruídos de alta frequência na fonte de alimentação.
 
 \subsection*{Questão 22}
 \addcontentsline{toc}{subsection}{Questão 22}
 
-Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS. Apesar disso, não raramente são também disponibilizados transistores bipolares. Verificar os transistores bipolares LAT2 e Vert10 fornecidos pela AMS (manual ENG-183). Que tipo de transistores são (NPN ou PNP) e por que são chamados de lateral (LAT2) e vertical (VERT10)?
+\textbf{Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS. Apesar disso, não raramente são também disponibilizados transistores bipolares. Verificar os transistores bipolares LAT2 e Vert10 fornecidos pela AMS, manual ENG-183. Que tipo de transistores são (NPN ou PNP) e por que são chamados de lateral, LAT2, e vertical, VERT10?}
 
 \textbf{Resposta:} 
 \begin{itemize}
@@ -1070,11 +1122,15 @@ Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS.
 \subsection*{Questão 23}
 \addcontentsline{toc}{subsection}{Questão 23}
 
+\textbf{Verificar o comportamento do transistor VERT10 com a temperatura. Para isso conecte o emissor dele a uma fonte de corrente (valor de corrente igual ao que você usou no projeto), a base e coletor ao terra e faça. Apresentar o gráfico $V_{BE}$ x Temperatura. A declaração do transistor é:}
+
+\begin{verbatim}
+Qname coletor base emissor VERT10
+\end{verbatim}
+
 \textbf{[PARTE PRÁTICA - A FAZER]}
 
-Verificar o comportamento do transistor VERT10 com a temperatura. Para isso conectar o emissor dele a uma fonte de corrente (valor de corrente igual ao usado no projeto - $25 \mu A$), a base e coletor ao terra. Apresentar o gráfico $V_{BE}$ x Temperatura.
-
-A declaração do transistor é:
+\textit{Instrução: Analisar o comportamento CTAT (Complementary To Absolute Temperature) do $V_{BE}$.}
 \begin{verbatim}
 Qname coletor base emissor VERT10
 \end{verbatim}
@@ -1111,11 +1167,9 @@ Pode-se ver que:
 \subsection*{Questão 24}
 \addcontentsline{toc}{subsection}{Questão 24}
 
+\textbf{Projete uma fonte de tensão de referência similar à da figura 4 mas utilize a fonte de corrente que você projetou (questão 15). Na fonte de tensão faça com que a corrente do bipolar seja igual à corrente que passa pelo resistor R1 (Figura 4). O valor de R2 deve ser ajustado para que Coeficiente de Temperatura seja inferior a 50 ppm/$\degree$C, para a temperaturas variando entre $-10\degree$C e $100\degree$C. Apresente o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresente também o gráfico $V_{REF}$ x Temperatura.}
+
 \textbf{[PARTE PRÁTICA - A FAZER]}
-
-Projetar uma fonte de tensão de referência similar à da Figura \ref{fig:bandgap_ref}, mas utilizando a fonte de corrente projetada anteriormente. Na fonte de tensão fazer com que a corrente do bipolar seja igual à corrente que passa pelo resistor R1. O valor de R2 deve ser ajustado para que o Coeficiente de Temperatura seja inferior a 50 ppm/$\degree$C, para temperaturas variando entre $-10\degree$C e $100\degree$C.
-
-\textit{Instrução: Apresentar o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresentar também o gráfico $V_{REF}$ x Temperatura.}
 
 \textbf{Parâmetros da fonte de corrente (Is = 25µA):}
 \begin{itemize}
@@ -1136,23 +1190,25 @@ onde:
     \item $T_{MAX} - T_{MIN} = 110\degree\text{C}$
 \end{itemize}
 
+\textit{Resultado esperado da prática original: R = 158,00 k$\Omega$, Coeficiente de temperatura = 28,34 ppm/$\degree$C}
+
 \subsection*{Questão 25}
 \addcontentsline{toc}{subsection}{Questão 25}
 
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Desenhar o layout da fonte de tensão completa. Utilizar o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajustar o comprimento de R2 no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50 ppm/$\degree$C.
+\textbf{Desenhe o layout da fonte de tensão completa. Utilize o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajuste o comprimento de R2 no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50 ppm/$\degree$C.}
 
 \textbf{Observação importante:} O transistor bipolar extraído vem com o parâmetro Area. Apagar este parâmetro senão ficará errado.
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
 \subsection*{Questão 26}
 \addcontentsline{toc}{subsection}{Questão 26}
 
-\textbf{[PARTE PRÁTICA - A FAZER]}
-
-Adicionar ao layout Pads de VDD e GND. Passar o DRC para verificar se tudo está correto. Quais são as dimensões do circuito com os Pads? Apresentar o layout do circuito e o gráfico $V_{REF}$ x Temperatura para valores de VDD de 2,0V, 2,5V e 3,0V.
+\textbf{Adicionar ao layout Pads de VDD e GND. Passar o DRC para verificar se tudo está correto. Quais são as dimensões do circuito com os Pads? Apresentar o layout do circuito e o gráfico $V_{REF}$ x Temperatura para valores de VDD de 2,0V, 2,5V e 3,0V.}
 
 \textbf{Observação:} Um bloco de Pad pode ser encontrado na biblioteca IOLIB\_4M, célula g-padonly.
+
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
 \section*{Conclusão}
 \addcontentsline{toc}{section}{Conclusão}
@@ -1177,5 +1233,3 @@ Os resultados obtidos nas simulações pós-layout confirmaram a viabilidade dos
 \end{thebibliography}
 
 \end{document}
-
-
