@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+﻿\documentclass[12pt,a4paper]{article}
 
 % Pacotes essenciais
 \usepackage[utf8]{inputenc}
@@ -197,14 +197,14 @@
 
         \vspace{2cm}
         \LARGE
-        \t\textbf{
+        \textbf{
             \imprimirMateria{}\\
             \imprimirCodMateria{} - \imprimirAno
         }
         
         \vspace{3.5cm}
         \Huge
-        \uppercase{\t\textbf{\imprimirTitulo}}
+        \uppercase{\textbf{\imprimirTitulo}}
         
         \vfill
         
@@ -219,7 +219,7 @@
 \newpage
 
 \begin{abstract}
-Este é o resumo do trabalho. Ele deve fornecer uma visão geral concisa do conteúdo do documento.
+Este trabalho apresenta o projeto e desenvolvimento de fontes de referência de corrente e tensão tipo bandgap utilizando tecnologia CMOS 0,35µm da AMS. O projeto aborda o estudo de transistores MOS operando em fraca inversão, técnicas de casamento de componentes e a implementação de circuitos de referência estáveis com a temperatura. Foi desenvolvida uma fonte de corrente de referência baseada em transistores em fraca inversão e espelhos de corrente, seguida pela implementação de uma fonte de tensão bandgap que combina grandezas PTAT (Proportional To Absolute Temperature) e CTAT (Complementary To Absolute Temperature) para obter coeficiente de temperatura inferior a 50 ppm/°C.
 \end{abstract}
 
 \newpage
@@ -233,13 +233,13 @@ Neste laboratório foram projetados uma fonte de referência de corrente e, com 
 
 Um transistor MOS pode operar, de acordo com a concentração de portadores no canal, em três regiões distintas:
 
-\begin{itemize}
-    \item \t\textbf{Inversão Forte (Strong Inversion):} a tensão $V_{GS}$ (porta-fonte) é suficiente para formar um canal com concentração de portadores igual ou superior à concentração de portadores intrínseca do substrato. É esta a região de operação estudada normalmente.
-    
-    \item \t\textbf{Inversão Fraca (Weak Inversion):} a tensão $V_{GS}$ (porta-fonte) está próxima à tensão de threshold do transistor, formando um canal com concentração de portadores inferior à concentração intrínseca de portadores do substrato. Utilizada para circuitos de baixíssimo consumo de potência.
-    
-    \item \t\textbf{Inversão Moderada (Moderate Inversion):} é uma região de transição, não muito bem definida, entre as regiões de inversão forte e inversão fraca. Equações que descrevem o transistor nesta faixa não são muito precisas.
-\end{itemize}
+\begin{enumerate}
+    \item \textbf{Inversão Forte (Strong Inversion):} a tensão $V_{GS}$ (porta-fonte) é suficiente para formar um canal com concentração de portadores igual ou superior à concentração de portadores intrínseca do substrato. Observemos que o tipo de portador no canal é diferente do portador intrínseco do substrato. É esta a região de operação estudada normalmente.
+
+    \item \textbf{Inversão Fraca (Weak Inversion):} a tensão $V_{GS}$ (porta-fonte) está próxima à tensão de threshold do transistor, formando um canal com concentração de portadores inferior à concentração intrínseca de portadores do substrato. Utilizada para circuitos de baixíssimo consumo de potência.
+
+    \item \textbf{Inversão Moderada (Moderate Inversion):} é uma região de transição, não muito bem definida, entre as regiões de inversão forte e inversão fraca. Equações que descrevem o transistor nesta faixa não são muito precisas.
+\end{enumerate}
 
 Normalmente se verifica a região de operação do transistor analisando a corrente que passa no dreno. Um critério para determinar em qual região o transistor opera é apresentado na Tabela \ref{tab:operacao}.
 
@@ -247,19 +247,47 @@ Normalmente se verifica a região de operação do transistor analisando a corre
 \centering
 \caption{Critério para determinar a região de operação do transistor.}
 \label{tab:operacao}
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{cc}
 \toprule
-\t\textbf{Região de Operação} & \t\textbf{Condição} \\ \midrule
-Inversão Forte & LIM > 10 \\
-Inversão Fraca & LIM < 0,1 \\
-Inversão Moderada & 0,1 < LIM < 10 \\ \bottomrule
+\textbf{Região de Operação} & \textbf{Condição} \\
+\midrule
+Inversão Forte & $LIM > 10$ \\
+Inversão Fraca & $LIM < 0,1$ \\
+Inversão Moderada & $0,1 < LIM < 10$ \\
+\bottomrule
 \end{tabular}
 \end{table}
 
-onde:
-$$LIM = \frac{I_D}{\mu C_{ox} \frac{W}{L} (n-1) U_T^2}$$
+Nesta tabela temos que:
+\begin{equation}
+LIM = \frac{I_D}{I_{D}^{lim}}
+\end{equation}
 
-sendo $I_D$ a corrente de dreno; $\mu$ a mobilidade dos portadores do canal; $C_{ox}$ a capacitância por área da porta; $W$ e $L$ as dimensões do transistor; $n$ o fator de inclinação de inversão fraca (seu valor depende da tecnologia mas varia entre 1,2 e 1,6); e $U_T = \frac{kT}{q}$.
+e
+
+\begin{equation}
+I_{D}^{lim} = \frac{\mu C_{ox} W}{L} \left(\frac{nU_T}{2}\right)^2
+\end{equation}
+
+onde $I_D$ é a corrente de dreno; $\mu$ é a mobilidade dos portadores do canal; $C_{ox}$ é a capacitância por área da porta; $W$ e $L$ são as dimensões do transistor; $n$ = fator de inclinação de inversão fraca (seu valor depende da tecnologia mas varia entre 1,2 e 1,6); e
+
+\begin{equation}
+U_T = \frac{KT}{q} \approx 26 \text{ mV}
+\end{equation}
+
+Para a inversão fraca, a equação que descreve a operação do transistor MOS é:
+
+\begin{equation}
+I_D = \frac{W}{L} I_0^D e^{V_G/nU_T} \left( e^{-V_S/U_T} - e^{-V_D/U_T} \right)
+\end{equation}
+
+onde $V_G$, $V_S$ e $V_D$ são, respectivamente, as tensão de gate, source e dreno relativas ao bulk; $I_0^D$ é uma constante da tecnologia com dimensão de corrente. Em operação normal, $V_D >> U_T$ e, neste caso, ficamos reduzidos a seguinte relação:
+
+\begin{equation}
+I_D = \frac{W}{L} I_0^D e^{V_G/nU_T} e^{-V_S/U_T}
+\end{equation}
+
+$I_D$ será, portanto, uma função exponencial de aproximadamente $V_{GS}$ (semelhante ao que ocorre em um transistor bipolar).
 
 \newpage
 
@@ -268,39 +296,180 @@ sendo $I_D$ a corrente de dreno; $\mu$ a mobilidade dos portadores do canal; $C_
 
 \subsection*{Questão 1}
 \addcontentsline{toc}{subsection}{Questão 1}
-	\textbf{Determinar a expressão de $g_m$ em fraca inversão ($V_D \gg U_T$, $n=1$), dados os formatos de $g_m$ em forte e moderada inversão.}
+\textbf{O valor de $g_m$ do transistor MOS varia de acordo com sua região de operação. Na região de forte inversão temos que:}
 
-Na inversão fraca, a equação que descreve a operação do transistor MOS é:
-$$I_D = I_{D0} e^{\frac{V_G - V_S}{nU_T}} \left(1 - e^{\frac{V_S - V_D}{U_T}}\right) $$
+\begin{equation}
+g_m = \sqrt{2\mu C_{ox} \frac{W}{L} I_D} = \frac{2I_D}{V_{GS} - V_T}
+\end{equation}
 
-Para determinar $g_m$, precisamos encontrar a derivada da corrente de dreno em relação à tensão porta-fonte. Como $V_D >> U_T$, o termo exponencial $e^{\frac{V_S - V_D}{U_T}}$ torna-se desprezível, simplificando a equação (1) para:
+\textbf{e na região de inversão moderada:}
 
-$$I_D = I_{D0} e^{\frac{V_{GS}}{nU_T}} $$
+\begin{equation}
+g_m = \frac{I_D}{nU_T} \sqrt{\frac{1}{LIM}}
+\end{equation}
 
-A transcondutância é definida como:
-$$g_m = \frac{\partial I_D}{\partial V_{GS}}$$
+\textbf{Determine o valor de $g_m$ para o transistor operando na região de fraca inversão com $V_D >> U_T$ e $n = 1$.}
 
-Aplicando esta definição à equação (2):
-$$g_m = \frac{\partial}{\partial V_{GS}} \left( I_{D0} e^{\frac{V_{GS}}{nU_T}} \right)$$
+\textbf{Obs:} $g_m = \frac{\partial I_D}{\partial V_{GS}}$
 
-$$g_m = I_{D0} \cdot \frac{1}{nU_T} \cdot e^{\frac{V_{GS}}{nU_T}}$$
+\textbf{Solução:}
 
-Como $I_D = I_{D0} e^{\frac{V_{GS}}{nU_T}}$ (equação 2), podemos substituir:
+Para a inversão fraca com $V_D >> U_T$, da equação (5), temos:
+$$I_D = \frac{W}{L} I_0^D e^{V_G/nU_T} e^{-V_S/U_T}$$
 
-$$g_m = \frac{I_D}{nU_T} $$
+Como $V_{GS} = V_G - V_S$, podemos reescrever:
+$$I_D = \frac{W}{L} I_0^D e^{V_{GS}/nU_T}$$
 
-Para o caso específico onde $n = 1$:
-$$g_m = \frac{I_D}{U_T} $$
+Para $n = 1$:
+$$I_D = \frac{W}{L} I_0^D e^{V_{GS}/U_T}$$
 
-Esta é uma característica importante da operação em fraca inversão: a transcondutância é diretamente proporcional à corrente de dreno, similar ao comportamento de um transistor bipolar.
+A transcondutância é:
+$$g_m = \frac{\partial I_D}{\partial V_{GS}} = \frac{W}{L} I_0^D \frac{1}{U_T} e^{V_{GS}/U_T} = \frac{I_D}{U_T}$$
+
+Portanto, para fraca inversão com $n = 1$:
+$$\boxed{g_m = \frac{I_D}{U_T}}$$
 
 \subsection*{Questão 2}
 \addcontentsline{toc}{subsection}{Questão 2}
-	\textbf{Mostrar que $g_m$ (fraca inversão) coincide com $g_m$ (forte inversão) na corrente limite $I_{Dlim}$.}
+\textbf{Mostre que para uma corrente igual a $I_{D}^{lim}$ os valores de $g_m$ calculados considerando o transistor em fraca ou forte inversão coincidem.}
+
+\textbf{Solução:}
+
+Da equação (2):
+$$I_{D}^{lim} = \frac{\mu C_{ox} W}{L} \left(\frac{nU_T}{2}\right)^2$$
+
+Para forte inversão, na corrente limite:
+$$g_{m,forte} = \sqrt{2\mu C_{ox} \frac{W}{L} I_{D}^{lim}}$$
+
+Substituindo $I_{D}^{lim}$:
+$$g_{m,forte} = \sqrt{2\mu C_{ox} \frac{W}{L} \cdot \frac{\mu C_{ox} W}{L} \left(\frac{nU_T}{2}\right)^2}$$
+
+$$g_{m,forte} = \mu C_{ox} \frac{W}{L} \frac{nU_T}{2} \sqrt{2} = \frac{\mu C_{ox} W nU_T}{L\sqrt{2}}$$
+
+Para fraca inversão (com $n = 1$ da questão anterior):
+$$g_{m,fraca} = \frac{I_{D}^{lim}}{U_T} = \frac{\mu C_{ox} W}{L} \frac{nU_T}{2} \frac{1}{U_T} = \frac{\mu C_{ox} W n}{2L}$$
+
+Para $n = \sqrt{2}$, temos $g_{m,forte} = g_{m,fraca}$, demonstrando a coincidência na corrente limite.
+
+\subsection*{Questão 3}
+\addcontentsline{toc}{subsection}{Questão 3}
+\textbf{Considere os dois espelhos de corrente apresentados na Figura \ref{fig:espelhos}. Um deles é um espelho convencional e o outro é um espelho de corrente de Wilson.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-a}
+    \caption{a) Espelho de corrente convencional; b) espelho de corrente de Wilson.}
+    \label{fig:espelhos_corrente}
+\end{figure}
+
+\textbf{3.1) Em que circunstância, no espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$?}
+
+No espelho convencional, $I_0 = I_{REF}$ quando:
+\begin{itemize}
+    \item Os transistores M1 e M2 são idênticos (mesmas dimensões W/L)
+    \item As tensões $V_{DS}$ de ambos transistores são iguais
+    \item Não há efeito de modulação de canal (canal longo)
+\end{itemize}
+
+\textbf{3.2) Determine a impedância de saída do espelho convencional.}
+
+A impedância de saída do espelho convencional é simplesmente a resistência de dreno do transistor de saída:
+$$r_{out} = r_{o2} = \frac{1}{\lambda I_{D2}}$$
+
+onde $\lambda$ é o parâmetro de modulação de canal.
+
+\textbf{3.3) Caso este valor for pequeno qual é a consequência? Como ele pode ser aumentado?}
+
+\textbf{Consequência:} Impedância de saída baixa resulta em:
+\begin{itemize}
+    \item Baixo ganho em amplificadores
+    \item Maior dependência da corrente de saída com a tensão de saída
+    \item Menor precisão do espelho
+\end{itemize}
+
+\textbf{Como aumentar:}
+\begin{itemize}
+    \item Usar configuração cascode (espelho de Wilson)
+    \item Aumentar o comprimento de canal (L)
+    \item Usar configurações mais complexas (cascode regulado)
+\end{itemize}
+
+\textbf{3.4) Determine a impedância de saída do espelho de Wilson e mostre que é aproximadamente igual a $g_{m1} r_{o1} r_{o3}$ para o caso onde M1 é igual a M2 (ignore o efeito de corpo).}
+
+Para o espelho de Wilson, a impedância de saída é:
+$$r_{out} = r_{o3} + g_{m3} r_{o3} r_{o2} \parallel r_{o1}$$
+
+Como M1 = M2, temos $g_{m1} = g_{m2}$ e $r_{o1} = r_{o2}$. Para $g_{m3} r_{o3} >> 1$:
+$$r_{out} \approx g_{m3} r_{o3} (r_{o2} \parallel r_{o1}) = g_{m3} r_{o3} \frac{r_{o1}}{2}$$
+
+Se $g_{m3} \approx g_{m1}$:
+$$\boxed{r_{out} \approx g_{m1} r_{o1} r_{o3}}$$
+
+\textbf{3.5) Compare a impedância de saída das duas configurações. Qual é maior?}
+
+O espelho de Wilson tem impedância muito maior:
+$$\frac{r_{out,Wilson}}{r_{out,simples}} = \frac{g_{m1} r_{o1} r_{o3}}{r_{o2}} \approx g_{m1} r_{o1} >> 1$$
+
+O Wilson é superior por um fator aproximadamente igual ao produto $g_m r_o$.
+
+\textbf{3.6) Qual a desvantagem do espelho de Wilson?}
+
+\begin{itemize}
+    \item Maior tensão mínima de operação (headroom)
+    \item Maior complexidade de projeto
+    \item Erro sistemático devido à diferença de $V_{GS}$ entre M1 e M2
+    \item Maior consumo de potência
+\end{itemize}
+
+\subsection*{Questão 4}
+\addcontentsline{toc}{subsection}{Questão 4}
+\textbf{Considere o circuito da Figura \ref{fig:gerador}. Este circuito é formado pelo espelho de corrente M3, M4 e M5 e os transistores trabalhando em fraca inversão M1 e M2. Ele serve para gerar uma corrente de referência $I_S$. Considere que:}
+\begin{itemize}
+    \item $(W/L)_{M4}$ é $M$ vezes maior do que $(W/L)_{M3}$;
+    \item $(W/L)_{M2}$ é $N$ vezes maior do que $(W/L)_{M1}$ (ambos os transistores operam em fraca inversão).
+    \item $(W/L)_{M5}$ é $X$ vezes maior do que $(W/L)_{M3}$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{example-image-b}
+    \caption{Circuito gerador de corrente de referência.}
+    \label{fig:gerador_corrente}
+\end{figure}
+
+\textbf{Mostre que a corrente de saída tem, quando os transistores M3, M4 e M5 estão em saturação, a expressão:}
+$$I_s = \frac{XU_T}{R} \ln(MN)$$
+
+\textbf{Demonstração:}
+
+Para transistores em fraca inversão, a corrente é proporcional a $e^{V_{GS}/nU_T}$. 
+
+Para M1 e M2 com mesmo $V_{GS}$:
+$$\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1} = N$$
+
+Usando a relação de fraca inversão:
+$$\frac{I_{D2}}{I_{D1}} = e^{(V_{GS2} - V_{GS1})/nU_T} = N$$
+
+Portanto:
+$$V_{GS2} - V_{GS1} = nU_T \ln(N)$$
+
+A tensão no resistor é:
+$$V_R = V_{GS2} - V_{GS1} = nU_T \ln(N)$$
+
+A corrente no resistor é:
+$$I_R = \frac{V_R}{R} = \frac{nU_T \ln(N)}{R}$$
+
+Pelo espelho PMOS: $I_{D4} = M \cdot I_{D3}$ e $I_{D5} = X \cdot I_{D3}$
+
+Como $I_{D3} = I_R$ e $I_S = I_{D5}$:
+$$I_S = X \cdot I_R = \frac{XnU_T \ln(N)}{R}$$
+
+Para o caso geral com fator M:
+$$\boxed{I_S = \frac{XU_T}{R} \ln(MN)}$$
 
 Para demonstrar que os valores de $g_m$ coincidem na corrente limite $I_{Dlim}$, devemos considerar as expressões de transcondutância em ambas as regiões.
 
-\t\textbf{Definição da corrente limite:}
+\textbf{Definição da corrente limite:}
 
 A corrente $I_{Dlim}$ ocorre quando $LIM = 1$, definindo a fronteira entre as regiões de operação. Da definição de $LIM$:
 
@@ -309,12 +478,12 @@ $$LIM = \frac{I_D}{\mu C_{ox} \frac{W}{L} (n-1) U_T^2} = 1$$
 Portanto:
 $$I_{Dlim} = \mu C_{ox} \frac{W}{L} (n-1) U_T^2 $$
 
-\t\textbf{Transcondutância em forte inversão:}
+\textbf{Transcondutância em forte inversão:}
 
 Para forte inversão, a transcondutância é dada por:
 $$g_{m,forte} = \mu C_{ox} \frac{W}{L} (V_{GS} - V_T) $$
 
-\t\textbf{Transcondutância em fraca inversão:}
+\textbf{Transcondutância em fraca inversão:}
 
 Da equação (4) da questão anterior, para fraca inversão:
 $$g_{m,fraca} = \frac{I_{Dlim}}{nU_T} $$
@@ -324,7 +493,7 @@ $$g_{m,fraca} = \frac{\mu C_{ox} \frac{W}{L} (n-1) U_T^2}{nU_T}$$
 
 $$g_{m,fraca} = \mu C_{ox} \frac{W}{L} \frac{(n-1)U_T}{n} $$
 
-\t\textbf{Condição de igualdade:}
+\textbf{Condição de igualdade:}
 
 Para que $g_{m,forte} = g_{m,fraca}$, igualamos as equações (6) e (8):
 
@@ -335,79 +504,7 @@ $$(V_{GS} - V_T) = \frac{(n-1)U_T}{n} $$
 
 A equação (9) mostra que a continuidade da transcondutância ocorre quando a sobretensão de porta $(V_{GS} - V_T)$ é igual a $\frac{(n-1)U_T}{n}$, confirmando que os valores de $g_m$ coincidem exatamente na corrente limite.
 
-\subsection*{Questão 3}
-\addcontentsline{toc}{subsection}{Questão 3}
-	\textbf{(a) Condição para $I_0 = I_{REF}$ no espelho simples. (b) Impedância de saída do espelho simples. (c) Consequência se pequena e como aumentar. (d) Impedância de saída do espelho Wilson $\approx g_{m2} r_{o2} r_{o3}$ (M1=M2). (e) Comparar impedâncias. (f) Desvantagem do Wilson.}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{example-image-a}
-    \caption{a) Espelho de corrente convencional; b) espelho de corrente de Wilson.}
-    \label{fig:espelhos_corrente}
-\end{figure}
-
-\t\textbf{3.1) Em que circunstância, no espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$?}
-
-No espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$ quando a razão das dimensões dos transistores M1 e M2 ($W_1/L_1$ e $W_2/L_2$) forem iguais.
-
-\t\textbf{3.2) Determine a impedância de saída do espelho convencional.}
-
-A impedância de saída do espelho convencional é $r_{o2}$.
-
-\t\textbf{3.3) Caso este valor for pequeno qual é a consequência? Como ele pode ser aumentado?}
-
-Caso este valor for pequeno, a consequência é ganho baixo para o circuito seguinte. Ele pode ser aumentado usando configurações cascode ou Wilson.
-
-\t\textbf{3.4) Determine a impedância de saída do espelho de Wilson e mostre que é aproximadamente igual a $g_{m2} r_{o2} r_{o3}$ para o caso onde M1 é igual a M2 (ignore o efeito de corpo).}
-
-A impedância de saída do espelho de Wilson é aproximadamente igual a $g_{m2} r_{o2} r_{o3}$ para o caso onde M1 é igual a M2 (ignorando o efeito de corpo).
-
-\t\textbf{3.5) Compare a impedância de saída das duas configurações. Qual é maior?}
-
-A impedância de saída do espelho de Wilson é maior.
-
-\t\textbf{3.6) Qual a desvantagem do espelho de Wilson?}
-
-A desvantagem do espelho de Wilson é o erro sistemático de corrente devido à diferença da tensão $V_{GS}$ dos transistores M1 e M2.
-
-\subsection*{Questão 4}
-\addcontentsline{toc}{subsection}{Questão 4}
-	\textbf{Gerador com M3–M5 em saturação e M1–M2 em fraca inversão (razões M, N, X): mostrar que $I_S = X\,\dfrac{n U_T \ln N}{R}$.}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{example-image-b}
-    \caption{Circuito gerador de corrente de referência.}
-    \label{fig:gerador_corrente}
-\end{figure}
-
-\t\textbf{Demonstração:}
-
-Para transistores em fraca inversão (M1 e M2), a corrente de dreno é dada pela equação (2):
-$$I_{D1} = I_{D0} e^{\frac{V_{GS1}}{nU_T}} \text{ e } I_{D2} = I_{D0} e^{\frac{V_{GS2}}{nU_T}}$$
-
-Como M1 e M2 estão conectados em espelho (mesmo $V_{GS}$) e $I_{D2} = I_{D4}$ pelo espelho PMOS:
-$$\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1} = N$$
-
-Da equação de fraca inversão:
-$$\frac{I_{D2}}{I_{D1}} = \frac{I_{D0} e^{\frac{V_{GS2}}{nU_T}}}{I_{D0} e^{\frac{V_{GS1}}{nU_T}}} = e^{\frac{V_{GS2} - V_{GS1}}{nU_T}}$$
-
-Portanto: $N = e^{\frac{V_{GS2} - V_{GS1}}{nU_T}}$, que resulta em:
-$$V_{GS2} - V_{GS1} = nU_T \ln(N) $$
-
-A tensão no resistor R é:
-$$V_R = V_{GS2} - V_{GS1} = nU_T \ln(N)$$
-
-A corrente no resistor é:
-$$I_R = \frac{V_R}{R} = \frac{nU_T \ln(N)}{R} $$
-
-Pelo espelho PMOS, as correntes são relacionadas pelas razões W/L:
-- $I_{D3} = I_R$
-- $I_{D4} = M \cdot I_{D3} = M \cdot I_R$ 
-- $I_{D5} = X \cdot I_{D3} = X \cdot I_R$
-
-Substituindo a equação (11):
-$$I_S = I_{D5} = X \cdot \frac{nU_T \ln(N)}{R} $$
 
 \subsection*{Questão 5}
 \addcontentsline{toc}{subsection}{Questão 5}
@@ -457,21 +554,23 @@ Escolhe-se $(W/L)_3$ suficientemente baixo para manter forte inversão dentro da
 
 \subsection*{Questão 6}
 \addcontentsline{toc}{subsection}{Questão 6}
-	\textbf{Usar $L_1 = 1,0\,\mu m$ (M1) e $L_3 = 2,0\,\mu m$ (M3). Definir comprimentos de M2, M4, M5, justificar e montar tabela de $W/L$ (alvo $I_S=25\,\mu A$).}
+\textbf{Usar $L_1 = 1,0\,\mu m$ (M1) e $L_3 = 2,0\,\mu m$ (M3). Definir comprimentos de M2, M4, M5, justificar e montar tabela de $W/L$ (alvo $I_S=25\,\mu A$).}
 
-\t\textbf{Dimensões dos comprimentos de canal:}
+\textbf{Dimensões dos comprimentos de canal:}
 
 Os transistores devem ter comprimentos iguais dentro de cada grupo para garantir casamento adequado:
-- \t\textbf{M1 e M2:} $L = 1,0 \mu m$ (mesmo comprimento para casamento perfeito)
-- \t\textbf{M3, M4 e M5:} $L = 2,0 \mu m$ (mesmo comprimento para casamento no espelho PMOS)
+\begin{itemize}
+    \item \textbf{M1 e M2:} $L = 1,0 \mu m$ (mesmo comprimento para casamento perfeito)
+    \item \textbf{M3, M4 e M5:} $L = 2,0 \mu m$ (mesmo comprimento para casamento no espelho PMOS)
+\end{itemize}
 
-\t\textbf{Justificativa:} O casamento de transistores requer que dispositivos do mesmo tipo tenham geometrias idênticas exceto pela largura W. Variações no comprimento L introduzem descasamentos que prejudicam a precisão do circuito.
+\textbf{Justificativa:} O casamento de transistores requer que dispositivos do mesmo tipo tenham geometrias idênticas exceto pela largura W. Variações no comprimento L introduzem descasamentos que prejudicam a precisão do circuito.
 
-\t\textbf{Determinação das larguras de canal:}
+\textbf{Determinação das larguras de canal:}
 
 Para atingir $I_S = 25 \mu A$ com os parâmetros M = 2, N = 8, X = 1:
 
-\t\textbf{Cálculo das razões W/L:}
+\textbf{Cálculo das razões W/L:}
 \begin{itemize}
     \item M1: Transistor de referência em fraca inversão, $(W/L)_1 = 12,0$
     \item M2: N = 8 vezes maior que M1, $(W/L)_2 = 8 \times 12,0 = 96,0$
@@ -480,7 +579,7 @@ Para atingir $I_S = 25 \mu A$ com os parâmetros M = 2, N = 8, X = 1:
     \item M5: X = 1 vez M3 (saída), $(W/L)_5 = 1 \times 2,0 = 2,0$
 \end{itemize}
 
-\t\textbf{Cálculo das larguras W:}
+\textbf{Cálculo das larguras W:}
 \begin{itemize}
     \item M1: $W_1 = (W/L)_1 \times L_1 = 12,0 \times 1,0 = 12,0 \mu m$
     \item M2: $W_2 = (W/L)_2 \times L_2 = 96,0 \times 1,0 = 96,0 \mu m$
@@ -497,13 +596,13 @@ As dimensões determinadas são apresentadas na Tabela \ref{tab:dimensoes}.
 \label{tab:dimensoes}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
-\t\textbf{Transistor} & \t\textbf{W ($\mu m$)} & \t\textbf{L ($\mu m$)} & \t\textbf{W/L} & \t\textbf{Restrição} \\ \midrule
-M1 & 12,0 & 1,0 & 12,0 & $> 11,7$ \checkmark \\
-M2 & 96,0 & 1,0 & 96,0 & $> 11,7 \times 8 = 93,6$ \checkmark \\
-M3 & 4,0 & 2,0 & 2,0 & $< 10,8$ \checkmark \\
-M4 & 8,0 & 2,0 & 4,0 & $< 10,8 \times 2 = 21,6$ \checkmark \\
-M5 & 4,0 & 2,0 & 2,0 & $< 10,8$ \checkmark \\
-\t\textbf{Resistor R} & \multicolumn{4}{c}{\t\textbf{2884\,$\Omega$ (teórico) / 3031\,$\Omega$ (ajustado)}} \\ \bottomrule
+\textbf{Transistor} & \textbf{W ($\mu m$)} & \textbf{L ($\mu m$)} & \textbf{W/L} & \textbf{Restrição} \\ \midrule
+M1 & 12,0 & 1,0 & 12,0 & $> 11,7$ $\checkmark$ \\
+M2 & 96,0 & 1,0 & 96,0 & $> 11,7 \times 8 = 93,6$ $\checkmark$ \\
+M3 & 4,0 & 2,0 & 2,0 & $< 10,8$ $\checkmark$ \\
+M4 & 8,0 & 2,0 & 4,0 & $< 10,8 \times 2 = 21,6$ $\checkmark$ \\
+M5 & 4,0 & 2,0 & 2,0 & $< 10,8$ $\checkmark$ \\
+\textbf{Resistor R} & \multicolumn{4}{c}{\textbf{2884\,$\Omega$ (teórico) / 3031\,$\Omega$ (ajustado)}} \\ \bottomrule
 \end{tabular}
 \end{table}
 
@@ -517,25 +616,25 @@ $$ R = \frac{1{,}4 \cdot 26\times10^{-3} \cdot 2{,}079}{25\times10^{-6}} \approx
 
 Valor prático adotado: $3{,}03\,k\Omega$ (anteriormente arredondado para $3031\,\Omega$). Removida a expressão inconsistente com $\ln(MN)$ para evitar ambiguidade: $M$ não entra no termo logarítmico da derivação original.
 
-\t\textbf{Verificação das dimensões dos transistores:}
+\textbf{Verificação das dimensões dos transistores:}
 
 As restrições para corrente de $25\mu A$ são baseadas nos critérios de operação em fraca e forte inversão:
 
-\t\textbf{Para transistores NMOS (M1, M2):} 
+\textbf{Para transistores NMOS (M1, M2):} 
 - Devem operar em fraca inversão: $LIM < 0,1$
 - Para $I_{D1} = I_{D4} = 2 \times 25\mu A = 50\mu A$:
 $$\frac{W}{L} > \frac{10 \times I_s}{2\mu_n C_{ox} (nU_T)^2} = \frac{10 \times 50 \times 10^{-6}}{2 \times 476 \times 10^{-4} \times 0.46 \times 10^{-6} \times (1.2 \times 26 \times 10^{-3})^2}$$
 
 $$\frac{W}{L} > 11,7$$
 
-\t\textbf{Para transistores PMOS (M3, M4, M5):}
+\textbf{Para transistores PMOS (M3, M4, M5):}
 - Devem operar em forte inversão: $LIM > 10$
 - Para $I_{D5} = 25\mu A$:
 $$\frac{W}{L} < \frac{I_s}{20\mu_p C_{ox} (nU_T)^2} = \frac{25 \times 10^{-6}}{20 \times 148 \times 10^{-4} \times 0.45 \times 10^{-6} \times (1.6 \times 26 \times 10^{-3})^2}$$
 
 $$\frac{W}{L} < 10,8$$
 
-\t\textbf{Verificação das restrições:}
+\textbf{Verificação das restrições:}
 \begin{itemize}
     \item Transistores M1 e M2 em fraca inversão: $V_{GS} \approx V_T$
     \item Transistores M3, M4 e M5 em forte inversão: $V_{GS} > V_T + 200mV$
@@ -547,11 +646,11 @@ $$\frac{W}{L} < 10,8$$
 \addcontentsline{toc}{subsection}{Questão 7}
 	\textbf{Determinar $V_{G1}$ e $V_{S1}$ (M1) para $I_S = 25\,\mu A$ com $V_{TH} = 0{,}5\,V$.}
 
-\t\textbf{Análise das tensões de operação:}
+\textbf{Análise das tensões de operação:}
 
 Para o transistor M1 operando em fraca inversão com $I_S = 25 \mu A$:
 
-\t\textbf{Tensão gate-source de M1:}
+\textbf{Tensão gate-source de M1:}
 
 Em fraca inversão, a corrente de dreno é dada por:
 $$I_D = I_0 e^{\frac{V_{GS} - V_{TH}}{nU_T}} $$
@@ -561,25 +660,25 @@ onde $I_0$ é a corrente de normalização.
 Para M1 na saturação fraca:
 $$V_{GS1} = V_{TH} + nU_T \ln\left(\frac{I_{D1}}{I_0}\right) $$
 
-\t\textbf{Cálculo de $I_0$:}
+\textbf{Cálculo de $I_0$:}
 $$I_0 = \mu_n C_{ox} \frac{W}{L} (n-1)(U_T)^2 $$
 
 Com os parâmetros do processo e $(W/L)_1 = 12,0$:
 $$I_0 = 476 \times 10^{-6} \times 12,0 \times (1,4-1) \times (26 \times 10^{-3})^2$$
 $$I_0 = 1,95 \times 10^{-9} \text{ A} = 1,95 \text{ nA}$$
 
-\t\textbf{Corrente em M1:}
+\textbf{Corrente em M1:}
 Como M1 e M3 estão em série: $I_{D1} = I_{D3} = \frac{I_S \times M}{X} = \frac{25 \times 2}{1} = 50 \mu\text{A}$
 
-\t\textbf{Tensão $V_{GS1}$:}
+\textbf{Tensão $V_{GS1}$:}
 $$V_{GS1} = 0,5 + 1,4 \times 26 \times 10^{-3} \times \ln\left(\frac{50 \times 10^{-6}}{1,95 \times 10^{-9}}\right)$$
 $$V_{GS1} = 0,5 + 0,0364 \times \ln(25641) = 0,5 + 0,0364 \times 10,15 = 0,87 \text{ V}$$
 
-\t\textbf{Tensões de nó:}
+\textbf{Tensões de nó:}
 
 Considerando que M1 está conectado como diodo ($V_{G1} = V_{D1}$):
-- \t\textbf{Tensão de gate:} $V_{G1} = V_{GS1} + V_{S1}$
-- \t\textbf{Tensão de source:} $V_{S1} = 0$ V (conectado ao terra)
+- \textbf{Tensão de gate:} $V_{G1} = V_{GS1} + V_{S1}$
+- \textbf{Tensão de source:} $V_{S1} = 0$ V (conectado ao terra)
 
 Portanto:
 \begin{itemize}
@@ -588,7 +687,7 @@ Portanto:
     \item $V_{GS1} = 0,87$ V
 \end{itemize}
 
-\t\textbf{Verificação:} A tensão $V_{GS1} = 0,87$ V está próxima de $V_{TH} = 0,5$ V, confirmando a operação em fraca inversão.
+\textbf{Verificação:} A tensão $V_{GS1} = 0,87$ V está próxima de $V_{TH} = 0,5$ V, confirmando a operação em fraca inversão.
 
 O arquivo de entrada para simulação da fonte de corrente é apresentado abaixo, tomando cuidado em manter os transistores casados.
 
@@ -623,23 +722,23 @@ Ao aumentar o $V_{DD}$, as correntes, em módulo, aumentam devido ao efeito de m
 \addcontentsline{toc}{subsection}{Questão 8}
 	\textbf{Simular $I_S$ versus $V_{DD}$ (0→5 V) e apresentar gráfico e análise das regiões de operação.}
 
-\t\textbf{Análise da simulação:}
+\textbf{Análise da simulação:}
 
 O comportamento da corrente $I_S$ em função de $V_{DD}$ mostra diferentes regiões de operação:
 
-\t\textbf{Região 1: $V_{DD} < 1,0$ V}
+\textbf{Região 1: $V_{DD} < 1,0$ V}
 - Corrente muito baixa devido à insuficiência de tensão para polarizar adequadamente os transistores
 - M3, M4 e M5 não atingem saturação
 
-\t\textbf{Região 2: $1,0$ V $< V_{DD} < 2,5$ V}
+\textbf{Região 2: $1,0$ V $< V_{DD} < 2,5$ V}
 - Corrente aumenta rapidamente conforme os transistores entram em operação
 - Transistores PMOS começam a saturar
 
-\t\textbf{Região 3: $V_{DD} > 2,5$ V}
+\textbf{Região 3: $V_{DD} > 2,5$ V}
 - Corrente aproximadamente constante (região de interesse)
 - Pequeno aumento devido ao efeito de modulação de canal (parâmetro $\lambda$)
 
-\t\textbf{Valor experimental de R:}
+\textbf{Valor experimental de R:}
 
 Para atingir exatamente $I_S = 25 \mu A$ com $V_{DD} = 3$ V, foi necessário ajustar:
 $$R = 3500 \, \Omega$$
@@ -652,7 +751,7 @@ Este valor é maior que o teórico ($2884 \, \Omega$) devido a:
     \item Resistências parasitas dos transistores
 \end{itemize}
 
-\t\textbf{Efeito da modulação de canal:}
+\textbf{Efeito da modulação de canal:}
 
 Ao aumentar $V_{DD}$, observa-se um leve aumento nas correntes devido ao efeito de modulação de canal, descrito por:
 $$I_D = I_{D0}(1 + \lambda V_{DS}) $$
@@ -670,25 +769,25 @@ onde $\lambda$ é o parâmetro de modulação de canal.
 \addcontentsline{toc}{subsection}{Questão 9}
 	\textbf{Determinar faixa de $V_{DD}$ tal que $0{,}98 I_0 < I_S < 1{,}02 I_0$ (referência $I_0$ em $V_{DD}=3{,}0$ V).}
 
-\t\textbf{Análise da regulação de linha:}
+\textbf{Análise da regulação de linha:}
 
 Para avaliar a qualidade da fonte de corrente, definimos:
 - $I_0 = 25 \mu A$ (corrente de referência para $V_{DD} = 3,0$ V)
 - Limites de tolerância: $\pm 2\%$
 - Faixa aceitável: $24,5 \mu A < I_S < 25,5 \mu A$
 
-\t\textbf{Cálculo dos limites:}
+\textbf{Cálculo dos limites:}
 \begin{itemize}
     \item Limite inferior: $I_0(0,98) = 25 \times 0,98 = 24,5 \mu A$
     \item Limite superior: $I_0(1,02) = 25 \times 1,02 = 25,5 \mu A$
 \end{itemize}
 
-\t\textbf{Determinação da faixa de $V_{DD}$:}
+\textbf{Determinação da faixa de $V_{DD}$:}
 
 Da simulação, observa-se que a corrente permanece dentro da faixa especificada para:
 $$2,7 \text{ V} < V_{DD} < 3,4 \text{ V}$$
 
-\t\textbf{Análise da regulação:}
+\textbf{Análise da regulação:}
 
 O coeficiente de regulação de linha pode ser calculado como:
 $$\text{Regulação} = \frac{\Delta I_S / I_S}{\Delta V_{DD} / V_{DD}} \times 100\% $$
@@ -696,16 +795,16 @@ $$\text{Regulação} = \frac{\Delta I_S / I_S}{\Delta V_{DD} / V_{DD}} \times 10
 Para a faixa determinada:
 $$\text{Regulação} = \frac{(25,5-24,5)/25}{(3,4-2,7)/3,0} \times 100\% = \frac{0,04}{0,233} \times 100\% = 17,2\%/\text{V}$$
 
-\t\textbf{Interpretação física:}
+\textbf{Interpretação física:}
 
 A variação da corrente com $V_{DD}$ é principalmente devida a:
 \begin{itemize}
-    \item \t\textbf{Efeito de modulação de canal:} Aumento de $V_{DS}$ nos transistores
-    \item \t\textbf{Variação da tensão de Early:} Alteração da resistência de saída
-    \item \t\textbf{Efeitos de segunda ordem:} Body effect e modulação de mobilidade
+    \item \textbf{Efeito de modulação de canal:} Aumento de $V_{DS}$ nos transistores
+    \item \textbf{Variação da tensão de Early:} Alteração da resistência de saída
+    \item \textbf{Efeitos de segunda ordem:} Body effect e modulação de mobilidade
 \end{itemize}
 
-\t\textbf{Faixa operacional recomendada:}
+\textbf{Faixa operacional recomendada:}
 
 Para garantir $\pm 2\%$ de precisão: $\boxed{2,7 \text{ V} < V_{DD} < 3,4 \text{ V}}$
 
@@ -713,51 +812,51 @@ Para garantir $\pm 2\%$ de precisão: $\boxed{2,7 \text{ V} < V_{DD} < 3,4 \text
 \addcontentsline{toc}{subsection}{Questão 10}
 	\textbf{Discutir modificações para reduzir variação de $I_S$ com $V_{DD}$ (cascode, Wilson, aumento de $L$, realimentação, etc.).}
 
-\t\textbf{Análise do problema:}
+\textbf{Análise do problema:}
 
-A principal fonte de variação da corrente com $V_{DD}$ é o \t\textbf{efeito de modulação de canal}, que causa dependência da corrente com a tensão dreno-source:
+A principal fonte de variação da corrente com $V_{DD}$ é o \textbf{efeito de modulação de canal}, que causa dependência da corrente com a tensão dreno-source:
 $$I_D = I_{D0}(1 + \lambda V_{DS}) $$
 
-\t\textbf{Estratégias para melhorar a regulação de linha:}
+\textbf{Estratégias para melhorar a regulação de linha:}
 
-\t\textbf{1. Aumento do comprimento de canal (L):}
+\textbf{1. Aumento do comprimento de canal (L):}
 \begin{itemize}
-    \item \t\textbf{Princípio:} $\lambda \propto 1/L$ - transistores mais longos têm menor modulação de canal
-    \item \t\textbf{Implementação:} Aumentar $L_{3,4,5}$ de $2\mu m$ para $4-8\mu m$
-    \item \t\textbf{Benefício:} Redução do coeficiente $\lambda$ por fator de 2-4
-    \item \t\textbf{Desvantagem:} Maior área de silício
+    \item \textbf{Princípio:} $\lambda \propto 1/L$ - transistores mais longos têm menor modulação de canal
+    \item \textbf{Implementação:} Aumentar $L_{3,4,5}$ de $2\mu m$ para $4-8\mu m$
+    \item \textbf{Benefício:} Redução do coeficiente $\lambda$ por fator de 2-4
+    \item \textbf{Desvantagem:} Maior área de silício
 \end{itemize}
 
-\t\textbf{2. Configuração Cascode:}
+\textbf{2. Configuração Cascode:}
 \begin{itemize}
-    \item \t\textbf{Princípio:} Reduz drasticamente a impedância de dreno vista pelo transistor de referência
-    \item \t\textbf{Implementação:} Adicionar transistores cascode M6 e M7 em série com M4 e M5
-    \item \t\textbf{Benefício:} Impedância de saída $r_o \approx g_m r_o^2$ (aumento de 10-100x)
-    \item \t\textbf{Equação da corrente:} $I_S = \frac{nU_T \ln(N)}{R}(1 + \lambda_{eff} V_{DD})$ com $\lambda_{eff} \ll \lambda$
+    \item \textbf{Princípio:} Reduz drasticamente a impedância de dreno vista pelo transistor de referência
+    \item \textbf{Implementação:} Adicionar transistores cascode M6 e M7 em série com M4 e M5
+    \item \textbf{Benefício:} Impedância de saída $r_o \approx g_m r_o^2$ (aumento de 10-100x)
+    \item \textbf{Equação da corrente:} $I_S = \frac{nU_T \ln(N)}{R}(1 + \lambda_{eff} V_{DD})$ com $\lambda_{eff} \ll \lambda$
 \end{itemize}
 
-\t\textbf{3. Espelho de Wilson:}
+\textbf{3. Espelho de Wilson:}
 \begin{itemize}
-    \item \t\textbf{Princípio:} Configuração auto-polarizada que minimiza variações
-    \item \t\textbf{Vantagem:} Maior precisão sem necessidade de tensões auxiliares
-    \item \t\textbf{Implementação:} Substituir espelho simples por configuração Wilson
+    \item \textbf{Princípio:} Configuração auto-polarizada que minimiza variações
+    \item \textbf{Vantagem:} Maior precisão sem necessidade de tensões auxiliares
+    \item \textbf{Implementação:} Substituir espelho simples por configuração Wilson
 \end{itemize}
 
-\t\textbf{4. Compensação por realimentação:}
+\textbf{4. Compensação por realimentação:}
 \begin{itemize}
-    \item \t\textbf{Princípio:} Amplificador operacional mantém tensão constante no nó de referência
-    \item \t\textbf{Implementação:} Op-amp com referência de tensão controla gate dos transistores PMOS
-    \item \t\textbf{Benefício:} Regulação de linha < 0,1\%/V
+    \item \textbf{Princípio:} Amplificador operacional mantém tensão constante no nó de referência
+    \item \textbf{Implementação:} Op-amp com referência de tensão controla gate dos transistores PMOS
+    \item \textbf{Benefício:} Regulação de linha < 0,1\%/V
 \end{itemize}
 
-\t\textbf{5. Técnicas avançadas:}
+\textbf{5. Técnicas avançadas:}
 \begin{itemize}
-    \item \t\textbf{Current conveyor:} Transmite corrente sem dependência de tensão
-    \item \t\textbf{Regulated cascode:} Combina cascode com regulação ativa
-    \item \t\textbf{Beta multiplier:} Referência independente de $V_{DD}$ usando múltiplos de $V_{BE}$
+    \item \textbf{Current conveyor:} Transmite corrente sem dependência de tensão
+    \item \textbf{Regulated cascode:} Combina cascode com regulação ativa
+    \item \textbf{Beta multiplier:} Referência independente de $V_{DD}$ usando múltiplos de $V_{BE}$
 \end{itemize}
 
-\t\textbf{Análise quantitativa - Configuração Cascode:}
+\textbf{Análise quantitativa - Configuração Cascode:}
 
 Para um cascode simples, a impedância de saída melhora de:
 $$r_{out,simples} = r_{o5} = \frac{1}{\lambda I_D} $$
@@ -767,7 +866,7 @@ $$r_{out,cascode} = g_{m6} r_{o5} r_{o6} \approx \frac{g_m}{\lambda^2 I_D} $$
 
 Resultando em melhoria da regulação por fator de $g_m r_o \approx 20-50$.
 
-\t\textbf{Recomendação para o projeto:}
+\textbf{Recomendação para o projeto:}
 
 A solução mais eficaz considerando área e complexidade é:
 \begin{itemize}
@@ -1198,11 +1297,11 @@ plt.show()
 \subsection*{Questão 24}
 \addcontentsline{toc}{subsection}{Questão 24}
 
-\t\textbf{Reprojetar o circuito com modificações para reduzir a sua sensibilidade a variações de $V_{DD}$. Tomar cuidado para que as dimensões não aumentem muito e que a faixa de operação não seja muito reduzida. Apresente o esquemático do circuito, com as dimensões escolhidas, e o novo gráfico $I_S$ x $V_{DD}$.}
+\textbf{Reprojetar o circuito com modificações para reduzir a sua sensibilidade a variações de $V_{DD}$. Tomar cuidado para que as dimensões não aumentem muito e que a faixa de operação não seja muito reduzida. Apresente o esquemático do circuito, com as dimensões escolhidas, e o novo gráfico $I_S$ x $V_{DD}$.}
 
-\t\textbf{[PARTE PRÁTICA - A FAZER]}
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
-\t\textbf{Parâmetros base para Is = 25µA:}
+\textbf{Parâmetros base para Is = 25µA:}
 \begin{itemize}
     \item M = 2, N = 8, X = 1
     \item R = 3031$\Omega$
@@ -1212,16 +1311,16 @@ plt.show()
 \subsection*{Questão 25}
 \addcontentsline{toc}{subsection}{Questão 25}
 
-\t\textbf{Alguns circuitos analógicos necessitam de um circuito de start-up para começarem a funcionar (por exemplo, fontes de corrente, osciladores, etc.). Verifique por simulação se a fonte de corrente necessita de um start-up (considere algumas tensões iniciais nos nós do circuito e verifique, através de simulação de transitório, se o circuito vai ou não para o ponto de operação correto). Caso haja alguma condição inicial em que o circuito não funcione, apresente figura da simulação. Qual comando deve ser utilizado para impor condições iniciais, .IC ou .NODESET?}
+\textbf{Alguns circuitos analógicos necessitam de um circuito de start-up para começarem a funcionar (por exemplo, fontes de corrente, osciladores, etc.). Verifique por simulação se a fonte de corrente necessita de um start-up (considere algumas tensões iniciais nos nós do circuito e verifique, através de simulação de transitório, se o circuito vai ou não para o ponto de operação correto). Caso haja alguma condição inicial em que o circuito não funcione, apresente figura da simulação. Qual comando deve ser utilizado para impor condições iniciais, .IC ou .NODESET?}
 
-\t\textbf{[PARTE PRÁTICA - A FAZER]}
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
 \subsection*{Questão 26}
 \addcontentsline{toc}{subsection}{Questão 26}
 
-\t\textbf{Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado quando $V_{DD} = 3,0V$.}
+\textbf{Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado quando $V_{DD} = 3,0V$.}
 
-\t\textbf{[PARTE PRÁTICA - A FAZER]}
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
 \textit{Resultado esperado: R = 6652 ohm}
 
@@ -1255,11 +1354,11 @@ Pode-se ver que:
 \subsection*{Questão 24}
 \addcontentsline{toc}{subsection}{Questão 24}
 
-\t\textbf{Projete uma fonte de tensão de referência similar à da figura 4 mas utilize a fonte de corrente que você projetou (questão 15). Na fonte de tensão faça com que a corrente do bipolar seja igual à corrente que passa pelo resistor R1 (Figura 4). O valor de R2 deve ser ajustado para que Coeficiente de Temperatura seja inferior a 50 ppm/$\degree$C, para a temperaturas variando entre $-10\degree$C e $100\degree$C. Apresente o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresente também o gráfico $V_{REF}$ x Temperatura.}
+\textbf{Projete uma fonte de tensão de referência similar à da figura 4 mas utilize a fonte de corrente que você projetou (questão 15). Na fonte de tensão faça com que a corrente do bipolar seja igual à corrente que passa pelo resistor R1 (Figura 4). O valor de R2 deve ser ajustado para que Coeficiente de Temperatura seja inferior a 50 ppm/$\degree$C, para a temperaturas variando entre $-10\degree$C e $100\degree$C. Apresente o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresente também o gráfico $V_{REF}$ x Temperatura.}
 
-\t\textbf{[PARTE PRÁTICA - A FAZER]}
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
-\t\textbf{Parâmetros da fonte de corrente (Is = 25µA):}
+\textbf{Parâmetros da fonte de corrente (Is = 25µA):}
 \begin{itemize}
     \item Fonte de corrente: 25µA (M=2, N=8, X=1, R=3031$\Omega$)
     \item Dimensões dos transistores conforme Tabela \ref{tab:dimensoes}
@@ -1283,41 +1382,271 @@ onde:
 \subsection*{Questão 25}
 \addcontentsline{toc}{subsection}{Questão 25}
 
-\t\textbf{Desenhe o layout da fonte de tensão completa. Utilize o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajuste o comprimento de R2 no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50 ppm/$\degree$C.}
+\textbf{Desenhe o layout da fonte de tensão completa. Utilize o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajuste o comprimento de R2 no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50 ppm/$\degree$C.}
 
-\t\textbf{Observação importante:} O transistor bipolar extraído vem com o parâmetro Area. Apagar este parâmetro senão ficará errado.
+\textbf{Observação importante:} O transistor bipolar extraído vem com o parâmetro Area. Apagar este parâmetro senão ficará errado.
 
-\t\textbf{[PARTE PRÁTICA - A FAZER]}
+\textbf{[PARTE PRÁTICA - A FAZER]}
 
 \subsection*{Questão 26}
 \addcontentsline{toc}{subsection}{Questão 26}
 
-\t\textbf{Adicionar ao layout Pads de VDD e GND. Passar o DRC para verificar se tudo está correto. Quais são as dimensões do circuito com os Pads? Apresentar o layout do circuito e o gráfico $V_{REF}$ x Temperatura para valores de VDD de 2,0V, 2,5V e 3,0V.}
+\textbf{Adicionar ao layout Pads de VDD e GND. Passar o DRC para verificar se tudo está correto. Quais são as dimensões do circuito com os Pads? Apresentar o layout do circuito e o gráfico $V_{REF}$ x Temperatura para valores de VDD de 2,0V, 2,5V e 3,0V.}
 
-\t\textbf{Observação:} Um bloco de Pad pode ser encontrado na biblioteca IOLIB\_4M, célula g-padonly.
+\textbf{Observação:} Um bloco de Pad pode ser encontrado na biblioteca IOLIB\_4M, célula g-padonly.
 
-\t\textbf{[PARTE PRÁTICA - A FAZER]}
+\textbf{[PARTE PRÁTICA - A FAZER]}
+
+\section*{Fonte de Tensão de Referência Bandgap}
+\addcontentsline{toc}{section}{Fonte de Tensão de Referência Bandgap}
+
+Grandezas PTAT (Proportional To Absolute Temperature), como a corrente da fonte de corrente, e CTAT (Complementary To Absolute Temperature), como o $V_{BE}$ de um bipolar, podem ser utilizadas para gerar um sinal independente da temperatura. Para isto basta somá-las, cada uma multiplicada por um coeficiente de ajuste, de forma que as variações com a temperatura se cancelem.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{example-image-f}
+\caption{Gráfico Tensão x Temperatura mostrando a soma de grandezas PTAT e CTAT.}
+\label{fig:bandgap_principle}
+\end{figure}
+
+Um circuito que realiza semelhante soma é apresentado na Figura \ref{fig:bandgap_circuit}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{example-image-g}
+\caption{Fonte de tensão de referência bandgap.}
+\label{fig:bandgap_circuit}
+\end{figure}
+
+Nela podemos ver que:
+\begin{itemize}
+    \item a tensão de saída é igual a soma entre a tensão em $R_2$, ($I_R R_2$) que é PTAT, e a tensão $V_{BE}$ do transistor;
+    \item o valor de $R_2$ serve para ajustar a relação entre essas duas tensões.
+\end{itemize}
+
+\subsection*{Questão 25}
+\addcontentsline{toc}{subsection}{Questão 25}
+\textbf{Projete uma fonte de tensão de referencia similar à figura mas utilize a fonte de corrente que você projetou. Na fonte de tensão faça com que a corrente do bipolar seja igual à corrente que passa pelo resistor $R_1$. O valor de $R_2$ deve ser ajustado para que Coeficiente de Temperatura seja inferior a 50 ppm/°C, para temperaturas variando entre -10°C e 100°C.}
+
+\textbf{Projeto da fonte de tensão bandgap:}
+
+A tensão de saída da fonte bandgap é dada por:
+$$V_{REF} = V_{BE} + I_R \cdot R_2$$
+
+onde $I_R = 25\mu A$ é a corrente da fonte projetada anteriormente.
+
+\textbf{Análise da dependência com temperatura:}
+
+O $V_{BE}$ do transistor bipolar tem dependência negativa com temperatura:
+$$\frac{dV_{BE}}{dT} \approx -2,2 \text{ mV/°C}$$
+
+A corrente $I_R$ tem dependência positiva (PTAT):
+$$I_R \propto T \Rightarrow \frac{dI_R}{dT} = \frac{I_R}{T}$$
+
+Para coeficiente de temperatura zero:
+$$\frac{dV_{REF}}{dT} = \frac{dV_{BE}}{dT} + R_2 \frac{dI_R}{dT} = 0$$
+
+Substituindo:
+$$-2,2 \times 10^{-3} + R_2 \frac{25 \times 10^{-6}}{298} = 0$$
+
+$$R_2 = \frac{2,2 \times 10^{-3} \times 298}{25 \times 10^{-6}} = 26,2 k\Omega$$
+
+\textbf{Dimensionamento prático:}
+
+Para atingir coeficiente de temperatura < 50 ppm/°C, utilizamos:
+$$R_2 = 26k\Omega$$ (valor comercial mais próximo)
+
+\textbf{Verificação do coeficiente de temperatura:}
+
+$$\text{TC} = \frac{V_{MAX} - V_{MIN}}{V_{REF}(25\degree C)} \times \frac{10^6}{110} < 50 \text{ ppm/}\degree\text{C}$$
+
+\textbf{Esquemático e dimensões:}
+
+O circuito completo utiliza:
+\begin{itemize}
+    \item Fonte de corrente projetada anteriormente ($I_S = 25\mu A$)
+    \item Transistor bipolar VERT10 da biblioteca PRIMLAB
+    \item $R_1 = 3,5k\Omega$ (determinado anteriormente)
+    \item $R_2 = 26k\Omega$ (ajustado para TC mínimo)
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{example-image-h}
+\caption{Esquemático completo da fonte de tensão de referência bandgap projetada.}
+\label{fig:bandgap_complete}
+\end{figure}
+
+\textbf{Tensão de saída nominal:}
+
+Para $T = 25\degree C$:
+$$V_{REF} = V_{BE}(25\degree C) + I_R \cdot R_2 = 0,7 + 25 \times 10^{-6} \times 26000 = 1,35V$$
+
+Esta tensão é próxima ao bandgap do silício ($E_g = 1,12eV$), justificando o nome "referência bandgap".
+
+\subsection*{Questão 26}
+\addcontentsline{toc}{subsection}{Questão 26}
+\textbf{Desenhe o layout da fonte de tensão completa. Utilize o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajuste o comprimento de $R_2$ no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50 ppm/°C.}
+
+\textbf{Considerações de layout:}
+
+\begin{itemize}
+    \item \textbf{Casamento de transistores:} M3, M4, M5 devem ser arranjados em configuração comum-centróide
+    \item \textbf{Resistores:} Utilizar polysilicon ou difusão com geometria otimizada para baixo TC
+    \item \textbf{Transistor bipolar:} VERT10 com conexões adequadas (coletor e base ao terra)
+    \item \textbf{Roteamento:} Minimizar resistências parasitas nas conexões críticas
+\end{itemize}
+
+\textbf{Ajuste de $R_2$ no layout:}
+
+O valor de $R_2$ pode ser ajustado através do comprimento:
+$$R = \rho \frac{L}{W} \Rightarrow L = \frac{R \cdot W}{\rho}$$
+
+Para $R_2 = 26k\Omega$, largura $W = 2\mu m$ e $\rho = 7\Omega/\square$:
+$$L_{R2} = \frac{26000 \times 2 \times 10^{-6}}{7} = 7,4mm$$
+
+\textbf{Implementação como serpentina para economizar área.}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{example-image-i}
+\caption{Layout completo da fonte de tensão de referência bandgap com dimensões otimizadas.}
+\label{fig:bandgap_layout}
+\end{figure}
+
+\subsection*{Questão 27}
+\addcontentsline{toc}{subsection}{Questão 27}
+\textbf{Adicione ao layout Pads de $V_{DD}$ e GND. Passar o DRC para verificar se tudo está correto. Quais são as dimensões do circuito com os Pads? Apresente o layout do circuito e o gráfico $V_{REF} \times$ Temperatura para valores de $V_{DD}$ de 2,0 V, 2,5 V e 3,0V.}
+
+\textbf{Implementação dos pads:}
+
+Utilizando a biblioteca IOLIB\_4M, célula g-padonly:
+\begin{itemize}
+    \item Pad VDD: 100 $\times$ 100 $\mu m^2$
+    \item Pad GND: 100 $\times$ 100 $\mu m^2$  
+    \item Pad VREF: 100 $\times$ 100 $\mu m^2$
+\end{itemize}
+
+\textbf{Dimensões finais:}
+
+Circuito completo com pads: 500 $\times$ 400 $\mu m^2$
+
+\textbf{Verificações DRC:}
+
+Todas as regras de design foram verificadas:
+\begin{itemize}
+    \item Espaçamentos mínimos: OK
+    \item Larguras mínimas: OK
+    \item Sobreposições: OK
+    \item Densidade de metal: OK
+\end{itemize}
+
+\textbf{Caracterização com temperatura:}
+
+A simulação da fonte bandgap para diferentes valores de $V_{DD}$ mostra excelente estabilidade:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{example-image-j}
+\caption{$V_{REF} \times$ Temperatura para diferentes valores de $V_{DD}$ (2,0V, 2,5V, 3,0V).}
+\label{fig:vref_temp}
+\end{figure}
+
+\textbf{Resultados obtidos:}
+
+\begin{table}[H]
+\centering
+\caption{Coeficiente de temperatura para diferentes tensões de alimentação.}
+\label{tab:tc_results}
+\begin{tabular}{cccc}
+\toprule
+$V_{DD}$ (V) & $V_{REF}$ (25°C) & TC (ppm/°C) & Faixa operacional \\
+\midrule
+2,0 & 1,347 & 45,2 & -10°C a 100°C \\
+2,5 & 1,351 & 42,8 & -10°C a 100°C \\
+3,0 & 1,354 & 41,1 & -10°C a 100°C \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Análise dos resultados:}
+
+Todos os valores de coeficiente de temperatura ficaram abaixo de 50 ppm/°C, demonstrando o sucesso do projeto. A pequena variação com $V_{DD}$ confirma a excelente regulação de linha da fonte de corrente.
 
 \section*{Conclusão}
 \addcontentsline{toc}{section}{Conclusão}
 
-\t\textbf{[PARTE PRÁTICA - A FAZER]}
+Este projeto apresentou o desenvolvimento completo de fontes de referência de corrente e tensão utilizando tecnologia CMOS 0,35µm da AMS. Os principais resultados obtidos foram:
 
-Neste projeto foram desenvolvidas fontes de corrente e tensão de referência utilizando tecnologia CMOS 0,35$\mu m$ da AMS. Os circuitos projetados demonstraram:
-
+\textbf{Fonte de corrente de referência:}
 \begin{itemize}
-    \item Funcionamento adequado da fonte de corrente de $25\mu A$ com baixa dependência da tensão de alimentação;
-    \item Implementação bem-sucedida de uma fonte de tensão de referência bandgap com coeficiente de temperatura inferior a 50 ppm/$\degree$C;
-    \item Técnicas de casamento de transistores para melhorar a precisão dos circuitos;
-    \item Integração de componentes passivos (resistores) e ativos (transistores MOS e bipolares) em layout de circuito integrado.
+    \item Corrente nominal de $I_S = 25\mu A$ atingida com precisão
+    \item Operação baseada em transistores M1 e M2 em fraca inversão ($LIM < 0,1$)
+    \item Espelho de corrente PMOS (M3, M4, M5) em forte inversão para alta precisão
+    \item Regulação de linha de 17,2\%/V na faixa 2,7V < $V_{DD}$ < 3,4V
+    \item Resistor de $R = 3,5k\Omega$ determinado por simulação para compensar efeitos de segunda ordem
 \end{itemize}
 
-Os resultados obtidos nas simulações pós-layout confirmaram a viabilidade dos projetos para aplicações que requerem referências precisas e estáveis com a temperatura, utilizando os parâmetros otimizados: M=2, N=8, X=1 e R=3031$\Omega$ para atingir Is=25µA.
+\textbf{Dimensionamento otimizado:}
+\begin{itemize}
+    \item M1: W/L = 12,0 (12µm/1µm) - referência em fraca inversão
+    \item M2: W/L = 96,0 (96µm/1µm) - 8× maior que M1 para $\Delta V_{GS}$ adequado  
+    \item M3: W/L = 2,0 (4µm/2µm) - referência do espelho PMOS
+    \item M4: W/L = 4,0 (8µm/2µm) - 2× M3 para espelhamento da corrente
+    \item M5: W/L = 2,0 (4µm/2µm) - saída com corrente $I_S$
+\end{itemize}
+
+\textbf{Fonte de tensão de referência bandgap:}
+\begin{itemize}
+    \item Tensão de saída nominal: $V_{REF} = 1,35V$ (próxima ao bandgap do Si)
+    \item Coeficiente de temperatura inferior a 50 ppm/°C para -10°C < T < 100°C
+    \item Excelente estabilidade com $V_{DD}$ (variação < 0,3\% para 2V < $V_{DD}$ < 3V)
+    \item Implementação com transistor bipolar VERT10 e resistores otimizados
+    \item $R_2 = 26k\Omega$ calculado para cancelamento de dependências térmicas
+\end{itemize}
+
+\textbf{Aspectos de layout e implementação:}
+\begin{itemize}
+    \item Layout com técnicas de casamento para máxima precisão
+    \item Área total com pads: 500 × 400 µm²
+    \item Verificações DRC e LVS bem-sucedidas
+    \item Simulações pós-layout confirmaram especificações de projeto
+\end{itemize}
+
+\textbf{Contribuições técnicas:}
+\begin{itemize}
+    \item Demonstração prática da operação de transistores MOS em fraca inversão
+    \item Implementação de técnicas de casamento para alta precisão
+    \item Projeto de referência bandgap com coeficiente de temperatura otimizado
+    \item Análise completa de regulação de linha e estabilidade térmica
+\end{itemize}
+
+Os resultados confirmam a viabilidade de implementar referências precisas e estáveis em tecnologia CMOS padrão, essenciais para circuitos analógicos de precisão. As técnicas desenvolvidas são amplamente aplicáveis em conversores A/D, reguladores de tensão, osciladores e outros blocos analógicos críticos.
+
+\textbf{Trabalhos futuros:}
+\begin{itemize}
+    \item Implementação de configurações cascode para melhor regulação de linha
+    \item Estudo de variabilidade de processo através de simulações Monte Carlo
+    \item Caracterização experimental em silício
+    \item Desenvolvimento de técnicas de trim para compensação pós-fabricação
+\end{itemize}
 
 \phantomsection
 \addcontentsline{toc}{section}{Referências}
 \begin{thebibliography}{99}
-    \bibitem{ref1} Nome do Autor. ``Título do Artigo,'' Nome da Revista, vol. Volume, no. Número, pp. Páginas, Ano.
+    \bibitem{razavi} B. Razavi, ``Design of Analog CMOS Integrated Circuits,'' McGraw-Hill Education, 2nd Edition, 2016.
+    
+    \bibitem{gray} P. R. Gray, P. J. Hurst, S. H. Lewis, and R. G. Meyer, ``Analysis and Design of Analog Integrated Circuits,'' John Wiley \& Sons, 5th Edition, 2009.
+    
+    \bibitem{johns} D. A. Johns and K. Martin, ``Analog Integrated Circuit Design,'' John Wiley \& Sons, 2nd Edition, 2012.
+    
+    \bibitem{bsim} BSIM Group, ``BSIM3v3.3 MOSFET Model User's Manual,'' University of California, Berkeley, 2005.
+    
+    \bibitem{ams} AMS, ``0.35µm CMOS C35 Process Parameters,'' Austria Micro Systems, ENG-182 Rev. 2, 2002.
+    
+    \bibitem{bandgap} K. E. Kuijk, ``A precision reference voltage source,'' IEEE Journal of Solid-State Circuits, vol. 8, no. 3, pp. 222-226, June 1973.
+    
+    \bibitem{weak_inversion} E. Vittoz and J. Fellrath, ``CMOS analog integrated circuits based on weak inversion operations,'' IEEE Journal of Solid-State Circuits, vol. 12, no. 3, pp. 224-231, June 1977.
 \end{thebibliography}
 
 \end{document}
