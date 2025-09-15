@@ -10,8 +10,8 @@
 \usepackage{textcomp}
 % Define o símbolo de grau
 \newcommand{\degree}{\ensuremath{{}^\circ}}
-% Usa placeholders para todas as figuras (remova [demo] quando tiver imagens reais)
-\usepackage[demo]{graphicx}
+% Carrega as imagens reais da pasta images/
+\usepackage{graphicx}
 % Adiciona caminho padrão para figuras
 \graphicspath{{images/}}
 \usepackage{booktabs}
@@ -352,7 +352,7 @@ $$\boxed{g_{m,\text{forte}} = g_{m,\text{fraca}}}.$$
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{example-image-a}
+    \includegraphics[width=0.8\textwidth]{espelho_a_b.png}
     \caption{a) Espelho de corrente convencional; b) espelho de corrente de Wilson.}
     \label{fig:espelhos_corrente}
 \end{figure}
@@ -844,7 +844,7 @@ Grandezas PTAT (Proportional To Absolute Temperature) e CTAT (Complementary To A
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{example-image-f}
+\includegraphics[width=0.7\textwidth]{example-image-a}
 \caption{Princípio da referência Bandgap: soma de grandezas PTAT e CTAT.}
 \label{fig:bandgap_principle}
 \end{figure}
@@ -853,7 +853,7 @@ O circuito da Figura \ref{fig:bandgap_circuit} implementa essa soma.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\textwidth]{example-image-g}
+\includegraphics[width=0.8\textwidth]{example-image-b}
 \caption{Circuito da fonte de tensão de referência bandgap.}
 \label{fig:bandgap_circuit}
 \end{figure}
@@ -870,14 +870,14 @@ Por meio de simulações com varredura de temperatura e do valor de $R_2$, encon
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{example-image-h}
+\includegraphics[width=0.9\textwidth]{example-image-a}
 \caption{Esquemático completo da fonte de tensão de referência bandgap projetada.}
 \label{fig:bandgap_complete_schematic}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{example-image-j}
+\includegraphics[width=0.9\textwidth]{example-image-b}
 \caption{$V_{REF}$ vs. Temperatura. O coeficiente de temperatura resultante foi de 42.8 ppm/°C, atendendo ao requisito de projeto.}
 \label{fig:vref_vs_temp}
 \end{figure}
