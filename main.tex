@@ -228,7 +228,7 @@ Este trabalho apresenta o projeto e desenvolvimento de fontes de referência de 
 \newpage
 % Re-enable page anchors starting from the table of contents
 \hypersetup{pageanchor=true}
-	ableofcontents
+\tableofcontents
 \newpage
 
 \section*{Introdução}
@@ -265,13 +265,13 @@ Inversão Moderada & $0,1 < LIM < 10$ \\
 
 Nesta tabela temos que:
 \begin{equation}
-LIM = \frac{I_D}{I_{D}^{lim}}
+LIM = \frac{I_D}{I_{Dlim}}
 \end{equation}
 
 e
 
 \begin{equation}
-I_{D}^{lim} = \frac{\mu C_{ox} W}{L} \left(\frac{nU_T}{2}\right)^2
+I_{Dlim} = \frac{\mu C_{ox} W}{L} 2 \left(nU_T\right)^2
 \end{equation}
 
 onde $I_D$ é a corrente de dreno; $\mu$ é a mobilidade dos portadores do canal; $C_{ox}$ é a capacitância por área da porta; $W$ e $L$ são as dimensões do transistor; $n$ = fator de inclinação de inversão fraca (seu valor depende da tecnologia mas varia entre 1,2 e 1,6); e
@@ -283,13 +283,13 @@ U_T = \frac{KT}{q} \approx 26 \text{ mV}
 Para a inversão fraca, a equação que descreve a operação do transistor MOS é:
 
 \begin{equation}
-I_D = \frac{W}{L} I_0^D e^{V_G/nU_T} \left( e^{-V_S/U_T} - e^{-V_D/U_T} \right)
+I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} \left( e^{-V_S/U_T} - e^{-V_D/U_T} \right)
 \end{equation}
 
 onde $V_G$, $V_S$ e $V_D$ são, respectivamente, as tensão de gate, source e dreno relativas ao bulk; $I_0^D$ é uma constante da tecnologia com dimensão de corrente. Em operação normal, $V_D >> U_T$ e, neste caso, ficamos reduzidos a seguinte relação:
 
 \begin{equation}
-I_D = \frac{W}{L} I_0^D e^{V_G/nU_T} e^{-V_S/U_T}
+I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} e^{-V_S/U_T}
 \end{equation}
 
 $I_D$ será, portanto, uma função exponencial de aproximadamente $V_{GS}$ (semelhante ao que ocorre em um transistor bipolar).
@@ -310,7 +310,7 @@ g_m = \sqrt{2\mu C_{ox} \frac{W}{L} I_D} = \frac{2I_D}{V_{GS} - V_T}
 \textbf{e na região de inversão moderada:}
 
 \begin{equation}
-g_m = \frac{I_D}{nU_T} \sqrt{\frac{1}{LIM}}
+g_m \approx \frac{I_D}{nU_T \sqrt{1 +LIM}} 
 \end{equation}
 
 \textbf{Determine o valor de $g_m$ para o transistor operando na região de fraca inversão com $V_D >> U_T$ e $n = 1$.}
@@ -318,41 +318,33 @@ g_m = \frac{I_D}{nU_T} \sqrt{\frac{1}{LIM}}
 A transcondutância é definida por $g_m = \frac{\partial I_D}{\partial V_{GS}}$.
 
 Para a inversão fraca com $V_D >> U_T$, da equação (5), temos:
-$$I_D = \frac{W}{L} I_0^D e^{V_G/nU_T} e^{-V_S/U_T}$$
+$$I_D = \frac{W}{L} I_{D0}\, e^{\,V_G/(nU_T)}\, e^{-V_S/U_T}$$
 
-Como $V_{GS} = V_G - V_S$, podemos reescrever:
-$$I_D = \frac{W}{L} I_0^D e^{V_{GS}/nU_T}$$
+Ao variar $V_{GS}$ mantendo $V_S$ constante (definição usual de $g_m$), tem-se
+$$\frac{\partial I_D}{\partial V_{GS}} = \frac{1}{nU_T}\, I_D \;\Rightarrow\; g_m = \frac{I_D}{nU_T}.$$
 
-Para $n = 1$:
-$$I_D = \frac{W}{L} I_0^D e^{V_{GS}/U_T}$$
-
-A transcondutância é:
-$$g_m = \frac{\partial I_D}{\partial V_{GS}} = \frac{W}{L} I_0^D \frac{1}{U_T} e^{V_{GS}/U_T} = \frac{I_D}{U_T}$$
-
-Portanto, para fraca inversão com $n = 1$:
+Especializando para $n = 1$:
 $$\boxed{g_m = \frac{I_D}{U_T}}$$
 
 \subsection*{Questão 2}
 \addcontentsline{toc}{subsection}{Questão 2}
 \textbf{Mostre que para uma corrente igual a $I_{Dlim}$ os valores de $g_m$ calculados considerando o transistor em fraca ou forte inversão coincidem.}
 
+Da definição do limite entre fraca e forte inversão:
+$$I_{Dlim} = 2\,\mu C_{ox}\,\frac{W}{L}\,(nU_T)^2.$$
 
+Em forte inversão (modelo de raiz quadrada), na corrente limite:
+$$g_{m,\text{forte}}=\sqrt{2\,\mu C_{ox}\frac{W}{L}\,I_{Dlim}}
+=\sqrt{2\,\mu C_{ox}\frac{W}{L}\cdot 2\,\mu C_{ox}\frac{W}{L}\,(nU_T)^2}
+=2\,\mu C_{ox}\frac{W}{L}\,nU_T.$$
 
-Da equação (2):
-$$I_{Dlim} = \frac{\mu C_{ox} W}{L} \left(\frac{nU_T}{2}\right)^2$$
+Em fraca inversão, $g_m=\dfrac{I_D}{nU_T}$; portanto, na corrente limite:
+$$g_{m,\text{fraca}}=\frac{I_{Dlim}}{nU_T}
+=\frac{2\,\mu C_{ox}\frac{W}{L}\,(nU_T)^2}{nU_T}
+=2\,\mu C_{ox}\frac{W}{L}\,nU_T.$$
 
-Para forte inversão, na corrente limite:
-$$g_{m,forte} = \sqrt{2\mu C_{ox} \frac{W}{L} I_{Dlim}}$$
-
-Substituindo $I_{Dlim}$:
-$$g_{m,forte} = \sqrt{2\mu C_{ox} \frac{W}{L} \cdot \frac{\mu C_{ox} W}{L} \left(\frac{nU_T}{2}\right)^2}$$
-
-$$g_{m,forte} = \mu C_{ox} \frac{W}{L} \frac{nU_T}{2} \sqrt{2} = \frac{\mu C_{ox} W nU_T}{L\sqrt{2}}$$
-
-Para fraca inversão (com $n = 1$ da questão anterior):
-$$g_{m,fraca} = \frac{I_{Dlim}}{U_T} = \frac{\mu C_{ox} W}{L} \frac{nU_T}{2} \frac{1}{U_T} = \frac{\mu C_{ox} W n}{2L}$$
-
-Para $n = \sqrt{2}$, temos $g_{m,forte} = g_{m,fraca}$, demonstrando a coincidência na corrente limite.
+Portanto, na corrente limite ($I_D=I_{Dlim}$):
+$$\boxed{g_{m,\text{forte}} = g_{m,\text{fraca}}}.$$
 
 \subsection*{Questão 3}
 \addcontentsline{toc}{subsection}{Questão 3}
