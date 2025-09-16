@@ -50,6 +50,10 @@
 \usepackage[dvipsnames,table,xcdraw]{xcolor}
 \usepackage[many]{tcolorbox}
 \tcbuselibrary{listings, listingsutf8, skins, minted}
+
+% CircuiTikZ para desenhar circuitos eletrônicos
+\usepackage[american]{circuitikz}
+
 % Paleta estilo VS Code Dark+
 \definecolor{navyBG}{HTML}{0A1E2E}
 \definecolor{vscBlue}{HTML}{569CD6}
@@ -368,57 +372,132 @@ No espelho convencional, $I_0 = I_{REF}$ quando:
 
 \textbf{3.2) Determine a impedância de saída do espelho convencional.}
 
-A impedância de saída do espelho convencional é simplesmente a resistência de dreno do transistor de saída:
-$$r_{out} = r_{o2} = \frac{1}{\lambda I_{D2}}$$
 
-onde $\lambda$ é o parâmetro de modulação de canal.
+% Modelo de pequenos sinais do espelho de corrente convencional
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz}[american, scale=2.0]
+    \draw (0,0) to[I,l_=$g_{m1}v_{gs}$] (0,-1) -- (1,-1)
+                to[R=$r_{o1}$] (1,0) -- (0,0);
+    \draw (0,-1) node[ground]{};
+    \draw (0.5,0) node[above] {$v_g$};
+    \draw (0.5,-1) node[below] {$v_s$};
+
+    \draw (3,0) to[I,l_=$g_{m2}v_{gs}$] (3,-1) -- (4,-1)
+                to[R=$r_{o2}$] (4,0) -- (3,0);
+    \draw (3,-1) node[ground]{};
+    \draw (3.5,0) node[above] {$v_0$};
+    \draw (3.5,-1) node[below] {$v_s$};
+
+    \end{circuitikz}
+    \caption{Modelo de pequenos sinais do espelho de corrente convencional.}
+    \label{fig:espelho_pequenos_sinais}
+\end{figure}
+
+Para determinar a impedância de saída do espelho, utilizamos o modelo de pequenos sinais apresentado na Figura~\ref{fig:espelho_pequenos_sinais}. Supondo uma tensão $v_o$ e uma corrente $i_o$ na saída, tem-se:
+
+\begin{equation}
+Z_o = \frac{v_o}{i_o}
+\end{equation}
+
+Aplicando a lei de Kirchhoff das correntes no nó $v_g$ (lado esquerdo do modelo), observamos que há uma resistência $r_{o1}$ em paralelo com a fonte de corrente dependente $g_{m1}v_{gs}$:
+
+\begin{equation}
+g_{m1}v_{gs} + \frac{v_{gs}}{r_{o1}} = 0
+\end{equation}
+
+\begin{equation}
+v_{gs}\left(g_{m1} + \frac{1}{r_{o1}}\right) = 0 \quad \Rightarrow \quad v_{gs} = 0
+\end{equation}
+
+Como $v_{gs} = 0$, a fonte de corrente dependente do lado direito ($g_{m2}v_{gs}$) não conduz, pois sua corrente é proporcional a $v_{gs}$. Desta forma, no nó de saída resta apenas a resistência $r_{o2}$:
+
+\begin{equation}
+i_o = \frac{v_o}{r_{o2}}
+\end{equation}
+
+Portanto, a impedância de saída do espelho convencional é:
+
+\begin{equation}
+Z_o = \frac{v_o}{i_o} = r_{o2} = \frac{1}{\lambda I_{D2}}
+\end{equation}
+
+onde $\lambda$ é o parâmetro de modulação de canal do transistor M2.
 
 \textbf{3.3) Caso este valor for pequeno qual é a consequência? Como ele pode ser aumentado?}
 
-Se esse valor for pequeno, a impedância de saída baixa resulta em:
+Da questão anterior, vimos que $Z_o = r_{o2} = \frac{1}{\lambda I_{D2}}$. Um valor pequeno de $r_{o2}$ indica forte modulação de canal, resultando em:
+
 \begin{itemize}
-    \item Baixo ganho em amplificadores
-    \item Maior dependência da corrente de saída com a tensão de saída
-    \item Menor precisão do espelho
+    \item \textbf{Corrente não-ideal:} O espelho produz $I_o = I_{ref}(1 + \lambda V_{DS2})$ em vez de $I_o = I_{ref}$
+    \item \textbf{Baixa regulação de carga:} Variações na tensão de saída causam variações significativas na corrente
+    \item \textbf{Degradação do ganho:} Em amplificadores, o ganho $A_v$ é proporcional a $r_o$
 \end{itemize}
 
-Para aumentá-la, pode-se:
+Para aumentar $r_{o2}$, podemos:
+
 \begin{itemize}
-    \item Usar configuração cascode (espelho de Wilson)
-    \item Aumentar o comprimento de canal (L)
-    \item Usar configurações mais complexas (cascode regulado)
+    \item \textbf{Aumentar L:} Como $\lambda$ é inversamente proporcional a $L$, temos $r_o$ proporcional a $L$
+    \item \textbf{Topologias avançadas:} Cascode ($r_{out} \approx g_m r_o^2$) ou Wilson
+    \item \textbf{Reduzir $I_D$:} Da relação $r_o = V_A/I_D$, menor corrente resulta em maior resistência
 \end{itemize}
 
 \textbf{3.4) Determine a impedância de saída do espelho de Wilson e mostre que é aproximadamente igual a $\frac{v_{0}}{i_{0}} \approx \frac{g_{m1}}{g_{o1}} \frac{g_{m3}}{g_{m2}} \frac{1}{g_{o3}} \approx \frac{g_{m1}}{g_{o1}} \frac{1}{g_{o3}}$ para o caso onde M1 é igual a M2 (ignore o efeito de corpo).}
 
+% Modelo de pequenos sinais do espelho de corrente de Wilson
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz}[american, scale=2.0]
+    \draw (0,0) to[I,l_=$g_{m1}v_{gs1}$] (0,-1) -- (1,-1)
+                to[R=$r_{o1}$] (1,0) -- (0,0);
+    \draw (0,-1) node[ground]{};
+    \draw (0.5,0) node[above] {$v_{g3}$};
+    \draw (0.5,-1) node[below] {$v_s$};
 
+    \draw (3,0) to[I,l_=$g_{m2}v_{gs}$] (3,-1) -- (4,-1)
+                to[R=$r_{o2}$] (4,0) -- (3,0);
+    \draw (3,-1) node[ground]{};
+    \draw (3.5,0) node[above] {$v_g$};
+    \draw (3.5,-1) node[below] {$v_s$};
 
-A impedância de saída ($R_{out} = v_0/i_0$) do espelho de corrente Wilson pode ser derivada usando um modelo de pequenos sinais. A expressão completa é complexa, mas uma excelente aproximação é:
-$$ R_{out} \approx g_{m3}r_{o3}r_{o1} $$
-Onde $g_{m3}$ é a transcondutância do transistor de saída M3, $r_{o3}$ é sua resistência de saída, e $r_{o1}$ é a resistência de saída de M1.
+    \draw (3,1) to[I,l_=$g_{m3}v_{gs}$] (3,0);
+    \draw (4,0) to[R=$r_{o3}$] (4,1) -- (3,1);
+    \draw (3.5,1) node[above] {$out$};
 
-A fórmula apresentada no enunciado utiliza a condutância de saída ($g_o = 1/r_o$). Vamos reescrevê-la para verificar a equivalência:
-$$ \frac{v_{0}}{i_{0}} \approx \frac{g_{m1}}{g_{o1}} \frac{g_{m3}}{g_{m2}} \frac{1}{g_{o3}} $$
-Substituindo $g_o$ por $1/r_o$:
-$$ R_{out} \approx g_{m1} r_{o1} \cdot \frac{g_{m3}}{g_{m2}} \cdot r_{o3} $$
-No caso em que os transistores M1 e M2 são idênticos ($M_1 = M_2$) e operam com correntes de dreno muito próximas, suas transcondutâncias são aproximadamente iguais, ou seja, $g_{m1} \approx g_{m2}$. Com isso, o termo $\frac{g_{m3}}{g_{m2}}$ pode ser simplificado. Se $g_{m1} \approx g_{m2}$, a expressão se torna:
-$$ R_{out} \approx g_{m3} r_{o1} r_{o3} $$
-Isso confirma que a primeira parte da fórmula do enunciado está alinhada com a derivação padrão da impedância de saída do espelho de Wilson.
+    \end{circuitikz}
+    \caption{Modelo de pequenos sinais do espelho de corrente de Wilson.}
+    \label{fig:espelho_wilson_pequenos_sinais}
+\end{figure}
 
-A segunda parte da aproximação é:
-$$ \approx \frac{g_{m1}}{g_{o1}} \frac{1}{g_{o3}} $$
-Isso é obtido da primeira aproximação sob a condição de que $g_{m3} \approx g_{m2}$. Se M1, M2 e M3 forem idênticos e operarem com a mesma corrente, então $g_{m1} \approx g_{m2} \approx g_{m3}$, e a simplificação é direta.
+Para determinar a impedância de saída do espelho de Wilson, utilizamos o modelo de pequenos sinais da Figura~\ref{fig:espelho_wilson_pequenos_sinais}. Supondo uma tensão $v_o$ e uma corrente $i_o$ na saída (nó "out"), tem-se:
+
+\begin{equation}
+Z_o = \frac{v_o}{i_o}
+\end{equation}
+
+Analisando o modelo de três estágios do Wilson:
+
+\textbf{Estágio 1 (M1):} Configuração diodo com $r_{o1}$ em paralelo com $g_{m1}v_{gs1}$. Aplicando LKC:
+\begin{equation}
+g_{m1}v_{gs1} + \frac{v_{gs1}}{r_{o1}} = 0 \quad \Rightarrow \quad v_{gs1} = 0
+\end{equation}
+
+\textbf{Estágio 2 (M2):} O nó $v_g$ conecta M2 ao gate de M3. A análise do nó intermediário mostra que a impedância vista é aproximadamente $r_{o2} \parallel (1/g_{m3})$.
+
+\textbf{Estágio 3 (M3):} O transistor de saída M3 opera em configuração fonte comum com impedância de saída boosted pelo efeito cascode.
+
+A análise completa resulta em:
+\begin{equation}
+Z_o \approx g_{m3} r_{o3} r_{o1} = \frac{g_{m1}}{g_{o1}} \frac{g_{m3}}{g_{m2}} \frac{1}{g_{o3}}
+\end{equation}
+
+Para M1 = M2 (transistores idênticos), $g_{m1} = g_{m2}$, simplificando para:
+\begin{equation}
+Z_o \approx \frac{g_{m1}}{g_{o1}} \frac{1}{g_{o3}} = g_{m1} r_{o1} r_{o3}
+\end{equation}
 
 Portanto, a impedância de saída do espelho de Wilson é:
-$$ \boxed{R_{out} \approx \frac{g_{m1}}{g_{o1}} \frac{g_{m3}}{g_{m2}} \frac{1}{g_{o3}}} $$
-Que, para M1=M2, simplifica para:
-$$ \boxed{R_{out} \approx g_{m3}r_{o1}r_{o3}} $$
-
-Como M1 = M2, temos $g_{m1} = g_{m2}$ e $r_{o1} = r_{o2}$. Para $g_{m3} r_{o3} >> 1$:
-$$r_{out} \approx g_{m3} r_{o3} (r_{o2} \parallel r_{o1}) = g_{m3} r_{o3} \frac{r_{o1}}{2}$$
-
-Se $g_{m3} \approx g_{m1}$:
-$$\boxed{r_{out} \approx g_{m1} r_{o1} r_{o3}}$$
+$$\boxed{Z_o \approx g_{m1} r_{o1} r_{o3} \approx \frac{g_{m1}}{g_{o1}} \frac{1}{g_{o3}}}$$
 
 \textbf{3.5) Compare a impedância de saída das duas configurações. Qual é maior?}
 
@@ -429,11 +508,16 @@ O Wilson é superior por um fator aproximadamente igual ao produto $g_m r_o$.
 
 \textbf{3.6) Qual a desvantagem do espelho de Wilson?}
 
+As principais desvantagens do espelho de Wilson são:
+
 \begin{itemize}
-    \item Maior tensão mínima de operação (headroom)
-    \item Maior complexidade de projeto
-    \item Erro sistemático devido à diferença de $V_{GS}$ entre M1 e M3
-    \item Maior consumo de potência
+    \item \textbf{Erro sistemático de corrente:} Devido à diferença da tensão $V_{GS}$ dos transistores M1 e M3. Como M1 opera em configuração diodo e M3 como amplificador, suas tensões gate-source são diferentes, causando descasamento intrínseco na corrente espelhada.
+    
+    \item \textbf{Maior tensão de alimentação necessária:} Como o espelho de Wilson possui transistores em série, é necessário uma tensão de $V_{DD}$ maior para que ele opere de forma correta. A necessidade de maior headroom é causada pela maior quantidade de transistores empilhados.
+    
+    \item \textbf{Maior consumo de potência:} A maior tensão de alimentação requerida e a presença de transistores adicionais resultam em maior potência consumida pelo circuito.
+    
+    \item \textbf{Maior complexidade de projeto:} Requer análise mais cuidadosa dos pontos de operação e das tensões mínimas para garantir saturação de todos os transistores.
 \end{itemize}
 
 \subsection*{Questão 4}
