@@ -3,7 +3,7 @@
 % Pacotes essenciais
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[portuguese]{babel}
+\usepackage[brazilian]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb} % para \checkmark
 % Suporte para símbolos Unicode como Ω
@@ -20,6 +20,7 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{geometry}
 \usepackage{float}
 \usepackage{hyperref}
 % Evita warnings de PDF strings (substitui \\ por vírgula nos metadados)
@@ -33,8 +34,138 @@
 \usepackage{microtype}
 \usepackage{fvextra}
 
+% -------- Opcional: engine Minted para melhor quebra de linhas em códigos --------
+% Requer compilar com: -shell-escape (pdflatex/xelatex/lualatex)
+% Se o ambiente não tiver Pygments, mantenha os listings padrão abaixo.
+\usepackage[newfloat]{minted} % melhor quebra, destaque por Pygments
+\setminted{breaklines=true, tabsize=2, autogobble=true, obeytabs=true}
+\setmintedinline{breaklines=true}
+
+\lstset{
+  inputencoding=utf8,
+  showstringspaces=false,
+  keepspaces=true,
+  columns=fullflexible,
+}
+
+% Cores e caixas para blocos de código
+\usepackage[dvipsnames,table,xcdraw]{xcolor}
+\usepackage[many]{tcolorbox}
+\tcbuselibrary{listings, listingsutf8, skins, minted}
+
+
 % Circuit diagrams (ensure package is loaded in the preamble)
 \usepackage[american]{circuitikz}
+
+% Paleta estilo VS Code Dark+
+\definecolor{navyBG}{HTML}{0A1E2E}
+\definecolor{vscBlue}{HTML}{569CD6}
+\definecolor{vscGreen}{HTML}{6A9955}
+\definecolor{vscYellow}{HTML}{DCDCAA}
+\definecolor{vscGray}{HTML}{CCCCCC}
+\definecolor{vscText}{HTML}{FFFFFF}
+
+% Paleta P&B para impressão
+\definecolor{codeBack}{gray}{0.95}
+\definecolor{codeFrame}{gray}{0.80}
+\definecolor{codeNum}{gray}{0.40}
+\definecolor{codeComment}{gray}{0.35}
+\definecolor{codeString}{gray}{0.10}
+
+% Estilo reutilizável para listings em P&B (facilita ajustes globais)
+\lstdefinestyle{codebw}{%
+  basicstyle=\ttfamily\scriptsize,
+  numbers=left,
+  numberstyle=\tiny\color{codeNum},
+  numbersep=6pt,
+  showstringspaces=false,
+  keepspaces=true,
+  columns=fullflexible,
+  breaklines=true,
+  breakatwhitespace=false,
+  breakautoindent=false,
+  breakindent=0pt,
+  tabsize=2,
+  xleftmargin=1.5em,
+  prebreak=\mbox{\tiny$\hookleftarrow$},
+  postbreak=\mbox{\tiny$\ldots$},
+  commentstyle=\itshape\color{codeComment},
+  stringstyle=\color{codeString},
+  backgroundcolor=\color{codeBack}
+}
+
+% Define o ambiente codeblock para usar o estilo e melhorar quebras
+\newtcblisting{codeblock}[1][]{%
+  listing only,
+  breakable=true, % <--- Garantido que está como true
+  enhanced jigsaw, % motor de quebra profissional
+  pad at break*=1mm, % pequeno respiro entre segmentos
+  segmentation style={draw=none}, % oculta a linha tracejada
+  width=\linewidth,
+  enlarge left by=-1.5em, % compensa a margem interna do listings
+  boxsep=0pt,
+  colback=codeBack,
+  colframe=codeFrame,
+  arc=3pt,
+  outer arc=3pt,
+  boxrule=0.4pt,
+  top=5pt,
+  bottom=5pt,
+left=6pt,
+right=6pt,
+  listing engine=listings,
+  listing options={style=codebw},
+  #1
+}
+
+% Ambiente alternativo com Minted (usa Pygments). Chame como: \begin{codeblockm}{python} ... \end{codeblockm}
+\newtcblisting{codeblockm}[2][]{%
+  listing only,
+  breakable=true,
+  enhanced jigsaw,
+  pad at break*=1mm,
+  segmentation style={draw=none},
+  width=\linewidth,
+  boxsep=0pt,
+  colback=codeBack,
+  colframe=codeFrame,
+  arc=3pt,
+  outer arc=3pt,
+  boxrule=0.4pt,
+  top=5pt,
+  bottom=5pt,
+  left=6pt,
+  right=6pt,
+  listing engine=minted,
+  minted language=#2,
+  minted options={fontsize=\scriptsize,linenos,numbersep=6pt,breaklines,tabsize=2,autogobble=true},
+  title={#1}
+}
+
+% Uso:
+% 1) Para máxima robustez de quebra, prefira o ambiente abaixo com Minted:
+%    \begin{codeblockm}{text} ... \end{codeblockm}
+%    \begin{codeblockm}[Código ELDO]{text} ... \end{codeblockm}
+% 2) Compile com: pdflatex -shell-escape main.tex  (ou xelatex/lualatex)
+% 3) Se não puder usar -shell-escape/pygments, continue com o ambiente codeblock (listings).
+
+\usepackage{geometry}
+
+% Configuração da fonte Times New Roman
+\usepackage{mathptmx}
+
+% Mapeamento de alguns caracteres Unicode comuns
+\DeclareUnicodeCharacter{00BA}{\textordmasculine}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{00A0}{\space}
+
+% Margens
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=20mm,
+}
 
 % Minted para destaque de código (requer -shell-escape ao compilar)
 \usepackage[newfloat]{minted}
@@ -44,17 +175,12 @@
 \newcommand{\imprimirMateria}{Projeto de Circuitos Integrados Analógicos}
 \newcommand{\imprimirCodMateria}{SEL0621}
 \newcommand{\imprimirTitulo}{Projeto 2}
-\newcommand{\imprimirSubtitulo}{Engenharia de Computação}
+\newcommand{\imprimirSubtitulo}{Engenharia da Computação}
 \newcommand{\imprimirAutores}{Mateus Santos Messias - N°USP: 12548000 \\ Pedro Borges Gudin - N°USP: 12547997}
 \newcommand{\imprimirAno}{2025}
 \newcommand{\imprimirSemestre}{1}
 \newcommand{\imprimirDocente}{}
 
-% Metadados do PDF a partir das macros da capa
-\hypersetup{
-    pdftitle={\imprimirTitulo},
-    pdfauthor={\imprimirAutores}
-}
 
 \begin{document}
 \hypersetup{pageanchor=false}
@@ -62,15 +188,32 @@
     \begin{center}
         \vspace*{0.5cm}
         \includegraphics[width=0.4\textwidth]{images/Logo EESC-USP - Vertical Monocromatico Azul (ECM).png}
+        -    
+        \Large
         \vfill
-        {\Huge \imprimirTitulo \par}
+        UNIVERSIDADE DE SÃO PAULO\\
+        ESCOLA DE ENGENHARIA DE SÃO CARLOS\\
         \vspace{0.5cm}
         {\Large \imprimirSubtitulo \par}
         \vspace{1cm}
+        
+        {\Huge \imprimirTitulo \par}
+        \vspace{1cm}
+        \LARGE
+        \textbf{
+            \imprimirMateria{}\\
+            \imprimirCodMateria{} - \imprimirAno.1
+        }
+        
+        \vspace{3.5cm}
+        
         {\large \imprimirAutores \par}
-        \vfill
+         \vfill
+        
+        \vspace{2cm}
+        
         {\large \imprimirAno \par}
-    \end{center}
+     \end{center}
 \end{titlepage}
 \newpage
 
@@ -619,7 +762,7 @@ Como M1 está como diodo ($V_{G1}=V_{D1}$) e sua fonte está no terra, temos $V_
 
 O arquivo de entrada para simulação da fonte de corrente é apresentado abaixo, tomando cuidado em manter os transistores casados.
 
-\begin{lstlisting}[caption={Arquivo de simulação da fonte de corrente}]
+\begin{codeblock}[title={Arquivo de simulação da fonte de corrente}]
 * Fonte de Corrente de Referencia
 .include '/local/tools/dkit/ams_3.70/c35/eldo/models.lib'
 
@@ -646,7 +789,7 @@ CL IOUT 0 1p
 .meas DC I_M5_3V find Id(X1.M5) when VDD=3
 .meas DC RATIO_M4_M3_3V param='abs(I_M4_3V)/abs(I_M3_3V)'
 .end
-\end{lstlisting}
+\end{codeblock}
 
 Ao aumentar o $V_{DD}$, as correntes, em módulo, aumentam devido ao efeito de modulação de canal.
 
