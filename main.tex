@@ -110,7 +110,7 @@ Inversão Moderada & $0,1 < LIM < 10$ \\
 \end{tabular}
 \end{table}
 
-Nesta tabela temos que:
+Desta tabela temos que:
 \begin{equation}
 LIM = \frac{I_D}{I_{Dlim}}
 \end{equation}
@@ -137,24 +137,6 @@ onde $V_G$, $V_S$ e $V_D$ são, respectivamente, as tensão de gate, source e dr
 
 \begin{equation}
 I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} e^{-V_S/U_T}
-\end{equation}
-
-$I_D$ será, portanto, uma função exponencial de aproximadamente $V_{GS}$ (semelhante ao que ocorre em um transistor bipolar).
-
-\begin{equation}
-I_D = \frac{W}{L} I_{D0} e^{V_{GS}/U_T}
-\end{equation}
-
-\newpage
-
-\begin{equation}
-I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} \left( e^{-V_S/U_T} - e^{-V_D/U_T} \right)
-\end{equation}
-
-onde $V_G$, $V_S$ e $V_D$ são, respectivamente, as tensão de gate, source e dreno relativas ao bulk; $I_{D0}$ é uma constante da tecnologia com dimensão de corrente. Em operação normal, $V_D >> U_T$ e $ n = 1$, neste caso, ficamos reduzidos a seguinte relação:
-
-\begin{equation}
-I_D = \frac{W}{L} I_{D0} e^{V_G/U_T} e^{-V_S/U_T}
 \end{equation}
 
 $I_D$ será, portanto, uma função exponencial de aproximadamente $V_{GS}$ (semelhante ao que ocorre em um transistor bipolar).
@@ -483,7 +465,7 @@ Começamos da expressão deduzida na Questão 4:
     I_S = \frac{X\,U_T}{R}\,\ln(MN)
 \end{equation}
 Isolando $R$ e substituindo $M=2$, $N=1$, $X=1$, $U_T\approx 26\,\text{mV}$ e $I_S=25\,\mu\text{A}$:
-\begin{align}
+\begin{align} %dar um jeito de nao enumerar todas equacoes do align
     R 
     &= \frac{X\,U_T\,\ln(MN)}{I_S}
      = \frac{1\cdot 26\times 10^{-3}\,\ln(2\cdot 1)}{25\times 10^{-6}} \\[4pt]
