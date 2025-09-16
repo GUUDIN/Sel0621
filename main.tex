@@ -11,26 +11,8 @@
 % Define o símbolo de grau
 \newcommand{\degree}{\ensuremath{{}^\circ}}
 % Carrega as imagens reais da pasta images/
-\usepackage{Em fraca inversão, $I_D \propto \tfrac{W}{L}\,e^{\tfrac{V_{GS}}{nU_T}}$. Assim, a razão de correntes entre M2 e M1 pode     	\textbf{Verificação de saturação de M5:} adotando as larguras práticas escolhidas em Questão 6 (por exemplo $(W/L)_5=5$ com $L_5=2\,\mu$m, i.e. $W_5=10\,\mu$m), verificamos se M5 está em saturação. A partir da equação da inversão forte:
-\begin{equation*}
-I_D = \tfrac{1}{2}\,\mu_p C_{ox p}\left(\frac{W}{L}\right)V_{ov}^2 \;\Longrightarrow\; V_{ov} = \sqrt{\frac{2I_D}{\mu_p C_{ox p}(W/L)}}.
-\end{equation*}
-Substituindo $I_D=25\,\mu$A, $\mu_p C_{ox p}=66{,}6\times10^{-6}\,$A/V$^2$ e $(W/L)_5=5$ obtém-se
-\begin{equation*}
-V_{ov}\approx\sqrt{\frac{50\times10^{-6}}{66{,}6\times10^{-6}\cdot 5}}\approx 0{,}39\text{ V}.
-\end{equation*}ita como
-\begin{equation*}
-\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1}\,e^{\tfrac{V_{GS2}-V_{GS1}}{nU_T}} = N\,e^{\tfrac{V_{GS2}-V_{GS1}}{nU_T}}
-\end{equation*}
-Como o espelho PMOS força o ramo superior a conduzir $M$ vezes a corrente do ramo de referência, o equilíbrio do circuito implica uma razão de correntes efetiva $\tfrac{I_{D2}}{I_{D1}}=M\,N$. Portanto,
-\begin{equation*}
-V_{GS2}-V_{GS1} = nU_T\,\ln(MN), \quad V_R = nU_T\,\ln(MN), \quad I_R = \frac{nU_T}{R}\,\ln(MN)
-\end{equation*}
-
-Como $I_{D3} = I_R$ e $I_S = I_{D5}$:
-\begin{equation*}
-I_S = X \cdot I_R = \frac{XnU_T \,\ln(MN)}{R}
-\end{equation*}diciona caminho padrão para figuras
+\usepackage{graphicx}
+% Adiciona caminho padrão para figuras
 \graphicspath{{images/}}
 
 % Pacotes adicionais necessários (restaurados)
@@ -92,7 +74,53 @@ I_S = X \cdot I_R = \frac{XnU_T \,\ln(MN)}{R}
 \end{titlepage}
 \newpage
 
-% (Duplicated Questão 5 content removed; main copy retained later in document.)
+\hypersetup{pageanchor=true}
+\tableofcontents
+\newpage
+
+\section*{Introdução}
+\addcontentsline{toc}{section}{Introdução}
+
+Neste laboratório foram projetados uma fonte de referência de corrente e, com ela, uma fonte de referência de tensão tipo bandgap. Para isto foram estudados os modos de operação de fraca inversão em transistores MOS e os conceitos de casamento de componentes. Na fonte de tensão final foram adicionados pads de alimentação para implementação em circuito integrado.
+
+Um transistor MOS pode operar, de acordo com a concentração de portadores no canal, em três regiões distintas:
+
+\begin{enumerate}
+    \item \textbf{Inversão Forte (Strong Inversion):} a tensão $V_{GS}$ (porta-fonte) é suficiente para formar um canal com concentração de portadores igual ou superior à concentração de portadores intrínseca do substrato. Observemos que o tipo de portador no canal é diferente do portador intrínseco do substrato. É esta a região de operação estudada normalmente.
+
+    \item \textbf{Inversão Fraca (Weak Inversion):} a tensão $V_{GS}$ (porta-fonte) está próxima à tensão de threshold do transistor, formando um canal com concentração de portadores inferior à concentração intrínseca de portadores do substrato. Utilizada para circuitos de baixíssimo consumo de potência.
+
+    \item \textbf{Inversão Moderada (Moderate Inversion):} é uma região de transição, não muito bem definida, entre as regiões de inversão forte e inversão fraca. Equações que descrevem o transistor nesta faixa não são muito precisas.
+\end{enumerate}
+
+Normalmente se verifica a região de operação do transistor analisando a corrente que passa no dreno. Um critério para determinar em qual região o transistor opera é apresentado na Tabela \ref{tab:operacao}.
+
+\begin{table}[H]
+\centering
+\caption{Critério para determinar a região de operação do transistor.}
+\label{tab:operacao}
+\begin{tabular}{cc}
+\toprule
+\textbf{Região de Operação} & \textbf{Condição} \\
+\midrule
+Inversão Forte & $LIM > 10$ \\
+Inversão Fraca & $LIM < 0,1$ \\
+Inversão Moderada & $0,1 < LIM < 10$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Nesta tabela temos que:
+\begin{equation}
+LIM = \frac{I_D}{I_{Dlim}}
+\end{equation}
+
+e
+
+\begin{equation}
+I_{Dlim} = \frac{\mu C_{ox} W}{L} 2 \left(nU_T\right)^2
+\end{equation}
+
 onde $I_D$ é a corrente de dreno; $\mu$ é a mobilidade dos portadores do canal; $C_{ox}$ é a capacitância por área da porta; $W$ e $L$ são as dimensões do transistor; $n$ = fator de inclinação de inversão fraca (seu valor depende da tecnologia mas varia entre 1,2 e 1,6); e
 
 \begin{equation}
@@ -100,6 +128,24 @@ U_T = \frac{KT}{q} \approx 26 \text{ mV}
 \end{equation}
 
 Para a inversão fraca, a equação que descreve a operação do transistor MOS é:
+
+\begin{equation}
+I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} \left( e^{-V_S/U_T} - e^{-V_D/U_T} \right)
+\end{equation}
+
+onde $V_G$, $V_S$ e $V_D$ são, respectivamente, as tensão de gate, source e dreno relativas ao bulk; $I_{D0}$ é uma constante da tecnologia com dimensão de corrente. Em operação normal, $V_D >> U_T$ e $n = 1$, neste caso, ficamos reduzidos a seguinte relação:
+
+\begin{equation}
+I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} e^{-V_S/U_T}
+\end{equation}
+
+$I_D$ será, portanto, uma função exponencial de aproximadamente $V_{GS}$ (semelhante ao que ocorre em um transistor bipolar).
+
+\begin{equation}
+I_D = \frac{W}{L} I_{D0} e^{V_{GS}/U_T}
+\end{equation}
+
+\newpage
 
 \begin{equation}
 I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} \left( e^{-V_S/U_T} - e^{-V_D/U_T} \right)
