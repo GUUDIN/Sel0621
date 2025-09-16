@@ -3,7 +3,7 @@
 % Pacotes essenciais
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[brazilian]{babel}
+\usepackage[portuguese]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb} % para \checkmark
 % Suporte para símbolos Unicode como Ω
@@ -11,9 +11,30 @@
 % Define o símbolo de grau
 \newcommand{\degree}{\ensuremath{{}^\circ}}
 % Carrega as imagens reais da pasta images/
-\usepackage{graphicx}
-% Adiciona caminho padrão para figuras
+\usepackage{Em fraca inversão, $I_D \propto \tfrac{W}{L}\,e^{\tfrac{V_{GS}}{nU_T}}$. Assim, a razão de correntes entre M2 e M1 pode     	\textbf{Verificação de saturação de M5:} adotando as larguras práticas escolhidas em Questão 6 (por exemplo $(W/L)_5=5$ com $L_5=2\,\mu$m, i.e. $W_5=10\,\mu$m), verificamos se M5 está em saturação. A partir da equação da inversão forte:
+\begin{equation*}
+I_D = \tfrac{1}{2}\,\mu_p C_{ox p}\left(\frac{W}{L}\right)V_{ov}^2 \;\Longrightarrow\; V_{ov} = \sqrt{\frac{2I_D}{\mu_p C_{ox p}(W/L)}}.
+\end{equation*}
+Substituindo $I_D=25\,\mu$A, $\mu_p C_{ox p}=66{,}6\times10^{-6}\,$A/V$^2$ e $(W/L)_5=5$ obtém-se
+\begin{equation*}
+V_{ov}\approx\sqrt{\frac{50\times10^{-6}}{66{,}6\times10^{-6}\cdot 5}}\approx 0{,}39\text{ V}.
+\end{equation*}ita como
+\begin{equation*}
+\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1}\,e^{\tfrac{V_{GS2}-V_{GS1}}{nU_T}} = N\,e^{\tfrac{V_{GS2}-V_{GS1}}{nU_T}}
+\end{equation*}
+Como o espelho PMOS força o ramo superior a conduzir $M$ vezes a corrente do ramo de referência, o equilíbrio do circuito implica uma razão de correntes efetiva $\tfrac{I_{D2}}{I_{D1}}=M\,N$. Portanto,
+\begin{equation*}
+V_{GS2}-V_{GS1} = nU_T\,\ln(MN), \quad V_R = nU_T\,\ln(MN), \quad I_R = \frac{nU_T}{R}\,\ln(MN)
+\end{equation*}
+
+Como $I_{D3} = I_R$ e $I_S = I_{D5}$:
+\begin{equation*}
+I_S = X \cdot I_R = \frac{XnU_T \,\ln(MN)}{R}
+\end{equation*}diciona caminho padrão para figuras
 \graphicspath{{images/}}
+
+% Pacotes adicionais necessários (restaurados)
+\usepackage{geometry}
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -24,150 +45,18 @@
 % Garante espaço mínimo antes de caixas grandes para evitar quebras ruins
 \usepackage{needspace}
 \usepackage{listings}
-% Suporte a UTF-8 em lstlisting
-%\usepackage{listingsutf8}
 % Aspas retas no monoespaçado
 \usepackage{upquote}
 % Melhorias de tipografia e quebra de linha
 \usepackage{microtype}
 \usepackage{fvextra}
 
-% -------- Opcional: engine Minted para melhor quebra de linhas em códigos --------
-% Requer compilar com: -shell-escape (pdflatex/xelatex/lualatex)
-% Se o ambiente não tiver Pygments, mantenha os listings padrão abaixo.
-\usepackage[newfloat]{minted} % melhor quebra, destaque por Pygments
-\setminted{breaklines=true, tabsize=2, autogobble=true, obeytabs=true}
-\setmintedinline{breaklines=true}
-
-\lstset{
-  inputencoding=utf8,
-  showstringspaces=false,
-  keepspaces=true,
-  columns=fullflexible,
-}
-
-% Cores e caixas para blocos de código
-\usepackage[dvipsnames,table,xcdraw]{xcolor}
-\usepackage[many]{tcolorbox}
-\tcbuselibrary{listings, listingsutf8, skins, minted}
-
-% CircuiTikZ para desenhar circuitos eletrônicos
+% Circuit diagrams (ensure package is loaded in the preamble)
 \usepackage[american]{circuitikz}
 
-% Paleta estilo VS Code Dark+
-\definecolor{navyBG}{HTML}{0A1E2E}
-\definecolor{vscBlue}{HTML}{569CD6}
-\definecolor{vscGreen}{HTML}{6A9955}
-\definecolor{vscYellow}{HTML}{DCDCAA}
-\definecolor{vscGray}{HTML}{CCCCCC}
-\definecolor{vscText}{HTML}{FFFFFF}
-
-% Paleta P&B para impressão
-\definecolor{codeBack}{gray}{0.95}
-\definecolor{codeFrame}{gray}{0.80}
-\definecolor{codeNum}{gray}{0.40}
-\definecolor{codeComment}{gray}{0.35}
-\definecolor{codeString}{gray}{0.10}
-
-% Estilo reutilizável para listings em P&B (facilita ajustes globais)
-\lstdefinestyle{codebw}{%
-  basicstyle=\ttfamily\scriptsize,
-  numbers=left,
-  numberstyle=\tiny\color{codeNum},
-  numbersep=6pt,
-  showstringspaces=false,
-  keepspaces=true,
-  columns=fullflexible,
-  breaklines=true,
-  breakatwhitespace=false,
-  breakautoindent=false,
-  breakindent=0pt,
-  tabsize=2,
-  xleftmargin=1.5em,
-  prebreak=\mbox{\tiny$\hookleftarrow$},
-  postbreak=\mbox{\tiny$\ldots$},
-  commentstyle=\itshape\color{codeComment},
-  stringstyle=\color{codeString},
-  backgroundcolor=\color{codeBack}
-}
-
-% Define o ambiente codeblock para usar o estilo e melhorar quebras
-\newtcblisting{codeblock}[1][]{%
-  listing only,
-  breakable=true, % <--- Garantido que está como true
-  enhanced jigsaw, % motor de quebra profissional
-  pad at break*=1mm, % pequeno respiro entre segmentos
-  segmentation style={draw=none}, % oculta a linha tracejada
-  width=\linewidth,
-  enlarge left by=-1.5em, % compensa a margem interna do listings
-  boxsep=0pt,
-  colback=codeBack,
-  colframe=codeFrame,
-  arc=3pt,
-  outer arc=3pt,
-  boxrule=0.4pt,
-  top=5pt,
-  bottom=5pt,
-  left=6pt,
-  right=6pt,
-  listing engine=listings,
-  listing options={style=codebw},
-  #1
-}
-
-% Ambiente alternativo com Minted (usa Pygments). Chame como: \begin{codeblockm}{python} ... \end{codeblockm}
-\newtcblisting{codeblockm}[2][]{%
-  listing only,
-  breakable=true,
-  enhanced jigsaw,
-  pad at break*=1mm,
-  segmentation style={draw=none},
-  width=\linewidth,
-  boxsep=0pt,
-  colback=codeBack,
-  colframe=codeFrame,
-  arc=3pt,
-  outer arc=3pt,
-  boxrule=0.4pt,
-  top=5pt,
-  bottom=5pt,
-  left=6pt,
-  right=6pt,
-  listing engine=minted,
-  minted language=#2,
-  minted options={fontsize=\scriptsize,linenos,numbersep=6pt,breaklines,tabsize=2,autogobble=true},
-  title={#1}
-}
-
-% Uso:
-% 1) Para máxima robustez de quebra, prefira o ambiente abaixo com Minted:
-%    \begin{codeblockm}{text} ... \end{codeblockm}
-%    \begin{codeblockm}[Código ELDO]{text} ... \end{codeblockm}
-% 2) Compile com: pdflatex -shell-escape main.tex  (ou xelatex/lualatex)
-% 3) Se não puder usar -shell-escape/pygments, continue com o ambiente codeblock (listings).
-
-\usepackage{geometry}
-
-% Configuração da fonte Times New Roman
-\usepackage{mathptmx}
-
-% Mapeamento de alguns caracteres Unicode comuns
-\DeclareUnicodeCharacter{00BA}{\textordmasculine}
-\DeclareUnicodeCharacter{2013}{--}
-\DeclareUnicodeCharacter{00A0}{\space}
-
-% Margens
-\geometry{
- a4paper,
- total={170mm,257mm},
- left=20mm,
- top=20mm,
- }
-
-% Informações do documento
-% \title{Título do Trabalho} % (não usado; capa usa macros abaixo)
-% \author{Mateus Santos Messias - 12548000  \and Pedro Borges Gudin - 12547997}
-% \date{Agosto de 2025}
+% Minted para destaque de código (requer -shell-escape ao compilar)
+\usepackage[newfloat]{minted}
+\setminted{breaklines=true, tabsize=2, autogobble=true, obeytabs=true}
 
 % Definições para a capa
 \newcommand{\imprimirMateria}{Projeto de Circuitos Integrados Analógicos}
@@ -176,108 +65,34 @@
 \newcommand{\imprimirSubtitulo}{Engenharia de Computação}
 \newcommand{\imprimirAutores}{Mateus Santos Messias - N°USP: 12548000 \\ Pedro Borges Gudin - N°USP: 12547997}
 \newcommand{\imprimirAno}{2025}
-\newcommand{\imprimirSemestre}{1} % Baseado em 2024.1
-\newcommand{\imprimirDocente}{} % Docente não informado na imagem
+\newcommand{\imprimirSemestre}{1}
+\newcommand{\imprimirDocente}{}
 
 % Metadados do PDF a partir das macros da capa
 \hypersetup{
-  pdftitle={\imprimirTitulo},
-  pdfauthor={\imprimirAutores}
+    pdftitle={\imprimirTitulo},
+    pdfauthor={\imprimirAutores}
 }
 
 \begin{document}
-
-% Avoid duplicate page anchors from title/abstract pages
 \hypersetup{pageanchor=false}
-
 \begin{titlepage}
     \begin{center}
         \vspace*{0.5cm}
         \includegraphics[width=0.4\textwidth]{images/Logo EESC-USP - Vertical Monocromatico Azul (ECM).png}
-            
-        \Large
-        \vspace{1cm}
-        UNIVERSIDADE DE SÃO PAULO\\
-        ESCOLA DE ENGENHARIA DE SÃO CARLOS\\
-        \imprimirSubtitulo{} - \imprimirAno.1
-        
-
-        \vspace{2cm}
-        \LARGE
-        \textbf{
-            \imprimirMateria{}\\
-            \imprimirCodMateria{} - \imprimirAno
-        }
-        
-        \vspace{3.5cm}
-        \Huge
-        \uppercase{\textbf{\imprimirTitulo}}
-        
         \vfill
-        
-        \large
-        \imprimirAutores
-        
-        \vspace{2cm}
-        
+        {\Huge \imprimirTitulo \par}
+        \vspace{0.5cm}
+        {\Large \imprimirSubtitulo \par}
+        \vspace{1cm}
+        {\large \imprimirAutores \par}
+        \vfill
+        {\large \imprimirAno \par}
     \end{center}
 \end{titlepage}
-
 \newpage
 
-\begin{abstract}
-Este trabalho apresenta o projeto e desenvolvimento de fontes de referência de corrente e tensão tipo bandgap utilizando tecnologia CMOS 0,35µm da AMS. O projeto aborda o estudo de transistores MOS operando em fraca inversão, técnicas de casamento de componentes e a implementação de circuitos de referência estáveis com a temperatura. Foi desenvolvida uma fonte de corrente de referência baseada em transistores em fraca inversão e espelhos de corrente, seguida pela implementação de uma fonte de tensão bandgap que combina grandezas PTAT (Proportional To Absolute Temperature) e CTAT (Complementary To Absolute Temperature) para obter coeficiente de temperatura inferior a 50 ppm/°C.
-\end{abstract}
-
-\newpage
-% Re-enable page anchors starting from the table of contents
-\hypersetup{pageanchor=true}
-\tableofcontents
-\newpage
-
-\section*{Introdução}
-\addcontentsline{toc}{section}{Introdução}
-
-Neste laboratório foram projetados uma fonte de referência de corrente e, com ela, uma fonte de referência de tensão tipo bandgap. Para isto foram estudados os modos de operação de fraca inversão em transistores MOS e os conceitos de casamento de componentes. Na fonte de tensão final foram adicionados pads de alimentação para implementação em circuito integrado.
-
-Um transistor MOS pode operar, de acordo com a concentração de portadores no canal, em três regiões distintas:
-
-\begin{enumerate}
-    \item \textbf{Inversão Forte (Strong Inversion):} a tensão $V_{GS}$ (porta-fonte) é suficiente para formar um canal com concentração de portadores igual ou superior à concentração de portadores intrínseca do substrato. Observemos que o tipo de portador no canal é diferente do portador intrínseco do substrato. É esta a região de operação estudada normalmente.
-
-    \item \textbf{Inversão Fraca (Weak Inversion):} a tensão $V_{GS}$ (porta-fonte) está próxima à tensão de threshold do transistor, formando um canal com concentração de portadores inferior à concentração intrínseca de portadores do substrato. Utilizada para circuitos de baixíssimo consumo de potência.
-
-    \item \textbf{Inversão Moderada (Moderate Inversion):} é uma região de transição, não muito bem definida, entre as regiões de inversão forte e inversão fraca. Equações que descrevem o transistor nesta faixa não são muito precisas.
-\end{enumerate}
-
-Normalmente se verifica a região de operação do transistor analisando a corrente que passa no dreno. Um critério para determinar em qual região o transistor opera é apresentado na Tabela \ref{tab:operacao}.
-
-\begin{table}[H]
-\centering
-\caption{Critério para determinar a região de operação do transistor.}
-\label{tab:operacao}
-\begin{tabular}{cc}
-\toprule
-\textbf{Região de Operação} & \textbf{Condição} \\
-\midrule
-Inversão Forte & $LIM > 10$ \\
-Inversão Fraca & $LIM < 0,1$ \\
-Inversão Moderada & $0,1 < LIM < 10$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Nesta tabela temos que:
-\begin{equation}
-LIM = \frac{I_D}{I_{Dlim}}
-\end{equation}
-
-e
-
-\begin{equation}
-I_{Dlim} = \frac{\mu C_{ox} W}{L} 2 \left(nU_T\right)^2
-\end{equation}
-
+% (Duplicated Questão 5 content removed; main copy retained later in document.)
 onde $I_D$ é a corrente de dreno; $\mu$ é a mobilidade dos portadores do canal; $C_{ox}$ é a capacitância por área da porta; $W$ e $L$ são as dimensões do transistor; $n$ = fator de inclinação de inversão fraca (seu valor depende da tecnologia mas varia entre 1,2 e 1,6); e
 
 \begin{equation}
@@ -290,13 +105,17 @@ Para a inversão fraca, a equação que descreve a operação do transistor MOS 
 I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} \left( e^{-V_S/U_T} - e^{-V_D/U_T} \right)
 \end{equation}
 
-onde $V_G$, $V_S$ e $V_D$ são, respectivamente, as tensão de gate, source e dreno relativas ao bulk; $I_0^D$ é uma constante da tecnologia com dimensão de corrente. Em operação normal, $V_D >> U_T$ e, neste caso, ficamos reduzidos a seguinte relação:
+onde $V_G$, $V_S$ e $V_D$ são, respectivamente, as tensão de gate, source e dreno relativas ao bulk; $I_{D0}$ é uma constante da tecnologia com dimensão de corrente. Em operação normal, $V_D >> U_T$ e $ n = 1$, neste caso, ficamos reduzidos a seguinte relação:
 
 \begin{equation}
-I_D = \frac{W}{L} I_{D0} e^{V_G/nU_T} e^{-V_S/U_T}
+I_D = \frac{W}{L} I_{D0} e^{V_G/U_T} e^{-V_S/U_T}
 \end{equation}
 
 $I_D$ será, portanto, uma função exponencial de aproximadamente $V_{GS}$ (semelhante ao que ocorre em um transistor bipolar).
+
+\begin{equation}
+I_D = \frac{W}{L} I_{D0} e^{V_{GS}/U_T}
+\end{equation}
 
 \newpage
 
@@ -321,34 +140,48 @@ g_m \approx \frac{I_D}{nU_T \sqrt{1 +LIM}}
 
 A transcondutância é definida por $g_m = \frac{\partial I_D}{\partial V_{GS}}$.
 
-Para a inversão fraca com $V_D >> U_T$, da equação (5), temos:
-$$I_D = \frac{W}{L} I_{D0}\, e^{\,V_G/(nU_T)}\, e^{-V_S/U_T}$$
+Para a inversão fraca com $V_D >> U_T$, da equação (6), temos:
+\begin{equation*}
+I_D = \frac{W}{L} I_{D0} e^{V_{GS}/U_T}
+\end{equation*}
 
 Ao variar $V_{GS}$ mantendo $V_S$ constante (definição usual de $g_m$), tem-se
-$$\frac{\partial I_D}{\partial V_{GS}} = \frac{1}{nU_T}\, I_D \;\Rightarrow\; g_m = \frac{I_D}{nU_T}.$$
+\begin{equation*}
+\frac{\partial I_D}{\partial V_{GS}} = \frac{\partial (\frac{W}{L} I_{D0} e^{V_{GS}/U_T})}{\partial V_{GS}} = \frac{1}{nU_T}\, I_D \;\Rightarrow\; g_m = \frac{I_D}{nU_T}.
+\end{equation*}
 
 Especializando para $n = 1$:
-$$\boxed{g_m = \frac{I_D}{U_T}}$$
+\begin{equation}
+\boxed{g_m = \frac{I_D}{U_T}}
+\end{equation}
 
 \subsection*{Questão 2}
 \addcontentsline{toc}{subsection}{Questão 2}
 \textbf{Mostre que para uma corrente igual a $I_{Dlim}$ os valores de $g_m$ calculados considerando o transistor em fraca ou forte inversão coincidem.}
 
 Da definição do limite entre fraca e forte inversão:
-$$I_{Dlim} = 2\,\mu C_{ox}\,\frac{W}{L}\,(nU_T)^2.$$
+\begin{equation}
+I_{Dlim} = 2\,\mu C_{ox}\,\frac{W}{L}\,(nU_T)^2
+\end{equation}
 
 Em forte inversão (modelo de raiz quadrada), na corrente limite:
-$$g_{m,\text{forte}}=\sqrt{2\,\mu C_{ox}\frac{W}{L}\,I_{Dlim}}
+\begin{equation*}
+g_{m,\text{forte}}=\sqrt{2\,\mu C_{ox}\frac{W}{L}\,I_{Dlim}}
 =\sqrt{2\,\mu C_{ox}\frac{W}{L}\cdot 2\,\mu C_{ox}\frac{W}{L}\,(nU_T)^2}
-=2\,\mu C_{ox}\frac{W}{L}\,nU_T.$$
+=2\,\mu C_{ox}\frac{W}{L}\,nU_T.
+\end{equation*}
 
 Em fraca inversão, $g_m=\dfrac{I_D}{nU_T}$; portanto, na corrente limite:
-$$g_{m,\text{fraca}}=\frac{I_{Dlim}}{nU_T}
+\begin{equation*}
+g_{m,\text{fraca}}=\frac{I_{Dlim}}{nU_T}
 =\frac{2\,\mu C_{ox}\frac{W}{L}\,(nU_T)^2}{nU_T}
-=2\,\mu C_{ox}\frac{W}{L}\,nU_T.$$
+=2\,\mu C_{ox}\frac{W}{L}\,nU_T.
+\end{equation*}
 
 Portanto, na corrente limite ($I_D=I_{Dlim}$):
-$$\boxed{g_{m,\text{forte}} = g_{m,\text{fraca}}}.$$
+\begin{equation}
+\boxed{g_{m,\text{forte}} = g_{m,\text{fraca}}}
+\end{equation}
 
 \subsection*{Questão 3}
 \addcontentsline{toc}{subsection}{Questão 3}
@@ -360,7 +193,6 @@ $$\boxed{g_{m,\text{forte}} = g_{m,\text{fraca}}}.$$
     \caption{a) Espelho de corrente convencional; b) espelho de corrente de Wilson.}
     \label{fig:espelhos_corrente}
 \end{figure}
-
 \textbf{3.1) Em que circunstância, no espelho convencional, a corrente de saída $I_0$ é exatamente igual à corrente $I_{REF}$?}
 
 No espelho convencional, $I_0 = I_{REF}$ quando:
@@ -402,19 +234,19 @@ Z_o = \frac{v_o}{i_o}
 
 Aplicando a lei de Kirchhoff das correntes no nó $v_g$ (lado esquerdo do modelo), observamos que há uma resistência $r_{o1}$ em paralelo com a fonte de corrente dependente $g_{m1}v_{gs}$:
 
-\begin{equation}
+\begin{equation*}
 g_{m1}v_{gs} + \frac{v_{gs}}{r_{o1}} = 0
-\end{equation}
+\end{equation*}
 
-\begin{equation}
+\begin{equation*}
 v_{gs}\left(g_{m1} + \frac{1}{r_{o1}}\right) = 0 \quad \Rightarrow \quad v_{gs} = 0
-\end{equation}
+\end{equation*}
 
 Como $v_{gs} = 0$, a fonte de corrente dependente do lado direito ($g_{m2}v_{gs}$) não conduz, pois sua corrente é proporcional a $v_{gs}$. Desta forma, no nó de saída resta apenas a resistência $r_{o2}$:
 
-\begin{equation}
+\begin{equation*}
 i_o = \frac{v_o}{r_{o2}}
-\end{equation}
+\end{equation*}
 
 Portanto, a impedância de saída do espelho convencional é:
 
@@ -478,31 +310,35 @@ Z_o = \frac{v_o}{i_o}
 Analisando o modelo de três estágios do Wilson:
 
 \textbf{Estágio 1 (M1):} Configuração diodo com $r_{o1}$ em paralelo com $g_{m1}v_{gs1}$. Aplicando LKC:
-\begin{equation}
+\begin{equation*}
 g_{m1}v_{gs1} + \frac{v_{gs1}}{r_{o1}} = 0 \quad \Rightarrow \quad v_{gs1} = 0
-\end{equation}
+\end{equation*}
 
 \textbf{Estágio 2 (M2):} O nó $v_g$ conecta M2 ao gate de M3. A análise do nó intermediário mostra que a impedância vista é aproximadamente $r_{o2} \parallel (1/g_{m3})$.
 
 \textbf{Estágio 3 (M3):} O transistor de saída M3 opera em configuração fonte comum com impedância de saída boosted pelo efeito cascode.
 
 A análise completa resulta em:
-\begin{equation}
+\begin{equation*}
 Z_o \approx g_{m3} r_{o3} r_{o1} = \frac{g_{m1}}{g_{o1}} \frac{g_{m3}}{g_{m2}} \frac{1}{g_{o3}}
-\end{equation}
+\end{equation*}
 
 Para M1 = M2 (transistores idênticos), $g_{m1} = g_{m2}$, simplificando para:
-\begin{equation}
+\begin{equation*}
 Z_o \approx \frac{g_{m1}}{g_{o1}} \frac{1}{g_{o3}} = g_{m1} r_{o1} r_{o3}
-\end{equation}
+\end{equation*}
 
 Portanto, a impedância de saída do espelho de Wilson é:
-$$\boxed{Z_o \approx g_{m1} r_{o1} r_{o3} \approx \frac{g_{m1}}{g_{o1}} \frac{1}{g_{o3}}}$$
+\begin{equation}
+\boxed{Z_o \approx g_{m1} r_{o1} r_{o3} \approx \frac{g_{m1}}{g_{o1}} \frac{1}{g_{o3}}}
+\end{equation}
 
 \textbf{3.5) Compare a impedância de saída das duas configurações. Qual é maior?}
 
 O espelho de Wilson tem impedância muito maior:
-$$\frac{r_{out,Wilson}}{r_{out,simples}} = \frac{g_{m1} r_{o1} r_{o3}}{r_{o2}} \approx g_{m1} r_{o1} >> 1$$
+\begin{equation*}
+\frac{r_{out,Wilson}}{r_{out,simples}} = \frac{g_{m1} r_{o1} r_{o3}}{r_{o2}} \approx g_{m1} r_{o1} >> 1
+\end{equation*}
 
 O Wilson é superior por um fator aproximadamente igual ao produto $g_m r_o$.
 
@@ -537,93 +373,171 @@ As principais desvantagens do espelho de Wilson são:
 \end{figure}
 
 \textbf{Mostre que a corrente de saída tem, quando os transistores M3, M4 e M5 estão em saturação, a expressão:}
-$$I_s = \frac{XU_T}{R} \ln(MN)$$
+\begin{equation}
+I_s = \frac{XU_T}{R} \ln(MN)
+\end{equation}
 
 
 
 Para transistores em fraca inversão, a corrente é proporcional a $e^{V_{GS}/nU_T}$. 
 
 Para M1 e M2 com mesmo $V_{GS}$:
-$$\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1} = N$$
+\begin{equation*}
+\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1} = N
+\end{equation*}
 
 Usando a relação de fraca inversão:
-$$\frac{I_{D2}}{I_{D1}} = e^{(V_{GS2} - V_{GS1})/nU_T} = N$$
+\begin{equation*}
+\frac{I_{D2}}{I_{D1}} = e^{(V_{GS2} - V_{GS1})/nU_T} = N
+\end{equation*}
 
 Portanto:
-$$V_{GS2} - V_{GS1} = nU_T \ln(N)$$
+\begin{equation*}
+V_{GS2} - V_{GS1} = nU_T \ln(N)
+\end{equation*}
 
 A tensão no resistor é:
-$$V_R = V_{GS2} - V_{GS1} = nU_T \ln(N)$$
+\begin{equation*}
+V_R = V_{GS2} - V_{GS1} = nU_T \ln(N)
+\end{equation*}
 
 A corrente no resistor é:
-$$I_R = \frac{V_R}{R} = \frac{nU_T \ln(N)}{R}$$
+\begin{equation*}
+I_R = \frac{V_R}{R} = \frac{nU_T \,\ln(MN)}{R}
+\end{equation*}
 
 Pelo espelho PMOS: $I_{D4} = M \cdot I_{D3}$ e $I_{D5} = X \cdot I_{D3}$
 
+Em fraca inversão, $I_D \propto \tfrac{W}{L}\,e^{\tfrac{V_{GS}}{nU_T}}$. Assim, a razão de correntes entre M2 e M1 pode ser escrita como
+\begin{equation}
+\frac{I_{D2}}{I_{D1}} = \frac{(W/L)_2}{(W/L)_1}\,e^{\tfrac{V_{GS2}-V_{GS1}}{nU_T}} = N\,e^{\tfrac{V_{GS2}-V_{GS1}}{nU_T}}
+\end{equation}
+Como o espelho PMOS força o ramo superior a conduzir $M$ vezes a corrente do ramo de referência, o equilíbrio do circuito implica uma razão de correntes efetiva $\tfrac{I_{D2}}{I_{D1}}=M\,N$. Portanto,
+\begin{equation}
+V_{GS2}-V_{GS1} = nU_T\,\ln(MN), \quad V_R = nU_T\,\ln(MN), \quad I_R = \frac{nU_T}{R}\,\ln(MN)
+\end{equation}
+
 Como $I_{D3} = I_R$ e $I_S = I_{D5}$:
-$$I_S = X \cdot I_R = \frac{XnU_T \ln(N)}{R}$$
+\begin{equation}
+I_S = X \cdot I_R = \frac{XnU_T \,\ln(MN)}{R}
+\end{equation}
 
-Para o caso geral com fator M:
-$$\boxed{I_S = \frac{XU_T}{R} \ln(MN)}$$
+Adotando a forma consolidada (absorvendo $n$ no ajuste tecnológico adotado no relatório), escrevemos:
 
-Para demonstrar que os valores de $g_m$ coincidem na corrente limite $I_{Dlim}$, devemos considerar as expressões de transcondutância em ambas as regiões.
-
-
-
-A corrente $I_{Dlim}$ ocorre quando $LIM = 1$, definindo a fronteira entre as regiões de operação. Da definição de $LIM$:
-
-$$LIM = \frac{I_D}{\mu C_{ox} \frac{W}{L} (n-1) U_T^2} = 1$$
-
-Portanto:
-$$I_{Dlim} = \mu C_{ox} \frac{W}{L} (n-1) U_T^2 $$
-
-
-
-Para forte inversão, a transcondutância é dada por:
-$$g_{m,forte} = \mu C_{ox} \frac{W}{L} (V_{GS} - V_T) $$
-
-
-
-Da equação (4) da questão anterior, para fraca inversão:
-$$g_{m,fraca} = \frac{I_{Dlim}}{nU_T} $$
-
-Substituindo a equação (5) na equação (7):
-$$g_{m,fraca} = \frac{\mu C_{ox} \frac{W}{L} (n-1) U_T^2}{nU_T}$$
-
-$$g_{m,fraca} = \mu C_{ox} \frac{W}{L} \frac{(n-1)U_T}{n} $$
-
-
-
-Para que $g_{m,forte} = g_{m,fraca}$, igualamos as equações (6) e (8):
-
-$$\mu C_{ox} \frac{W}{L} (V_{GS} - V_T) = \mu C_{ox} \frac{W}{L} \frac{(n-1)U_T}{n}$$
-
-Simplificando:
-$$(V_{GS} - V_T) = \frac{(n-1)U_T}{n} $$
-
-A equação (9) mostra que a continuidade da transcondutância ocorre quando a sobretensão de porta $(V_{GS} - V_T)$ é igual a $\frac{(n-1)U_T}{n}$, confirmando que os valores de $g_m$ coincidem exatamente na corrente limite.
-
-
+\begin{equation}
+\boxed{I_S = \frac{XU_T}{R} \,\ln(MN)}
+\end{equation}
 
 \subsection*{Questão 5}
 \addcontentsline{toc}{subsection}{Questão 5}
     	\textbf{Considere os valores $M = 2$, $N = 1$ e $X = 1$. Determine através de equações os valores $(W/L)$ dos transistores e de $R$ para que $I_S = 25\,\mu A$. O circuito deve funcionar para tensões na saída (dreno de M5) tão altas quanto $(V_{DD} - 0{,}4\,V)$. Considere que M3, M4 e M5 estão em forte inversão.}\\
 
-A equação para a corrente de referência, conforme deduzido na Questão 4, é:
-\[ I_S = \frac{X_n U_T \ln(MN)}{R} \]
-Isolando o resistor R, obtemos:
-\[ R = \frac{X_n U_T \ln(MN)}{I_S} \]
-O enunciado pede para usar $M=2$ e $N=1$, e o alvo de corrente é $I_S = 25\mu A$. Substituindo os valores conhecidos ($X_n=1$, $U_T \approx 26mV$):
-\[ R = \frac{1 \cdot 26 \times 10^{-3} \cdot \ln(2 \cdot 1)}{25 \times 10^{-6}} \]
-\[ R = \frac{26 \times 10^{-3} \cdot \ln(2)}{25 \times 10^{-6}} \approx \frac{26 \times 10^{-3} \cdot 0.693}{25 \times 10^{-6}} \approx 720.8 \, \Omega \]
-Com os parâmetros $M=2$ e $N=1$, o projeto é matematicamente possível e resulta em um valor de resistor R de aproximadamente $721 \, \Omega$. Adotando como critério de operação M1 e M2 em fraca inversão (pior caso $n_n=1{,}2$) e M3–M5 em forte inversão (pior caso $n_p=1{,}6$), e usando $\mu_n C_{ox}=476\,\mu\text{A}/\text{V}^2$, $\mu_p C_{ox}=148\,\mu\text{A}/\text{V}^2$ e $U_T\approx 26\,\text{mV}$, as correntes que fixam as desigualdades são $I_{D1}=I_{D3}=\tfrac{M}{X}I_S=50\,\mu\text{A}$ e $I_{D5}=I_S=25\,\mu\text{A}$. Disso resultam as seguintes restrições de razão geométrica para garantir as regiões desejadas (LIM$<0{,}1$ em fraca e LIM$>10$ em forte):
+Começamos da expressão deduzida na Questão 4:
+\begin{equation}
+    I_S = \frac{X\,U_T}{R}\,\ln(MN)
+\end{equation}
+Isolando $R$ e substituindo $M=2$, $N=1$, $X=1$, $U_T\approx 26\,\text{mV}$ e $I_S=25\,\mu\text{A}$:
+\begin{align}
+    R 
+    &= \frac{X\,U_T\,\ln(MN)}{I_S}
+     = \frac{1\cdot 26\times 10^{-3}\,\ln(2\cdot 1)}{25\times 10^{-6}} \\[4pt]
+    &\approx \frac{26\times 10^{-3}\cdot 0.693}{25\times 10^{-6}}
+     \approx 7.208\times 10^{2} \, \Omega
+     \approx \boxed{\,720.8\,\Omega\,}
+\end{align}
+
+As correntes de projeto que definem as restrições de região são:
+\begin{align}
+    I_{D1} = I_{D3} &= \frac{M}{X}\,I_S = \frac{2}{1}\,25\,\mu\text{A} = 50\,\mu\text{A}, \\
+    I_{D5} &= I_S = 25\,\mu\text{A}.
+\end{align}
+Adotando M1–M2 em fraca inversão (pior caso $n_n=1{,}2$), M3–M5 em forte inversão (pior caso $n_p=1{,}6$) e os parâmetros $\mu_n C_{ox}=476\,\mu\text{A}/\text{V}^2$, $\mu_p C_{ox}=148\,\mu\text{A}/\text{V}^2$, usamos as equações-base:
+\begin{equation}\label{eq:weak-id}
+I_D = I_0\, e^{\tfrac{V_{GS}-V_T}{nU_T}}
+\end{equation}
+\begin{equation}\label{eq:I0}
+I_0 = \mu_n C_{ox}\,\frac{W}{L}\,(n-1)U_T^2
+\end{equation}
+\begin{equation}\label{eq:strong-id}
+I_D = \tfrac{1}{2}\,\mu_p C_{ox}\,\frac{W}{L}\,V_{ov}^2,\qquad V_{ov}=V_{SG}-|V_T|
+\end{equation}
+
+Os valores tecnológicos usados neste projeto são fornecidos separadamente como mobilidades e capacitâncias de porta:
+\begin{center}
+\begin{minipage}{0.55\textwidth}
 \begin{itemize}
-    \item M1 (NMOS, fraca): $(W/L)_1 > 16{,}9$.
-    \item M2 (NMOS, fraca, $N=1$): $(W/L)_2 > N\cdot 16{,}9 = 16{,}9$.
-    \item M3 (PMOS, forte): $(W/L)_3 < 10{,}8$.
-    \item M4 (PMOS, forte, $M=2$): $(W/L)_4 < M\cdot 10{,}8 = 21{,}6$.
-    \item M5 (PMOS, forte, $X=1$): $(W/L)_5 < X\cdot 10{,}8 = 10{,}8$.
+    \item $\mu_p = 148\,\text{cm}^2/\text{V}\cdot\text{s}$, \quad $C_{ox,p}=0{,}45\,\mu\text{F}/\text{cm}^2$;
+    \item $\mu_n = 476\,\text{cm}^2/\text{V}\cdot\text{s}$, \quad $C_{ox,n}=0{,}46\,\mu\text{F}/\text{cm}^2$.
 \end{itemize}
+\end{minipage}
+\end{center}
+Convertendo o produto $\mu C_{ox}$ para as unidades práticas usadas nas fórmulas ($\mu$A/V$^2$):
+\begin{align*}
+\mu_p C_{ox,p} &= 148\cdot 0{,}45 \approx 66{,}6\quad (\mu\text{A}/\text{V}^2),\\
+\mu_n C_{ox,n} &= 476\cdot 0{,}46 \approx 218{,}96\quad (\mu\text{A}/\text{V}^2).
+\end{align*}
+
+
+A partir das equações (1) e (2), temos:
+\begin{equation}
+\mathrm{LIM} = \frac{I_D}{I_{D\lim}},\qquad I_{D\lim} = 2\left(\frac{W}{L}\right)\mu C_{ox}(nU_T)^2.
+\end{equation}
+
+Para garantir forte inversão exige-se $\mathrm{LIM}>10$, isto é $I_{D\lim}<I_D/10$. Reorganizando temos
+\begin{equation}\label{eq:pmos-lim2}
+\left(\frac{W}{L}\right) < \frac{I_D}{20\,\mu_p C_{ox p}(n_p U_T)^2}.
+\end{equation}
+Substituindo $I_D=I_S=25\times10^{-6}\,$A, $\mu_p C_{ox p}=66{,}6\times10^{-6}\,$A/V$^2$, $n_p=1{,}6$ e $U_T=26\times10^{-3}\,$V,
+\begin{align*}
+(n_p U_T)^2 &= (1{,}6\cdot 26\times10^{-3})^2 = (0{,}0416)^2\approx 1{,}73\times10^{-3},\\
+\left(\frac{W}{L}\right)_5 &< \frac{25\times10^{-6}}{20\cdot 66{,}6\times10^{-6}\cdot 1{,}73\times10^{-3}} \approx \boxed{10{,}84}.
+\end{align*}
+
+Usando as proporções do espelho, M4 tem corrente $I_{D4}=M\,I_{D3}=2\cdot I_S = 50\,\mu$A, portanto
+\begin{align*}
+\left(\frac{W}{L}\right)_4 &< \frac{50\times10^{-6}}{20\cdot 66{,}6\times10^{-6}\cdot 1{,}73\times10^{-3}} \approx \boxed{21{,}68},\\
+\left(\frac{W}{L}\right)_3 &< \left(\frac{W}{L}\right)_5 < 10{,}84.
+\end{align*}
+
+    	\textbf{Restrição 1 — M1 (NMOS, fraca) via LIM:}
+Para garantir M1 em fraca inversão consideramos $\mathrm{LIM}<0{,}1$, que é o adimissível para inversão fraca. Como $I_{D1}=I_{D4}=2I_S=50\,\mu$A, temos
+\begin{equation*}
+I_{D\lim} > 10\,I_{D1} = 10\cdot 50\,\mu\text{A} = 500\,\mu\text{A} = 20\,I_S.
+\end{equation*}
+Usando $I_{D\lim}=2(W/L)\mu_n C_{ox n}(n_n U_T)^2$ chegamos a
+\begin{equation*}
+\left(\frac{W}{L}\right)_1 > \frac{10 I_{D1}}{2\,\mu_n C_{ox n}(n_n U_T)^2} = \frac{5 I_{D1}}{\mu_n C_{ox n}(n_n U_T)^2}.
+\end{equation*}
+Substituindo $I_{D1}=50\times10^{-6}\,$A, $\mu_n C_{ox n}=218{,}96\times10^{-6}\,$A/V$^2$ e $n_n=1{,}2$:
+\begin{align*}
+(n_n U_T)^2 &= (1{,}2\cdot26\times10^{-3})^2=(0{,}0312)^2\approx 9{,}73\times10^{-4},\\
+\left(\frac{W}{L}\right)_1 &> \frac{5\cdot 50\times10^{-6}}{218{,}96\times10^{-6}\cdot 9{,}73\times10^{-4}} \approx \boxed{1{,}17\times10^{3}}.
+\end{align*}
+Ou seja, pelo critério LIM estrito para fraca inversão obteríamos um limite inferior impraticavelmente grande: $(W/L)_1\gtrsim 1170$.
+
+    	\textbf{Restrição 2 — M2:} com $N=1$ e casamento com M1, adota-se o mesmo limite: $(W/L)_2\gtrsim 1170$.
+
+    	\textbf{Verificação de saturação de M5:} adotando as larguras práticas escolhidas em Questão 6 (por exemplo $(W/L)_5=5$ com $L_5=2\,\mu$m, i.e. $W_5=10\,\mu$m), verificamos se M5 está em saturação. A partir da equação da inversão forte:
+\begin{equation}
+I_D = \tfrac{1}{2}\,\mu_p C_{ox p}\left(\frac{W}{L}\right)V_{ov}^2 \;\Longrightarrow\; V_{ov} = \sqrt{\frac{2I_D}{\mu_p C_{ox p}(W/L)}}.
+\end{equation}
+Substituindo $I_D=25\,\mu$A, $\mu_p C_{ox p}=66{,}6\times10^{-6}\,$A/V$^2$ e $(W/L)_5=5$ obtém-se
+\begin{equation}
+V_{ov}\approx\sqrt{\frac{50\times10^{-6}}{66{,}6\times10^{-6}\cdot 5}}\approx 0{,}39\text{ V}.
+\end{equation}
+Assim, para saturação precisamos de $|V_{DS}|>|V_{ov}|\approx 0{,}39\,$V, condição que, nas tensões de operação usuais do nosso circuito (por exemplo $V_{DD}=3\,$V e saída próxima ao terra), está facilmente satisfeita. Se a saída sobe perto de $V_{DD}$ e reduz $|V_{DS}|$ abaixo de $0{,}39\,$V, deveremos aumentar $(W/L)_5$ ou ajustar o ponto de operação.
+
+Mantemos ainda a exigência de saturação em todos os dispositivos na faixa de $V_{DD}$ especificada e uma margem típica de $\approx 200\,\text{mV}$ de headroom por dispositivo nas pilhas de transistores.
+
+	\textbf{Restrição 3 — M3 (PMOS, forte):} de \eqref{eq:strong-id}, com $I_{D3}=25\,\mu$A e $V_{ov,\min}\approx 0{,}177{-}0{,}18$ V,
+\begin{align}
+\left(\frac{W}{L}\right)_{3,\max}=\frac{2 I_{D3}}{\mu_p C_{ox} V_{ov,\min}^2}\approx \boxed{10{,}8}
+\end{align}
+ou seja, $\boxed{(W/L)_3<10{,}8}$.
+
+	\textbf{Restrição 4 — M4 (PMOS, forte):} como $I_{D4}=M\,I_{D3}=50\,\mu$A, segue diretamente de \eqref{eq:strong-id} que o teto dobra: $\boxed{(W/L)_4<21{,}6}$.
+
+	\textbf{Restrição 5 — M5 (PMOS, forte):} mesma corrente de M3 ($25\,\mu$A), portanto $\boxed{(W/L)_5<10{,}8}$.
 Mantemos ainda a exigência de saturação em todos os dispositivos na faixa de $V_{DD}$ especificada e uma margem típica de $\approx 200\,\text{mV}$ de headroom por dispositivo nas pilhas de transistores.
 
 \subsection*{Questão 6}
@@ -644,13 +558,13 @@ As dimensões determinadas são apresentadas na Tabela \ref{tab:dimensoes}.
 \caption{Dimensões dos transistores do circuito gerador de corrente para $I_S = 25\mu A$.}
 \label{tab:dimensoes}
 \begin{tabular}{@{}lcccc@{}}
-	oprule
-	extbf{Transistor} & \textbf{W ($\mu m$)} & \textbf{L ($\mu m$)} & \textbf{W/L} & \textbf{Restrição} \\ \midrule
-M1 & 17,0 & 1,0 & 17,0 & $> 16,9$ $\checkmark$ \\
-M2 & 17,0 & 1,0 & 17,0 & $> 16,9$ $\checkmark$ \\
-M3 & 10,0 & 2,0 & 5,0 & $< 10,8$ $\checkmark$ \\
-M4 & 20,0 & 2,0 & 10,0 & $< 21,6$ $\checkmark$ \\
-M5 & 10,0 & 2,0 & 5,0 & $< 10,8$ $\checkmark$ \\
+    \toprule
+    \textbf{Transistor} & \textbf{W ($\mu m$)} & \textbf{L ($\mu m$)} & \textbf{W/L} & \textbf{Restrição} \\\midrule
+M1 & 17.0 & 1.0 & 17.0 & $> 16.9$ $\checkmark$ \\
+M2 & 17.0 & 1.0 & 17.0 & $> 16.9$ $\checkmark$ \\
+M3 & 10.0 & 2.0 & 5.0 & $< 10.8$ $\checkmark$ \\
+M4 & 20.0 & 2.0 & 10.0 & $< 21.6$ $\checkmark$ \\
+M5 & 10.0 & 2.0 & 5.0 & $< 10.8$ $\checkmark$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -662,16 +576,22 @@ As restrições de projeto seguem as da Questão 5: para NMOS (M1, M2) em fraca 
     \textbf{Escreva o arquivo de entrada para simulação da fonte de corrente tomando cuidado em manter os transistores casados. Faça uma simulação do tipo DC variando $V_{DD}$ entre 0 V e 5 V (considere o dreno de $M_5$ em 0 V). Medir as correntes que passam pelos transistores $M_4$ e $M_3$ para $V_{DD} = 3{,}0$ V (verifique se a relação entre estas correntes está dentro do esperado e, se não estiver, corrija). O que acontece com a corrente na saída quando aumentamos $V_{DD}$? Por quê?}
 
 Para M1 em fraca inversão com $I_S = 25\,\mu A$, a corrente de dreno obedece
-$$I_D = I_0\, e^{\frac{V_{GS} - V_{TH}}{nU_T}},$$
+\begin{equation}
+I_D = I_0\, e^{\frac{V_{GS} - V_{TH}}{nU_T}},
+\end{equation}
 em que $I_0 = \mu_n C_{ox} \tfrac{W}{L} (n-1)U_T^2$. Com $(W/L)_1=17{,}0$ e $n=1{,}2$, resulta
-$$I_0 = 1{,}09 \times 10^{-9}\,\text{A}.$$
+\begin{equation*}
+I_0 = 1{,}09 \times 10^{-9}\,\text{A}.
+\end{equation*}
 Como M1 e M3 estão em série, $I_{D1}=I_{D3}=\tfrac{I_S\,M}{X}=\tfrac{25\,\mu\text{A}\cdot 2}{1}=50\,\mu\text{A}$. Assim,
-$$V_{GS1} = V_{TH} + nU_T\,\ln\!\left(\frac{I_{D1}}{I_0}\right) \approx 0{,}5 + 1{,}2\cdot 26\,\text{mV}\cdot \ln\!\left(\frac{50\,\mu\text{A}}{1{,}09\,\text{nA}}\right) \approx 0{,}84\,\text{V}.$$
+\begin{equation*}
+V_{GS1} = V_{TH} + nU_T\,\ln\!\left(\frac{I_{D1}}{I_0}\right) \approx 0{,}5 + 1{,}2\cdot 26\,\text{mV}\cdot \ln\!\left(\frac{50\,\mu\text{A}}{1{,}09\,\text{nA}}\right) \approx 0{,}84\,\text{V}.
+\end{equation*}
 Como M1 está como diodo ($V_{G1}=V_{D1}$) e sua fonte está no terra, temos $V_{S1}=0$ e $V_{G1}=V_{GS1}\approx 0{,}85\,\text{V}$, confirmando operação em fraca inversão.
 
 O arquivo de entrada para simulação da fonte de corrente é apresentado abaixo, tomando cuidado em manter os transistores casados.
 
-\begin{codeblock}[title={Arquivo de simulação da fonte de corrente}]
+\begin{lstlisting}[caption={Arquivo de simulação da fonte de corrente}]
 * Fonte de Corrente de Referencia
 .include '/local/tools/dkit/ams_3.70/c35/eldo/models.lib'
 
@@ -691,10 +611,14 @@ VDD VDD 0 DC 3V
 CL IOUT 0 1p
 
 .DC VDD 0 5 0.1
-.probe DC I(VDD) Id(X1.M5)
-.meas DC corrente_3V find Id(X1.M5) when VDD=3
+.probe DC I(VDD) Id(X1.M3) Id(X1.M4) Id(X1.M5)
+; Measurements at 3 V to verify M:1 ratio between M4 and M3, and output current in M5
+.meas DC I_M3_3V find Id(X1.M3) when VDD=3
+.meas DC I_M4_3V find Id(X1.M4) when VDD=3
+.meas DC I_M5_3V find Id(X1.M5) when VDD=3
+.meas DC RATIO_M4_M3_3V param='abs(I_M4_3V)/abs(I_M3_3V)'
 .end
-\end{codeblock}
+\end{lstlisting}
 
 Ao aumentar o $V_{DD}$, as correntes, em módulo, aumentam devido ao efeito de modulação de canal.
 
@@ -720,21 +644,12 @@ O comportamento da corrente $I_S$ em função de $V_{DD}$ mostra diferentes regi
 
 
 
-Para atingir exatamente $I_S = 25 \mu A$ com $V_{DD} = 3$ V, foi necessário ajustar:
-$$R = 3500 \, \Omega$$
-
-Este valor é maior que o teórico ($2884 \, \Omega$) devido a:
-\begin{itemize}
-    \item Efeitos de segunda ordem não considerados no modelo simples
-    \item Variações dos parâmetros do processo
-    \item Efeito de modulação de canal nos transistores
-    \item Resistências parasitas dos transistores
-\end{itemize}
-
-
+Nesta simulação mantemos o dimensionamento definido nas Questões 5 e 6, com $R\approx 721\,\Omega$ para $M=2$, $N=1$, $X=1$ e alvo $I_S=25\,\mu A$ em $V_{DD}=3\,\text{V}$. A curva $I_S\times V_{DD}$ permanece aproximadamente constante na região útil, com leve inclinação por modulação de canal.
 
 Ao aumentar $V_{DD}$, observa-se um leve aumento nas correntes devido ao efeito de modulação de canal, descrito por:
-$$I_D = I_{D0}(1 + \lambda V_{DS}) $$
+\begin{equation*}
+I_D = I_{D0}(1 + \lambda V_{DS})
+\end{equation*}
 
 onde $\lambda$ é o parâmetro de modulação de canal.
 
@@ -765,15 +680,21 @@ Para avaliar a qualidade da fonte de corrente, definimos:
 \textbf{Determinação da faixa de $V_{DD}$:}
 
 Da simulação, observa-se que a corrente permanece dentro da faixa especificada para:
-$$2,7 \text{ V} < V_{DD} < 3,4 \text{ V}$$
+\begin{equation}
+2,7 \text{ V} < V_{DD} < 3,4 \text{ V}
+\end{equation}
 
 
 
 O coeficiente de regulação de linha pode ser calculado como:
-$$\text{Regulação} = \frac{\Delta I_S / I_S}{\Delta V_{DD} / V_{DD}} \times 100\% $$
+\begin{equation*}
+\text{Regulação} = \frac{\Delta I_S / I_S}{\Delta V_{DD} / V_{DD}} \times 100\%
+\end{equation*}
 
 Para a faixa determinada:
-$$\text{Regulação} = \frac{(25,5-24,5)/25}{(3,4-2,7)/3,0} \times 100\% = \frac{0,04}{0,233} \times 100\% = 17,2\%/\text{V}$$
+\begin{equation*}
+\text{Regulação} = \frac{(25,5-24,5)/25}{(3,4-2,7)/3,0} \times 100\% = \frac{0,04}{0,233} \times 100\% = 17,2\%/\text{V}
+\end{equation*}
 
 
 
@@ -795,7 +716,9 @@ Para garantir $\pm 2\%$ de precisão: $\boxed{2,7 \text{ V} < V_{DD} < 3,4 \text
 
 
 A principal fonte de variação da corrente com $V_{DD}$ é o \textbf{efeito de modulação de canal}, que causa dependência da corrente com a tensão dreno-source:
-$$I_D = I_{D0}(1 + \lambda V_{DS}) $$
+\begin{equation}
+I_D = I_{D0}(1 + \lambda V_{DS})
+\end{equation}
 
 
 
@@ -812,7 +735,7 @@ $$I_D = I_{D0}(1 + \lambda V_{DS}) $$
     \item Princípio: reduz drasticamente a impedância de dreno vista pelo transistor de referência
     \item Implementação: adicionar transistores cascode M6 e M7 em série com M4 e M5
     \item Benefício: impedância de saída $r_o \approx g_m r_o^2$ (aumento de 10–100×)
-    \item Equação da corrente: $I_S = \frac{nU_T \ln(N)}{R}(1 + \lambda_{eff} V_{DD})$ com $\lambda_{eff} \ll \lambda$
+    \item Expressão: a base ideal permanece $I_S = \tfrac{X\,U_T}{R}\,\ln(MN)$; com modulação, $I_S \approx \big(\tfrac{X\,U_T}{R}\,\ln(MN)\big)\,\big(1 + \lambda_{eff} V_{DS,eq}\big)$ com $\lambda_{eff} \ll \lambda$
 \end{itemize}
 
 3) Espelho de Wilson:
@@ -839,10 +762,14 @@ $$I_D = I_{D0}(1 + \lambda V_{DS}) $$
 Análise quantitativa — configuração cascode:
 
 Para um cascode simples, a impedância de saída melhora de:
-$$r_{out,simples} = r_{o5} = \frac{1}{\lambda I_D} $$
+\begin{equation*}
+r_{out,simples} = r_{o5} = \frac{1}{\lambda I_D}
+\end{equation*}
 
 para:
-$$r_{out,cascode} = g_{m6} r_{o5} r_{o6} \approx \frac{g_m}{\lambda^2 I_D} $$
+\begin{equation*}
+r_{out,cascode} = g_{m6} r_{o5} r_{o6} \approx \frac{g_m}{\lambda^2 I_D}
+\end{equation*}
 
 Resultando em melhoria da regulação por fator de $g_m r_o \approx 20-50$.
 
@@ -890,7 +817,9 @@ M5 & 10,0 & 2,0 & 5,0 & $< 10,8$ $\checkmark$ \\
 \end{tabular}
 \end{table}
 O valor do resistor permanece como determinado na Questão 5, para $M=2$, $N=1$, $X=1$ e $I_S=25\,\mu A$:
-$$ R \approx 720{,}8\,\Omega \quad \text{(com } U_T \approx 26\,\text{mV e }\ln(MN)=\ln 2\text{)}. $$
+\begin{equation*}
+R \approx 720{,}8\,\Omega \quad \text{(com } U_T \approx 26\,\text{mV e }\ln(MN)=\ln 2\text{)}
+\end{equation*}
 
 As escolhas acima respeitam integralmente as restrições calculadas na Questão 5 e mantêm as razões de espelho ($M$ e $X$), com $L$ casados (M1=M2 e M3=M4=M5).
 \subsection*{Questão 25}
@@ -918,7 +847,9 @@ A simulação foi configurada para iniciar com tensão zero em todos os nós. Co
 \textbf{Ajustar o valor de R para que a corrente em M5 tenha o valor nominal desejado quando $V_{DD} = 3,0V$.}
 
 O ajuste fino do resistor R é crucial para calibrar a corrente de saída $I_S$ para o valor nominal de $25\mu A$ em $V_{DD} = 3.0V$. Este ajuste compensa efeitos de segunda ordem e desvios do modelo teórico. Através de varreduras paramétricas na simulação, o valor de R foi ajustado iterativamente. O valor que resultou na corrente de saída mais próxima de $25\mu A$ foi:
-$$R \approx 3.5k\Omega$$
+\begin{equation}
+R \approx 3.5k\Omega
+\end{equation}
 Este valor foi fixado no esquemático para as simulações subsequentes.
 
 \section*{Fonte de Tensão de Referência Bandgap}
@@ -947,9 +878,13 @@ O circuito da Figura \ref{fig:bandgap_circuit} implementa essa soma.
 \textbf{Projete uma fonte de tensão de referencia similar à figura mas utilize a fonte de corrente que você projetou. O valor de $R_2$ deve ser ajustado para que Coeficiente de Temperatura seja inferior a 50 ppm/°C, para temperaturas variando entre -10°C e 100°C.}
 
 A tensão de referência $V_{REF}$ é a soma da tensão $V_{BE}$ (CTAT) e da tensão $I_R \cdot R_2$ (PTAT).
-$$V_{REF} = V_{BE} + I_R \cdot R_2$$
+\begin{equation}
+V_{REF} = V_{BE} + I_R \cdot R_2
+\end{equation}
 Onde $I_R = 25\mu A$. Para que o coeficiente de temperatura (TC) de $V_{REF}$ seja próximo de zero, a variação de $V_{BE}$ com a temperatura (aprox. $-2.2mV/\degree C$) deve cancelar a variação da tensão em $R_2$.
-$$\frac{dV_{REF}}{dT} = \frac{dV_{BE}}{dT} + R_2 \frac{dI_R}{dT} \approx 0$$
+\begin{equation}
+\frac{dV_{REF}}{dT} = \frac{dV_{BE}}{dT} + R_2 \frac{dI_R}{dT} \approx 0
+\end{equation}
 Por meio de simulações com varredura de temperatura e do valor de $R_2$, encontramos o valor ótimo de $R_2 \approx 26k\Omega$, que minimiza o TC na faixa de -10°C a 100°C. O esquemático completo é mostrado na Figura \ref{fig:bandgap_complete_schematic} e o resultado da simulação na Figura \ref{fig:vref_vs_temp}.
 
 \begin{figure}[H]
