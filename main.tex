@@ -776,40 +776,59 @@ As restrições de projeto seguem as da Questão 5: para NMOS (M1, M2) em fraca 
 	\textbf{Escreva o arquivo de entrada para simulação da fonte de corrente tomando cuidado em manter os transistores casados. Faça uma simulação do tipo DC variando $V_{DD}$ entre 0\,V e 5\,V (considere o dreno de $M_{5}$ em 0\,V). Medir as correntes que passam pelos transistores $M_{4}$ e $M_{3}$ para $V_{DD} = 3{,}0$\,V (verifique se a relação entre estas correntes está dentro do esperado e, se não estiver, corrija). O que acontece com a corrente na saída quando aumentamos $V_{DD}$? Por quê?}
 \end{BoxQ}\par
 
-Embora os transistores NMOS possuam dimensões idênticas, entre os PMOS observa-se que o transistor M4 apresenta largura de canal (W) duas vezes maior do que a de M3 e M5. Esse desbalanceamento gera um descasamento indesejado entre os dispositivos. Para eliminar essa assimetria, o transistor M4 é substituído por dois transistores em paralelo (denominados M4a e M4b), cada um com as mesmas dimensões de M3 e M5. Dessa forma, preserva-se a equivalência elétrica de M4 em relação ao circuito original, mas com um arranjo simétrico e melhor casado.
+Para garantir um espelhamento adequado de corrente, é fundamental que os transistores do espelho PMOS (M3, M4 e M5) apresentem características de casamento otimizadas. O projeto original especifica que M4 possui largura de canal $(W/L)_{M4} = 2 \times (W/L)_{M3}$ para implementar a relação de espelhamento $M = 2$. Entretanto, essa diferença dimensional pode comprometer o casamento entre os dispositivos.
 
-A seguir, apresenta-se o arquivo de simulação da fonte de corrente considerando essa modificação.
+Para solucionar essa questão, implementa-se uma estratégia de paralelização: o transistor M4 é dividido em dois transistores idênticos (M4a e M4b) conectados em paralelo, cada um com as mesmas dimensões de M3 e M5. Esta abordagem preserva a funcionalidade elétrica original enquanto melhora significativamente o casamento dos dispositivos.
 
 \begin{codeblock}[title={Arquivo de simulação da fonte de corrente}]
-* Fonte de Corrente de Referencia
-.include '/local/tools/dkit/ams_3.70/c35/eldo/models.lib'
 
-* Subcircuito da fonte de corrente
-.subckt fonte_corrente VDD VSS IOUT
-M1 N1 N1 VSS VSS MODN W=17u L=1u
-M2 N2 N1 VSS VSS MODN W=17u L=1u
-M3 N1 N1 VDD VDD MODP W=10u L=2u
-M4 N2 N1 VDD VDD MODP W=20u L=2u
-M5 IOUT N1 VDD VDD MODP W=10u L=2u
-R1 N2 VSS 721
-.ends
+M1 1 1 0 0 MODN L=1u W=1168.2u
+M2 2 1 res 0 MODN L=1u W=1168.2u
+M3 2 2 vd vd MODP L=2u W=15.5u
+M4_a 1 2 vd vd MODP L=2u W=15.5u
+M4_b 1 2 vd vd MODP L=2u W=15.5u
+M5 0 2 vd vd MODP L=2u W=15.5u
 
-* Circuito de teste
-X1 VDD 0 IOUT fonte_corrente
-VDD VDD 0 DC 3V
-CL IOUT 0 1p
+Resistor res 0 721
 
-.DC VDD 0 5 0.1
-.probe DC I(VDD) Id(X1.M3) Id(X1.M4) Id(X1.M5)
-; Measurements at 3 V to verify M:1 ratio between M4 and M3, and output current in M5
-.meas DC I_M3_3V find Id(X1.M3) when VDD=3
-.meas DC I_M4_3V find Id(X1.M4) when VDD=3
-.meas DC I_M5_3V find Id(X1.M5) when VDD=3
-.meas DC RATIO_M4_M3_3V param='abs(I_M4_3V)/abs(I_M3_3V)'
+Vdd vd 0 3V
+
+.probe DC Is(M3) Is(M4_a) Is(M4_b) Id(M1) Is(M5)
+
+.DC Vdd 0V  5V  0.1mV
+
 .end
 \end{codeblock}
 
-Ao aumentar o $V_{DD}$, as correntes, em módulo, aumentam devido ao efeito de modulação de canal.
+\newpage
+\textbf{Análise dos Resultados de Simulação:}
+
+As simulações realizadas ao variar o valor de $V_{DD}$ confirmam o funcionamento correto do espelho de corrente, conforme ilustrado nas Figuras \ref{fig:corrente_m3_m4} e \ref{fig:corrente_m5}. A Figura \ref{fig:corrente_m3_m4} apresenta as correntes dos transistores M3 e M4 para $V_{DD} = 3{,}0$ V, onde se verifica que $I_{M3} = 34{,}21\,\mu A$ e $I_{M4} = 70{,}21\,\mu A$. A relação de correntes obtida é:
+
+\begin{equation}
+\frac{I_{M4}}{I_{M3}} = \frac{70{,}21}{34{,}21} = 2{,}05 \approx 2{,}0
+\end{equation}
+
+Este resultado está em excelente concordância com o valor projetado $M = 2$, validando o funcionamento do espelho.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/corrente_m3_m4.png}
+    \caption{Correntes dos transistores M3 ($I_{M3} = 34{,}21\,\mu A$) e M4 ($I_{M4} = 70{,}21\,\mu A$) em função de $V_{DD}$.}
+    \label{fig:corrente_m3_m4}
+\end{figure}
+
+A Figura \ref{fig:corrente_m5} mostra o comportamento da corrente de saída através do transistor M5. Para $V_{DD} = 3{,}0$ V, obtém-se $I_{M5} = 35{,}32\,\mu A$. A diferença observada pode ser atribuída aos efeitos de modulação de canal e às tolerâncias dos parâmetros tecnológicos.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/corrente_m5.png}
+    \caption{Corrente de saída $I_S$ do transistor M5 ($I_{M5} = 35{,}32\,\mu A$) em função de $V_{DD}$.}
+    \label{fig:corrente_m5}
+\end{figure}
+
+
+Conforme observado nas simulações, o aumento da tensão de alimentação $V_{DD}$ resulta em elevação das correntes de dreno dos transistores. Este fenômeno é atribuído ao efeito de modulação de canals transistores, causando o crescimento das correntes observado nos gráficos. Este efeito é mais pronunciado em transistores com menor comprimento de canal.
 
 \subsection*{Questão 8}
 \addcontentsline{toc}{subsection}{Questão 8}
