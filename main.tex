@@ -1,4 +1,4 @@
-﻿\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 
 % Pacotes essenciais
 \usepackage[utf8]{inputenc}
@@ -835,6 +835,24 @@ Conforme observado nas simulações, o aumento da tensão de alimentação $V_{D
 \begin{BoxQ}
 	\textbf{Ajuste o valor de $R$ para que a corrente de saída em $V_{DD} = 3{,}0$\,V seja a desejada no projeto (valor nominal). Apresente então o gráfico $I_{S}$ x $V_{DD}$.}
 \end{BoxQ}
+
+Para ajustar a corrente de saída ao valor nominal de $I_S = 25\,\mu A$ para $V_{DD} = 3{,}0$ V, foi necessário realizar um processo iterativo de simulação com diferentes valores de resistência.
+
+Através de simulações sucessivas com valores crescentes de resistência, determinou-se que:
+
+\begin{equation}
+R_{ajustado} = 1{,}005\,\text{k}\Omega = 1005\,\Omega
+\end{equation}
+
+
+Com o resistor ajustado para $R = 1{,}005\,\text{k}\Omega$, realizou-se nova simulação DC variando $V_{DD}$ de 0 V a 5 V. A Figura \ref{fig:corrente_m5_r_ajustado} apresenta o comportamento da corrente de saída $I_S$ em função da tensão de alimentação.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/corrente_m5_r_ajustado.png}
+    \caption{Corrente de saída $I_S$ do transistor M5 em função de $V_{DD}$ com resistor ajustado ($R = 1{,}005\,\text{k}\Omega$).}
+    \label{fig:corrente_m5_r_ajustado}
+\end{figure}
 
 
 \subsection*{Questão 9}
