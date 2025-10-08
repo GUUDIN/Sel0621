@@ -861,50 +861,31 @@ Com o resistor ajustado para $R = 1{,}005\,\text{k}\Omega$, realizou-se nova sim
 	\textbf{Determine a faixa de valores de $V_{DD}$ para a qual a condição $I_0(0{,}98) < I_S < I_0(1{,}02)$ seja observada, onde $I_0$ é a corrente para $V_{DD} = 3{,}0$\,V. Qual é o valor mínimo de $V_{DD}$ achado?}
 \end{BoxQ}
 
-
-
-Para avaliar a qualidade da fonte de corrente, definimos:
-- $I_0 = 25 \mu A$ (corrente de referência para $V_{DD} = 3,0$ V)
-- Limites de tolerância: $\pm 2\%$
-- Faixa aceitável: $24,5 \mu A < I_S < 25,5 \mu A$
-
+Para determinar sua faixa de operação adequada, devemos estabelecer os limites de tolerância admissíveis. Considerando:
 
 \begin{itemize}
-    \item Limite inferior: $I_0(0,98) = 25 \times 0,98 = 24,5 \mu A$
-    \item Limite superior: $I_0(1,02) = 25 \times 1,02 = 25,5 \mu A$
+    \item Corrente de referência: $I_0 = 25\,\mu\text{A}$ (valor nominal para $V_{DD} = 3{,}0$\,V)
+    \item Tolerância especificada: $\pm 2\%$
+    \item Limite inferior: $I_0(0{,}98) = 25 \times 0{,}98 = 24{,}5\,\mu\text{A}$
+    \item Limite superior: $I_0(1{,}02) = 25 \times 1{,}02 = 25{,}5\,\mu\text{A}$
 \end{itemize}
 
-\textbf{Determinação da faixa de $V_{DD}$:}
+Portanto, a faixa aceitável de corrente é: $24{,}5\,\mu\text{A} < I_S < 25{,}5\,\mu\text{A}$.
 
-Da simulação, observa-se que a corrente permanece dentro da faixa especificada para:
-\begin{equation}
-2,7 \text{ V} < V_{DD} < 3,4 \text{ V}
-\end{equation}
+Através da simulação de $I_S$ em função de $V_{DD}$, observamos o comportamento da fonte de corrente apresentado na Figura~\ref{fig:corrente_maxima_minima}. Da análise do gráfico, identificamos os pontos críticos:
 
-
-
-O coeficiente de regulação de linha pode ser calculado como:
-\begin{equation*}
-\text{Regulação} = \frac{\Delta I_S / I_S}{\Delta V_{DD} / V_{DD}} \times 100\%
-\end{equation*}
-
-Para a faixa determinada:
-\begin{equation*}
-\text{Regulação} = \frac{(25,5-24,5)/25}{(3,4-2,7)/3,0} \times 100\% = \frac{0,04}{0,233} \times 100\% = 17,2\%/\text{V}
-\end{equation*}
-
-
-
-A variação da corrente com $V_{DD}$ é principalmente devida a:
 \begin{itemize}
-    \item Efeito de modulação de canal: aumento de $V_{DS}$ nos transistores
-    \item Variação da tensão de Early: alteração da resistência de saída
-    \item Efeitos de segunda ordem: body effect e modulação de mobilidade
+    \item Para $I_S = 24{,}5\,\mu\text{A}$ (limite inferior): $V_{DD} = 2{,}78$\,V
+    \item Para $I_S = 25{,}5\,\mu\text{A}$ (limite superior): $V_{DD} = 3{,}18$\,V
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/corrente_maxima_minima.png}
+    \caption{Corrente de saída $I_S$ em função de $V_{DD}$, destacando os limites de tolerância de $\pm 2\%$. A faixa operacional aceitável está entre $V_{DD} = 2{,}78$\,V e $V_{DD} = 3{,}18$\,V.}
+    \label{fig:corrente_maxima_minima}
+\end{figure}
 
-
-Para garantir $\pm 2\%$ de precisão: $\boxed{2,7 \text{ V} < V_{DD} < 3,4 \text{ V}}$
 
 \subsection*{Questão 10}
 \addcontentsline{toc}{subsection}{Questão 10}
@@ -912,10 +893,41 @@ Para garantir $\pm 2\%$ de precisão: $\boxed{2,7 \text{ V} < V_{DD} < 3,4 \text
 	\textbf{Caso desejemos ter pequenas variações de corrente mesmo para uma ampla variação da tensão de alimentação, quais modificações podem ser realizadas no projeto?}
 \end{BoxQ}
 
-A principal causa das variações de $I_S$ com $V_{DD}$ é a modulação de canal, que torna a corrente dependente de $V_{DS}$: \begin{equation} I_D \approx I_{D0}\big(1 + \lambda V_{DS}\big). \end{equation} 
-Para obter pequenas variações de corrente mesmo sob ampla variação de $V_{DD}$, aumentam-se os comprimentos de canal (L) dos transistores de referência (PMOS e, se crítico, NMOS) para reduzir $\lambda$ (menor efeito de modulação de canal) e, em seguida, substitui-se o espelho simples por uma topologia de maior impedância (cascode ou Wilson), elevando substancialmente $r_{out}$ e tornando a corrente praticamente constante na faixa especificada de alimentação. Essas otimizações apresentam custo moderado de área e dispensam o uso de realimentação ativa via amplificador operacional.
+Conforme observado na Questão 9, a corrente $I_S$ varia significativamente com $V_{DD}$ devido ao efeito de \textbf{modulação de canal}, descrito por:
+\begin{equation}
+I_D = I_{D0}\left(1 + \lambda V_{DS}\right)
+\end{equation}
 
-\newpage
+Para reduzir esta sensibilidade, o objetivo é diminuir $\lambda$ e aumentar a impedância de saída $r_{out} = 1/(\lambda I_D)$. Duas estratégias principais podem ser adotadas:
+
+\subsubsection*{1. Aumento do Comprimento de Canal (L)}
+
+Como $\lambda$ é inversamente proporcional a $L$, aumentar o comprimento dos transistores reduz diretamente o efeito da modulação de canal. Quando $V_{DS}$ aumenta, o estreitamento efetivo do canal ($\Delta L$) torna-se percentualmente menor em transistores com maior $L$ nominal, resultando em corrente mais estável.
+
+Neste projeto, é mais vantajoso aumentar o $L$ dos \textbf{transistores PMOS}, que já possuem dimensões compactas. Os transistores NMOS, com $W$ já bastante elevado, se tornarem excessivamente grandes caso seus comprimentos sejam aumentados proporcionalmente, comprometendo a área total do circuito.
+
+\subsubsection*{2. Mudança de Topologia do Espelho}
+
+Substituir o espelho simples por topologias de alta impedância aumenta drasticamente $r_{out}$:
+
+\begin{itemize}
+    \item \textbf{Espelho Cascode:} conexão em série de transistores eleva a impedância para $g_m r_o^2$;
+    \item \textbf{Espelho de Wilson:} utiliza realimentação local para compensar variações de tensão, oferecendo impedância ainda maior.
+\end{itemize}
+
+A versão \textbf{simétrica do Wilson} é preferível por manter a simetria do circuito e melhorar o casamento entre componentes.
+
+\subsubsection*{Proposta de Implementação}
+
+Para este projeto, recomenda-se combinar ambas as abordagens:
+
+\begin{enumerate}
+    \item Aumentar moderadamente o $L$ dos PMOS (fator de 1,5× a 2×) para reduzir $\lambda$;
+    \item Implementar \textbf{espelho de Wilson simétrico} no ramo NMOS, evitando aumento excessivo de dimensões.
+\end{enumerate}
+
+Esta solução equilibra desempenho e área, proporcionando excelente regulação de corrente sem necessidade de circuitos adicionais complexos, e ampliando significativamente a faixa operacional de $V_{DD}$.
+
 
 \subsection*{Questão 11}
 \addcontentsline{toc}{subsection}{Questão 11}
@@ -940,6 +952,18 @@ Para obter pequenas variações de corrente mesmo sob ampla variação de $V_{DD
 \begin{BoxQ}
     \textbf{Como deve ser desenhado o resistor (verificar no manual ENG-183\_rev3.pdf como é feita a definição de um resistor)? Qual material é adequado para construí-lo?}
 \end{BoxQ}
+
+Segundo o manual ENG-183 Rev.3.0, o desenho de resistores em tecnologia CMOS 0,35\,$\mu$m utiliza camadas específicas de layout:
+
+\begin{itemize}
+    \item \textbf{Camada RESDEF:} Define a região que o resistor irá ocupar no layout
+    \item \textbf{Camada RESTRM:} Delimita os terminais do resistor, removendo porções da área definida por RESDEF
+    \item \textbf{Geometria em serpentina:} Para valores elevados de resistência, emprega-se formato sinuoso para otimizar o uso da área de silício
+\end{itemize}
+
+O material mais adequado é o \textbf{Polisilício de Alta Resistividade (RPOLYH)}, que oferece $R_{\square} = 1200\,\Omega/\square$. Esta escolha se justifica por permitir obter valores elevados de resistência com área mínima de silício.
+
+Para o resistor de aproximadamente 1\,k$\Omega$ necessário neste projeto, o RPOLYH é a escolha ótima, minimizando a área ocupada através de layout sinuoso e mantendo boa precisão.
 
 \subsection*{Questão 15}
 \addcontentsline{toc}{subsection}{Questão 15}
