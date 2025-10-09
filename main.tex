@@ -743,14 +743,11 @@ Mantemos ainda a exigência de saturação em todos os dispositivos na faixa de 
 \begin{BoxQ}
     \textbf{Utilize as dimensões $L_1 = 1{,}0\,\mu m$ e $L_3 = 2{,}0\,\mu m$ para o comprimento de canal dos transistores M1 e M3. Quais são as dimensões de $L$ que devem ser utilizadas nos transistores M2, M4 e M5? Por quê? Determine as dimensões da largura de canal $W$ de todos os transistores (mostre numa tabela as dimensões determinadas). Os $L$’s dos transistores M1 e M2 são iguais entre si; idem para M3, M4 e M5.}\\
 \end{BoxQ}\par
+Adota-se a mesma estratégia de casamento geométrico empregada em espelhos de corrente clássicos: comprimentos de canal iguais dentro de cada conjunto funcional. Assim, definimos $L_1=L_2=1{,}0\,\mu m$ para o par NMOS (M1, M2) e $L_3=L_4=L_5=2{,}0\,\mu m$ para o trio PMOS (M3, M4, M5). A uniformidade de $L$ dentro do grupo mitiga gradientes locais e reduz a componente sistemática de descasamento, permitindo que o ajuste de corrente se concentre na razão $W/L$ apenas pela variação de $W$.
 
-Para garantir bom casamento, adotamos comprimentos iguais dentro de cada grupo: M1 e M2 com $L_1=L_2=1{,}0\,\mu m$ e M3, M4 e M5 com $L_3=L_4=L_5=2{,}0\,\mu m$. Manter $L$ idêntico entre dispositivos do mesmo tipo reduz descasamentos; ajustamos as correntes apenas pela largura $W$.
+Das restrições derivadas anteriormente (Questão 5) obteve-se, para M1 e M2 operando em fraca inversão ($LIM<0{,}1$), o requisito $(W/L)>16{,}9$. Seleciona-se um valor ligeiramente acima do limite, $(W/L)_1=(W/L)_2=17{,}0$, fornecendo margem mínima sem penalizar área; com $L=1{,}0\,\mu m$ isso leva a $W_1=W_2=17{,}0\,\mu m$. Para os PMOS em forte inversão, a corrente de 25\,$\mu$A impõe $(W/L)<10{,}8$ (e $(W/L)<21{,}6$ para o ramo com fator dois). Escolhem-se valores simétricos e centralizados em relação aos limites: $(W/L)_3=5{,}0$, $(W/L)_4=10{,}0$ e $(W/L)_5=5{,}0$, que preservam a relação de espelhamento ($M=2$ para M4) mantendo folga adequada. Com $L=2{,}0\,\mu m$ resultam $W_3=10{,}0\,\mu m$, $W_4=20{,}0\,\mu m$ e $W_5=10{,}0\,\mu m$.
 
-A partir das restrições obtidas na Questão 5, escolhemos:
-- NMOS em fraca inversão no limite mínimo permitido: $(W/L)_1 = (W/L)_2 = 17{,}0\ (>16{,}9)$ com $L=1{,}0\,\mu m$, resultando em $W_1=W_2=17{,}0\,\mu m$.
-- PMOS em forte inversão, valores médios respeitando limites e mantendo as proporções do espelho: $(W/L)_3 = 5{,}0$, $(W/L)_4 = 10{,}0$ (pois $M=2$) e $(W/L)_5 = 5{,}0$ (pois $X=1$). Com $L=2{,}0\,\mu m$, temos $W_3=10{,}0\,\mu m$, $W_4=20{,}0\,\mu m$ e $W_5=10{,}0\,\mu m$.
-
-As dimensões determinadas são apresentadas na Tabela \ref{tab:dimensoes}.
+Essas escolhas garantem operação em saturação com margem típica de cerca de 200\,mV de headroom por dispositivo e equilíbrio entre área, robustez frente a variações de processo e simplicidade de layout. A Tabela \ref{tab:dimensoes} resume as dimensões finais.
 
 \begin{table}[H]
 \centering
@@ -799,9 +796,6 @@ Vdd vd 0 3V
 
 .end
 \end{codeblock}
-
-\newpage
-\textbf{Análise dos Resultados de Simulação:}
 
 As simulações realizadas ao variar o valor de $V_{DD}$ confirmam o funcionamento correto do espelho de corrente, conforme ilustrado nas Figuras \ref{fig:corrente_m3_m4} e \ref{fig:corrente_m5}. A Figura \ref{fig:corrente_m3_m4} apresenta as correntes dos transistores M3 e M4 para $V_{DD} = 3{,}0$ V, onde se verifica que $I_{M3} = 34{,}21\,\mu A$ e $I_{M4} = 70{,}21\,\mu A$. A relação de correntes obtida é:
 
@@ -860,29 +854,16 @@ Com o resistor ajustado para $R = 1{,}005\,\text{k}\Omega$, realizou-se nova sim
 \begin{BoxQ}
 	\textbf{Determine a faixa de valores de $V_{DD}$ para a qual a condição $I_0(0{,}98) < I_S < I_0(1{,}02)$ seja observada, onde $I_0$ é a corrente para $V_{DD} = 3{,}0$\,V. Qual é o valor mínimo de $V_{DD}$ achado?}
 \end{BoxQ}
-
-Para determinar sua faixa de operação adequada, devemos estabelecer os limites de tolerância admissíveis. Considerando:
-
-\begin{itemize}
-    \item Corrente de referência: $I_0 = 25\,\mu\text{A}$ (valor nominal para $V_{DD} = 3{,}0$\,V)
-    \item Tolerância especificada: $\pm 2\%$
-    \item Limite inferior: $I_0(0{,}98) = 25 \times 0{,}98 = 24{,}5\,\mu\text{A}$
-    \item Limite superior: $I_0(1{,}02) = 25 \times 1{,}02 = 25{,}5\,\mu\text{A}$
-\end{itemize}
-
-Portanto, a faixa aceitável de corrente é: $24{,}5\,\mu\text{A} < I_S < 25{,}5\,\mu\text{A}$.
-
-Através da simulação de $I_S$ em função de $V_{DD}$, observamos o comportamento da fonte de corrente apresentado na Figura~\ref{fig:corrente_maxima_minima}. Da análise do gráfico, identificamos os pontos críticos:
-
-\begin{itemize}
-    \item Para $I_S = 24{,}5\,\mu\text{A}$ (limite inferior): $V_{DD} = 2{,}78$\,V
-    \item Para $I_S = 25{,}5\,\mu\text{A}$ (limite superior): $V_{DD} = 3{,}18$\,V
-\end{itemize}
+Estabelece-se inicialmente a corrente nominal $I_0 = 25\,\mu\text{A}$ para $V_{DD}=3{,}0$\,V. A condição especificada impõe a faixa de tolerância $0{,}98 I_0 < I_S < 1{,}02 I_0$, isto é,
+\begin{equation*}
+24{,}5\,\mu\text{A} < I_S < 25{,}5\,\mu\text{A}.
+\end{equation*}
+Realizou-se uma varredura DC de $V_{DD}$ registrada juntamente com a corrente de saída. A partir da curva obtida (Figura~\ref{fig:corrente_maxima_minima}) identificam-se os dois pontos de interseção da corrente simulada com os limites de especificação, determinando a faixa operacional em termos da tensão de alimentação. O valor mínimo de $V_{DD}$ que ainda satisfaz a desigualdade é $2{,}78$\,V, enquanto o valor máximo dentro da mesma condição é $3{,}18$\,V. Assim, a fonte mantém a corrente dentro da margem de $\pm 2\%$ para $2{,}78$\,V $\leq V_{DD} \leq 3{,}18$\,V.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/corrente_maxima_minima.png}
-    \caption{Corrente de saída $I_S$ em função de $V_{DD}$, destacando os limites de tolerância de $\pm 2\%$. A faixa operacional aceitável está entre $V_{DD} = 2{,}78$\,V e $V_{DD} = 3{,}18$\,V.}
+    \caption{Corrente de saída $I_S$ em função de $V_{DD}$. As interseções com os limites $0{,}98 I_0$ e $1{,}02 I_0$ definem $2{,}78$\,V e $3{,}18$\,V como extremos da faixa operacional dentro da tolerância de $\pm 2\%$.}
     \label{fig:corrente_maxima_minima}
 \end{figure}
 
@@ -893,40 +874,17 @@ Através da simulação de $I_S$ em função de $V_{DD}$, observamos o comportam
 	\textbf{Caso desejemos ter pequenas variações de corrente mesmo para uma ampla variação da tensão de alimentação, quais modificações podem ser realizadas no projeto?}
 \end{BoxQ}
 
-Conforme observado na Questão 9, a corrente $I_S$ varia significativamente com $V_{DD}$ devido ao efeito de \textbf{modulação de canal}, descrito por:
+Conforme constatado na Questão 9, a corrente $I_S$ apresenta variação apreciável com $V_{DD}$ em virtude da modulação de canal, fenômeno modelado por
 \begin{equation}
 I_D = I_{D0}\left(1 + \lambda V_{DS}\right)
 \end{equation}
+De forma prática, reduzir a dependência de $I_S$ em relação à tensão de alimentação equivale a diminuir $\lambda$ (aumentando, portanto, $r_{out} = 1/(\lambda I_D)$) e a elevar a impedância efetiva do espelho de corrente.
 
-Para reduzir esta sensibilidade, o objetivo é diminuir $\lambda$ e aumentar a impedância de saída $r_{out} = 1/(\lambda I_D)$. Duas estratégias principais podem ser adotadas:
+Uma primeira ação eficiente é o aumento moderado do comprimento de canal. Como $\lambda$ decresce aproximadamente de modo inverso com $L$, a extensão do canal atenua a influência relativa do encurtamento efetivo ($\Delta L$) quando $V_{DS}$ cresce, estabilizando a corrente. No contexto específico deste projeto, a opção preferencial recai sobre os transistores PMOS, que partem de dimensões mais compactas e suportam incremento de $L$ sem penalizar significativamente a área total. Para os NMOS, cujo $W$ já é elevado, um aumento proporcional de $L$ implicaria crescimento excessivo de área e possíveis impactos de capacitância parasita, não justificando o ganho incremental em estabilidade.
 
-\subsubsection*{1. Aumento do Comprimento de Canal (L)}
+Em paralelo, a adoção de uma topologia de espelho com alta impedância de saída reforça a rejeição a variações de $V_{DD}$. Estruturas em cascode elevam $r_{out}$ para a ordem de $g_m r_o^2$, enquanto a configuração de Wilson, especialmente em versão simétrica, introduz realimentação local que compensa variações de tensão de dreno, melhora o casamento e fornece ainda maior robustez sem exigir níveis adicionais de tensão tão elevados quanto algumas formas de cascode empilhado.
 
-Como $\lambda$ é inversamente proporcional a $L$, aumentar o comprimento dos transistores reduz diretamente o efeito da modulação de canal. Quando $V_{DS}$ aumenta, o estreitamento efetivo do canal ($\Delta L$) torna-se percentualmente menor em transistores com maior $L$ nominal, resultando em corrente mais estável.
-
-Neste projeto, é mais vantajoso aumentar o $L$ dos \textbf{transistores PMOS}, que já possuem dimensões compactas. Os transistores NMOS, com $W$ já bastante elevado, se tornarem excessivamente grandes caso seus comprimentos sejam aumentados proporcionalmente, comprometendo a área total do circuito.
-
-\subsubsection*{2. Mudança de Topologia do Espelho}
-
-Substituir o espelho simples por topologias de alta impedância aumenta drasticamente $r_{out}$:
-
-\begin{itemize}
-    \item \textbf{Espelho Cascode:} conexão em série de transistores eleva a impedância para $g_m r_o^2$;
-    \item \textbf{Espelho de Wilson:} utiliza realimentação local para compensar variações de tensão, oferecendo impedância ainda maior.
-\end{itemize}
-
-A versão \textbf{simétrica do Wilson} é preferível por manter a simetria do circuito e melhorar o casamento entre componentes.
-
-\subsubsection*{Proposta de Implementação}
-
-Para este projeto, recomenda-se combinar ambas as abordagens:
-
-\begin{enumerate}
-    \item Aumentar moderadamente o $L$ dos PMOS para reduzir $\lambda$;
-    \item Implementar \textbf{espelho de Wilson simétrico} no ramo NMOS, evitando aumento excessivo de dimensões.
-\end{enumerate}
-
-Esta solução equilibra desempenho e área, proporcionando excelente regulação de corrente sem necessidade de circuitos adicionais complexos, e ampliando significativamente a faixa operacional de $V_{DD}$.
+A solução recomendada para este projeto, portanto, combina um aumento criterioso de $L$ nos PMOS com a implementação de um espelho de Wilson simétrico no ramo NMOS. Essa combinação reduz a modulação de canal efetiva, eleva a impedância de saída global e mantém o uso de área em patamar aceitável, evitando complexidade desnecessária. O resultado esperado é uma regulação de corrente mais consistente ao longo de uma faixa ampliada de $V_{DD}$, preservando simultaneamente simplicidade de layout, bom casamento entre dispositivos e margem adequada para operação confiável.
 
 
 \subsection*{Questão 11}
@@ -935,17 +893,79 @@ Esta solução equilibra desempenho e área, proporcionando excelente regulaçã
 	\textbf{Reprojetar o circuito com modificações para reduzir a sua sensibilidade a variações de $V_{DD}$. Tomar cuidado para que as dimensões não aumentem muito e que a faixa de operação não seja muito reduzida. Apresente o esquemático do circuito, com as dimensões escolhidas, e o novo gráfico $I_S$ x $V_{DD}$.}
 \end{BoxQ}
 
+Para reduzir a sensibilidade de $I_S$ frente a variações de $V_{DD}$ adotou-se uma abordagem combinada: (i) substituição do espelho NMOS simples por um espelho de Wilson simétrico, elevando a impedância de saída efetiva; (ii) aumento moderado das dimensões dos transistores PMOS, explorando a redução de $\lambda$ com o alongamento do canal sem crescimento excessivo de área. O espelho PMOS original foi mantido em topologia simples para não impor maior headroom e preservar a faixa útil de alimentação. A escolha das novas dimensões levou em conta o ponto de retorno decrescente (diminishing returns) observado: acréscimos além do valor adotado produziam redução marginal na variação de corrente, não justificando o custo em área.
+
+Antes das modificações, a corrente na faixa especificada de operação situava-se entre $I_{\min}=24{,}929\,\mu\text{A}$ e $I_{\max}=25{,}003\,\mu\text{A}$, resultando em diferença $\Delta I = 74\,\text{nA}$ (aprox. $0{,}30\%$ do valor nominal), conforme ilustrado na Figura~\ref{fig:pmos_variacao}. Após o reprojeto e o ajuste fino da resistência, a resposta de corrente em função de $V_{DD}$ tornou-se mais uniforme (Figura~\ref{fig:is_vdd_apos}) e o novo arranjo da topologia do circuito pode ser observado no esquemático da Figura~\ref{fig:esquematico_q11}. A estabilização em torno de $I_S\approx 24{,}97\,\mu\text{A}$ evidencia a redução da sensibilidade residual.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/esquematico.png}
+    \caption{Esquemático do circuito reprojetado com indicação das dimensões finais.}
+    \label{fig:esquematico_q11}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/corrente_maxima_minima_por_largura_de_tran.png}
+    \caption{Corrente mínima e máxima por largura de transistores PMOS antes da redução de sensibilidade do circuito.}
+    \label{fig:pmos_variacao}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/correnteXvdd_ajustada.png}
+    \caption{$I_S$ x $V_{DD}$ após a redução de sensibilidade do circuito.}
+    \label{fig:is_vdd_apos}
+\end{figure}
+
 \subsection*{Questão 12}
 \addcontentsline{toc}{subsection}{Questão 12}
 \begin{BoxQ}
 	\textbf{Alguns circuitos analógicos necessitam de um circuito de \emph{start-up} para começarem a funcionar (por exemplo, fontes de corrente, osciladores, etc.). Verifique por simulação se a fonte de corrente necessita de um start-up (considere algumas tensões iniciais nos nós do circuito e verifique, através de simulação de transitório, se o circuito vai ou não para o ponto de operação correto). Caso haja alguma condição inicial em que o circuito não funcione, apresente figura da simulação. Qual comando deve ser utilizado para impor condições iniciais, .IC ou .NODESET?}
 \end{BoxQ}
 
+Fontes de corrente auto-polarizadas podem apresentar dois pontos de equilíbrio: o desejado (corrente nominal estabelecida) e o trivial (todas as correntes nulas). Para verificar a existência desse estado indesejado foram executadas simulações de transitório impondo diferentes condições iniciais de tensão nos nós críticos do circuito: nó $w$ (par inferior do espelho), nó $1$ (gate auxiliar de polarização) e nó $2$ (nó comum dos dispositivos superiores). 
+
+O comando apropriado para forçar tensões iniciais na análise de transitório é \textbf{.IC}. Ele estabelece explicitamente $V(\text{nó}, t=0)$ antes da integração no tempo. O comando \texttt{.NODESET}, por sua vez, apenas fornece sugestões para o algoritmo de ponto de operação DC e não garante a imposição das tensões no instante inicial do transitório; portanto, não é suficiente para este teste de robustez de inicialização.
+
+Na maioria das combinações testadas o circuito convergiu para o ponto de operação correto, elevando a corrente de saída à vizinhança de $25\,\mu\text{A}$. Entretanto, observaram-se três condições iniciais para as quais a corrente permaneceu presa em valor próximo de zero, caracterizando falha de partida e a necessidade de um circuito de \emph{start-up}:
+
+1. $V(w)=0\,$V e $V(2)=0\,$V (demais nós não forçados). A evolução temporal mostra que nenhuma pequena assimetria é gerada internamente para deslocar o par espelho do equilíbrio trivial, resultando em corrente nula sustentada (Figura~\ref{fig:startup_vw0_v20}).
+2. Todos os nós em $0\,$V. Com todos os dispositivos inicialmente cortados, as capacitâncias parasitas não produzem desbalanceamento suficiente e o estado de repouso persiste (Figura~\ref{fig:startup_todos_zero}).
+3. $V(w)=0\,$V, $V(1)=V_{DD}$, $V(2)=V_{DD}$. A imposição assimétrica de $V_{DD}$ nos nós de referência superiores, mantendo $w$ em zero, força uma distribuição de tensões que mantém transistores chave em corte e impede o estabelecimento da laço de realimentação de corrente (Figura~\ref{fig:startup_vw0_v1v2_vdd}).
+
+Em todos esses cenários a ausência de um caminho que injete temporariamente corrente no nó $w$ impede que a rede alcance o regime desejado. Um circuito de \emph{start-up} adequado poderia, por exemplo, utilizar um transistor fraco que, enquanto $w$ estiver em baixa tensão, injete uma pequena corrente elevando-o até a região em que o espelho entra em condução. Ao atingir o ponto nominal esse transistor se desliga automaticamente (via polarização dependente de $w$), eliminando impacto no regime permanente.
+
+Assim, conclui-se que a fonte de corrente, na forma atual, \textit{necessita} de um mecanismo de \emph{start-up} para garantir inicialização confiável sob condições iniciais adversas. O comando correto empregado nas simulações foi \textbf{.IC}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/corrente_saida_vw_0_v2_0.png}
+    \caption{Transitório para $V(w)=0$ V e $V(2)=0$ V: corrente de saída permanece no estado trivial (falha de partida).}
+    \label{fig:startup_vw0_v20}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/corrente_saida_todos_zero.png}
+    \caption{Transitório com todos os nós em $0$ V: manutenção do ponto de equilíbrio de corrente nula.}
+    \label{fig:startup_todos_zero}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/corrente_saida_vw_0_v1_e_v2_3.png}
+    \caption{Transitório para $V(w)=0$ V, $V(1)=V_{DD}$ e $V(2)=V_{DD}$: ausência de auto-polarização leva à falha de partida.}
+    \label{fig:startup_vw0_v1v2_vdd}
+\end{figure}
+
 \subsection*{Questão 13}
 \addcontentsline{toc}{subsection}{Questão 13}
 \begin{BoxQ}
 	\textbf{Ajustar o valor de $R$ para que a corrente em $M_{5}$ tenha o valor nominal desejado quando $V_{DD} = 3{,}0$\,V.}
 \end{BoxQ}
+
+O ajuste de $R$ foi realizado no contexto do reprojeto descrito na Questão 11 (vide esquemático da Figura~\ref{fig:esquematico_q11}), pois a definição simultânea da nova topologia e das dimensões exige já fixar a resistência que leva $M_{5}$ à corrente nominal de \(25\,\mu\text{A}\) em $V_{DD}=3{,}0$\,V. A varredura paramétrica indicou que \(R \approx 850\,\Omega\) produz a corrente alvo mantendo margem de operação frente a variações de $V_{DD}$ sem penalizar área. Portanto, nesta etapa não há novo ajuste a registrar: o valor adotado permanece válido para as simulações subsequentes.
 
 \subsection*{Questão 14}
 \addcontentsline{toc}{subsection}{Questão 14}
@@ -1065,14 +1085,9 @@ A simulação foi configurada para iniciar com tensão zero em todos os nós. Co
 
 	\textbf{Desenhe o layout da fonte de tensão completa. Utilize o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajuste o comprimento de $R_2$ no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50\,ppm/\degree C.}
 
-O ajuste fino do resistor R é crucial para calibrar a corrente de saída $I_S$ para o valor nominal de $25\mu A$ em $V_{DD} = 3.0V$. Este ajuste compensa efeitos de segunda ordem e desvios do modelo teórico. Através de varreduras paramétricas na simulação, o valor de R foi ajustado iterativamente. O valor que resultou na corrente de saída mais próxima de $25\mu A$ foi:
-\begin{equation}
-R \approx 3.5k\Omega
-\end{equation}
-Este valor foi fixado no esquemático para as simulações subsequentes.
+% (Parágrafo removido: ajuste detalhado de R deslocado para a Questão 13; valor final adotado: R ≈ 850 Ω.)
 
-\section*{Fonte de Tensão de Referência Bandgap}
-\addcontentsline{toc}{section}{Fonte de Tensão de Referência Bandgap}
+\paragraph*{Fonte de Tensão de Referência Bandgap}
 
 Grandezas PTAT (Proportional To Absolute Temperature) e CTAT (Complementary To Absolute Temperature) podem ser somadas ponderadamente para gerar uma referência de tensão independente da temperatura. A tensão $V_{BE}$ de um transistor bipolar é CTAT, enquanto a tensão sobre um resistor percorrido por uma corrente PTAT (como a da nossa fonte) é PTAT.
 
