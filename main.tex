@@ -972,18 +972,7 @@ O ajuste de $R$ foi realizado no contexto do reprojeto descrito na Questão 11 (
 \begin{BoxQ}
     \textbf{Como deve ser desenhado o resistor (verificar no manual ENG-183\_rev3.pdf como é feita a definição de um resistor)? Qual material é adequado para construí-lo?}
 \end{BoxQ}
-
-Segundo o manual ENG-183 Rev.3.0, o desenho de resistores em tecnologia CMOS 0,35\,$\mu$m utiliza camadas específicas de layout:
-
-\begin{itemize}
-    \item \textbf{Camada RESDEF:} Define a região que o resistor irá ocupar no layout
-    \item \textbf{Camada RESTRM:} Delimita os terminais do resistor, removendo porções da área definida por RESDEF
-    \item \textbf{Geometria em serpentina:} Para valores elevados de resistência, emprega-se formato sinuoso para otimizar o uso da área de silício
-\end{itemize}
-
-O material mais adequado é o \textbf{Polisilício de Alta Resistividade (RPOLYH)}, que oferece $R_{\square} = 1200\,\Omega/\square$. Esta escolha se justifica por permitir obter valores elevados de resistência com área mínima de silício.
-
-Para o resistor de aproximadamente 1\,k$\Omega$ necessário neste projeto, o RPOLYH é a escolha ótima, minimizando a área ocupada através de layout sinuoso e mantendo boa precisão.
+Conforme o manual, o resistor é definido pelas camadas lógicas \textbf{RESDEF} (região ativa) e \textbf{RESTRM} (recorte/terminais). A resistência resulta de \(R = R_{\square}(L/W)\) após correções geométricas usuais. Para a faixa de valor adotada no projeto (\(R \approx 850\,\Omega\)) seleciona-se \textbf{RPOLYH} ($R_{\square}\approx 1200\,\Omega/\square$), pois atinge o valor requerido com menor área e boa estabilidade. 
 
 \subsection*{Questão 15}
 \addcontentsline{toc}{subsection}{Questão 15}
@@ -996,6 +985,31 @@ Para o resistor de aproximadamente 1\,k$\Omega$ necessário neste projeto, o RPO
     \textbf{Quais são as dimensões do circuito completo (utilizar o comando Report -- Windows do ICSTATION)? Apresente o layout do circuito.}
 \end{BoxQ}
 
+Para documentar a ocupação de área do bloco, utilizou-se o relatório Report\,--\,Windows do ICSTATION, lendo as coordenadas do \emph{Cell Extent} do circuito. O layout final da fonte de corrente está apresentado na Figura~\ref{fig:layout_fonte_corrente}. A seguir resumem-se as coordenadas extremas e as dimensões calculadas.
+
+\noindent Dimensões pelo \emph{Report -- Windows} (\textbf{Cell Extent}):
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+PIE (inferior esquerdo) & [$-35{,}175$; $2143{,}750$]\,\,$\mu$\,m \\
+PSD (superior direito)  & [$\phantom{-}74{,}650$; $2511{,}650$]\,\,$\mu$\,m \\
+\end{tabular}
+\end{center}
+
+\[
+\begin{aligned}
+D_X &= \text{PSD.X} - \text{PIE.X} = 109{,}825\,\mu\text{m},\\
+D_Y &= \text{PSD.Y} - \text{PIE.Y} = 367{,}900\,\mu\text{m},\\
+A   &= D_X\cdot D_Y \approx 40{,}404{,}62\,\mu\text{m}^2.
+\end{aligned}
+\]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.68\textwidth]{images/layout1.png}
+    \caption{Layout da fonte de corrente (valores de dimensão obtidos a partir do \emph{Cell Extent}).}
+    \label{fig:layout_fonte_corrente}
+\end{figure}
+
 \subsection*{Questão 16}
 \addcontentsline{toc}{subsection}{Questão 16}
 \begin{BoxQ}
@@ -1005,8 +1019,9 @@ Para o resistor de aproximadamente 1\,k$\Omega$ necessário neste projeto, o RPO
     \item com simulação Monte Carlo, ao menos 200 simulações, traçar o gráfico número de resultados x corrente de saída em $V_{DD} = 3{,}0$\,V. Ache o valor médio;
     \item Para $V_{DD} = 3{,}0$\,V, qual é a máxima tensão que podemos aplicar na saída e a fonte continuar funcionando (considere que quando a corrente variou 2\%, deixou de funcionar).
 \end{enumerate}
-    \textit{Obs.:} O extrator gera a linha do resistor erradamente. O resistor deve ser um subcircuito. Acrescente \texttt{X} no início da linha gerada para o resistor. Adicionalmente deve ser acrescentado ao arquivo de simulação o modelo do resistor que se encontra em \texttt{/local/tools/dkit/ams\_3.70/c35/eldo/restm.mod}.
+    	extit{Obs.:} O extrator gera a linha do resistor erradamente. O resistor deve ser um subcircuito. Acrescente \texttt{X} no início da linha gerada para o resistor. Adicionalmente, inclua no arquivo de simulação o modelo do resistor disponível em \nolinkurl{/local/tools/dkit/ams_3.70/c35/eldo/restm.mod}.
 \end{BoxQ}
+
 
 \subsection*{Questão 17}
 \addcontentsline{toc}{subsection}{Questão 17}
@@ -1030,40 +1045,43 @@ Para o resistor de aproximadamente 1\,k$\Omega$ necessário neste projeto, o RPO
 \subsection*{Questão 20}
 \addcontentsline{toc}{subsection}{Questão 20}
 \begin{BoxQ}
-    \textbf{[Texto do enunciado de Questão 20]}
+    	\textbf{Aplique um sinal AC na tensão de alimentação e realize uma simulação em frequência de 1{,}0\,kHz a 100\,MHz, amostrando 10 pontos por década (ver comando \texttt{.AC}). Use uma fonte de $V_{DD}$ com amplitude AC de 1\,V. Como referência, os comandos podem ser:}\\
+    	\texttt{Vd vd 0 3V AC 1}\\
+    	\texttt{.AC DEC 10 1K 10MEG}\\
+    	\texttt{.probe AC Id(Mn4) Vd(5) v(6)}
 \end{BoxQ}
 
 \subsection*{Questão 21}
 \addcontentsline{toc}{subsection}{Questão 21}
 \begin{BoxQ}
-	extbf{Apresente o gráfico $I_{S}$ (em dB) x frequência (em escala logarítmica) (mostre os comandos do ELDO utilizados). Caso se deseje que o ruído na saída se mantenha inferior a 1\% da corrente nominal, para um ruído de 0,1\,V na fonte de alimentação, qual a máxima frequência que o ruído pode ter?}
+	\textbf{Apresente o gráfico $I_{S}$ (em dB) x frequência (em escala logarítmica) (mostre os comandos do ELDO utilizados). Caso se deseje que o ruído na saída se mantenha inferior a 1\% da corrente nominal, para um ruído de 0,1\,V na fonte de alimentação, qual a máxima frequência que o ruído pode ter?}
 \end{BoxQ}
 
 \subsection*{Questão 22}
 \addcontentsline{toc}{subsection}{Questão 22}
 \begin{BoxQ}
-	extbf{Caso a fonte de alimentação apresente ruídos acima de 0,1\,V em frequências acima da permitida, qual providência simples pode ser tomada para reduzi-los?}
+	\textbf{Caso a fonte de alimentação apresente ruídos acima de 0,1\,V em frequências acima da permitida, qual providência simples pode ser tomada para reduzi-los?}
 \end{BoxQ}
 
 \subsection*{Questão 23}
 \addcontentsline{toc}{subsection}{Questão 23}
 \begin{BoxQ}
-	extbf{Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS. Apesar disso, não raramente são também disponibilizados transistores bipolares. Verifique os transistores bipolares LAT2 e VERT10 fornecidos pela AMS, manual ENG-183. Que tipo de transistores são (NPN ou PNP) e por que são chamados de lateral, LAT2, e vertical, VERT10?}
+	\textbf{Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS. Apesar disso, não raramente são também disponibilizados transistores bipolares. Verifique os transistores bipolares LAT2 e VERT10 fornecidos pela AMS, manual ENG-183. Que tipo de transistores são (NPN ou PNP) e por que são chamados de lateral, LAT2, e vertical, VERT10?}
 \end{BoxQ}
 
 \subsection*{Questão 24}
 \addcontentsline{toc}{subsection}{Questão 24}
 \begin{BoxQ}
-	extbf{Verifique o comportamento do transistor VERT10 com a temperatura. Para isso conecte o emissor dele a uma fonte de corrente (valor de corrente igual ao que você usou no projeto), a base e coletor ao terra. Apresente o gráfico $V_{BE}$ x Temperatura. A declaração do transistor é:}
+	\textbf{Verifique o comportamento do transistor VERT10 com a temperatura. Para isso conecte o emissor dele a uma fonte de corrente (valor de corrente igual ao que você usou no projeto), a base e coletor ao terra. Apresente o gráfico $V_{BE}$ x Temperatura. A declaração do transistor é:}
 \begin{codeblock}[title={Declaração do transistor VERT10}]
 Qname coletor base emissor VERT10
 \end{codeblock}
-    	extit{Obs.:} O modelo VERT10 encontra-se no fim do material.
+    \textit{Obs.:} O modelo VERT10 encontra-se no fim do material.
 \end{BoxQ}
 \subsection*{Questão 25}
 \addcontentsline{toc}{subsection}{Questão 25}
 \begin{BoxQ}
-    extbf{Projete uma fonte de tensão de referência similar à da Figura~\ref{fig:bandgap_circuit} mas utilize a fonte de corrente que você projetou (questão 15). Na fonte de tensão faça com que a corrente do bipolar seja igual à corrente que passa pelo resistor $R_1$ (Figura~\ref{fig:bandgap_circuit}). O valor de $R_2$ deve ser ajustado para que o Coeficiente de Temperatura seja inferior a 50\,ppm/\degree C, para temperaturas variando entre $-10$\degree C e $100$\degree C. Apresente o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresente também o gráfico $V_{REF}$ x Temperatura.}
+    \textbf{Projete uma fonte de tensão de referência similar à da Figura~\ref{fig:bandgap_circuit} mas utilize a fonte de corrente que você projetou (questão 15). Na fonte de tensão faça com que a corrente do bipolar seja igual à corrente que passa pelo resistor $R_1$ (Figura~\ref{fig:bandgap_circuit}). O valor de $R_2$ deve ser ajustado para que o Coeficiente de Temperatura seja inferior a 50\,ppm/\degree C, para temperaturas variando entre $-10$\degree C e $100$\degree C. Apresente o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresente também o gráfico $V_{REF}$ x Temperatura.}
 \end{BoxQ}
 
 Fontes de corrente auto-polarizadas, como a projetada, podem ter um ponto de operação estável indesejado onde todas as correntes são nulas. Para verificar se o circuito necessita de um mecanismo de \textit{start-up}, realizamos simulações de transitório.
