@@ -1176,24 +1176,40 @@ Qname coletor base emissor VERT10
 \end{codeblock}
     \textit{Obs.:} O modelo VERT10 encontra-se no fim do material.
 \end{BoxQ}
+
+O gráfico de Tensão Base-Emissor por Temperatura se encontra na Figura~\ref{fig:q24_vbe_temp}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{24.png}
+    \caption{$V_{BE}$ por temperatura.}
+    \label{fig:q24_vbe_temp}
+\end{figure}
+
 \subsection*{Questão 25}
 \addcontentsline{toc}{subsection}{Questão 25}
 \begin{BoxQ}
     \textbf{Projete uma fonte de tensão de referência similar à da Figura~\ref{fig:bandgap_circuit} mas utilize a fonte de corrente que você projetou (questão 15). Na fonte de tensão faça com que a corrente do bipolar seja igual à corrente que passa pelo resistor $R_1$ (Figura~\ref{fig:bandgap_circuit}). O valor de $R_2$ deve ser ajustado para que o Coeficiente de Temperatura seja inferior a 50\,ppm/\degree C, para temperaturas variando entre $-10$\degree C e $100$\degree C. Apresente o esquemático do circuito completo, as dimensões dos transistores e os valores dos resistores. Apresente também o gráfico $V_{REF}$ x Temperatura.}
 \end{BoxQ}
 
-Fontes de corrente auto-polarizadas, como a projetada, podem ter um ponto de operação estável indesejado onde todas as correntes são nulas. Para verificar se o circuito necessita de um mecanismo de \textit{start-up}, realizamos simulações de transitório.
-
-O comando para forçar uma condição inicial em uma simulação de transitório é o \textbf{.IC (Initial Condition)}. O comando `.NODESET` é usado para sugerir um ponto de partida para a convergência da análise DC, mas não fixa o estado inicial para uma análise de transitório.
-
-A simulação foi configurada para iniciar com tensão zero em todos os nós. Como visto na Figura \ref{fig:startup_fail}, a corrente de saída $I_S$ permanece em zero, confirmando que o circuito não inicializa sozinho sob esta condição e, portanto, necessita de um circuito de \textit{start-up}.
+Inicialmente foi feito o uso da fonte de corrente anterior gerada a partir do layout juntamente com o transistor VERT10 para verificar a variação do coeficiente de temperatura em relação com a variação da resistência, chegando em um valor de 18{,}8\,k$\Omega$. A análise paramétrica mostrou que os limites estão entre 18{,}158\,k$\Omega$ e 19{,}347\,k$\Omega$ para manter o coeficiente de temperatura abaixo de 50\,ppm/\degree C, conforme apresentado na Figura~\ref{fig:q25_1}.
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{example-image-b}
-\caption{Simulação de transitório com condição inicial V(nó)=0V para todos os nós. A corrente de saída $I_S$ não atinge o valor de operação esperado de 25$\mu$A.}
-\label{fig:startup_fail}
+    \centering
+    \includegraphics[width=1\textwidth]{25.1.png}
+    \caption{Variação do coeficiente de temperatura em função do valor da resistência $R_2$. O valor ótimo encontrado foi de 18{,}8\,k$\Omega$.}
+    \label{fig:q25_1}
 \end{figure}
+
+Fixando o valor de $R_2$ para 18{,}8\,k$\Omega$ e gerando um gráfico de tensão pela variação de temperatura, temos o gráfico da Figura~\ref{fig:q25_2}, que mostra o comportamento da tensão de referência $V_{REF}$ em função da temperatura, atendendo ao requisito de coeficiente de temperatura inferior a 50\,ppm/\degree C.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{25.2.png}
+    \caption{$V_{REF}$ x Temperatura com $R_2 = 18{,}8\,k\Omega$. O coeficiente de temperatura resultante atende ao requisito de projeto.}
+    \label{fig:q25_2}
+\end{figure}
+
 
 
 \subsection*{Questão 26}
