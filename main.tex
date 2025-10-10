@@ -1005,8 +1005,8 @@ A   &= D_X\cdot D_Y \approx 40{,}404{,}62\,\mu\text{m}^2.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.68\textwidth]{images/layout1.png}
-    \caption{Layout da fonte de corrente (valores de dimensão obtidos a partir do \emph{Cell Extent}).}
+    \includegraphics[ height=0.8\textheight, keepaspectratio]{images/layout1.png}
+    \caption{Layout da fonte de corrente. O arranjo utiliza 9 resistores em paralelo para atender ao requisito de corrente de saída $I_S=25\,\mu\text{A}$.}
     \label{fig:layout_fonte_corrente}
 \end{figure}
 
@@ -1019,9 +1019,40 @@ A   &= D_X\cdot D_Y \approx 40{,}404{,}62\,\mu\text{m}^2.
     \item com simulação Monte Carlo, ao menos 200 simulações, traçar o gráfico número de resultados x corrente de saída em $V_{DD} = 3{,}0$\,V. Ache o valor médio;
     \item Para $V_{DD} = 3{,}0$\,V, qual é a máxima tensão que podemos aplicar na saída e a fonte continuar funcionando (considere que quando a corrente variou 2\%, deixou de funcionar).
 \end{enumerate}
-    	extit{Obs.:} O extrator gera a linha do resistor erradamente. O resistor deve ser um subcircuito. Acrescente \texttt{X} no início da linha gerada para o resistor. Adicionalmente, inclua no arquivo de simulação o modelo do resistor disponível em \nolinkurl{/local/tools/dkit/ams_3.70/c35/eldo/restm.mod}.
+    	\textit{Obs.:} O extrator gera a linha do resistor erradamente. O resistor deve ser um subcircuito. Acrescente \texttt{X} no início da linha gerada para o resistor. Adicionalmente, inclua no arquivo de simulação o modelo do resistor disponível em \nolinkurl{/local/tools/dkit/ams_3.70/c35/eldo/restm.mod}.
 \end{BoxQ}
 
+% --- Respostas (Questão 16) ---
+
+\paragraph{(a) Corrente de saída em $V_{DD}=3{,}0$\,V (modelo típico)}
+Para $V_{out}=0$\,V, a Figura~\ref{fig:q16a} mostra a curva de $I_S$ em função de $V_{DD}$, com o marcador em $V_{DD}=3{,}0$\,V. Observa-se que a corrente de saída obtida está próxima do alvo de projeto (25\,$\mu$A), validando a dimensão do espelho e dos resistores extraídos do layout.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/16.1.png}
+    \caption{Questão 16(a). Curva de $I_S$ vs. $V_{DD}$ com $V_{out}=0$\,V. O cursor em $V_{DD}=3{,}0$\,V destaca o valor de $I_S$ no ponto de operação nominal.}
+    \label{fig:q16a}
+\end{figure}
+
+\paragraph{(b) Simulação de Monte Carlo (300 amostras) e valor médio}
+Realizou-se a análise de Monte Carlo com 300 variações. O histograma de resultados está na Figura~\ref{fig:q16b}. A média medida diretamente no EasyWave (função \emph{mean}) foi de $\overline{I_S}=25{,}392\,\mu$A. Esse desvio positivo de aproximadamente $+1{,}57\%$ em relação a 25\,$\mu$A é pequeno e, para a maioria das especificações, é considerado bom o suficiente. Ainda assim, caso se deseje reduzir o viés sistemático e a dispersão, pode-se melhorar o pareamento e as conexões entre as redes PMOS e NMOS (ex.: interdigitação/common-centroid, rotas simétricas e curtas, compartilhamento de contatos e \textit{guard rings} adequados).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/16.2.png}
+    \caption{Questão 16(b). Histograma de $I_S$ (Monte Carlo, 300 simulações). A média exibida pelo EasyWave foi de $25{,}392\,\mu$A.}
+    \label{fig:q16b}
+\end{figure}
+
+\paragraph{(c) Máxima tensão na saída para manter variação $\leq 2\%$}
+Mantendo $V_{DD}=3{,}0$\,V, varreu-se $V_{out}$ em análise DC. Define-se a tensão máxima de conformidade $V_{out,\max}$ como o valor de $V_{out}$ para o qual a corrente se desvia mais que 2\% do valor em $V_{out}=0$\,V. Na Figura~\ref{fig:q16c}, o marcador indica o ponto $V_{out,\max} = 2,6258\,V$ onde $\left|I_S(V_{out})-I_S(0)\right|/I_S(0)=2\%$. Até esse ponto a fonte mantém a especificação de corrente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/16.3.png}
+    \caption{Questão 16(c). $I_S$ versus $V_{out}$ para $V_{DD}=3{,}0$\,V.}
+    \label{fig:q16c}
+\end{figure}
 
 \subsection*{Questão 17}
 \addcontentsline{toc}{subsection}{Questão 17}
