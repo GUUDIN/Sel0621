@@ -1065,11 +1065,37 @@ Mantendo $V_{DD}=3{,}0$\,V, varreu-se $V_{out}$ em análise DC. Define-se a tens
 \end{codeblock}
 \end{BoxQ}
 
+O script de simulação utilizado pode ser verificado no bloco abaixo.
+
+\begin{codeblock}[title={Script de simulação (Questão 17)}]
+.DEFMOD PMOS4 MODP
+.DEFMOD NMOS4 MODN
+
+Xm VDD 0 OUT MIRROR
+Vd Vdd 0 DC 3v
+Vout OUT 0 DC 0v
+.option precise
+.DC temp -20 100 5
+.probe DC is(Xm.mM40)
+.include Model35_Eldo
+.include "mirror.pex.netlist"
+.end
+\end{codeblock}
+
 \subsection*{Questão 18}
 \addcontentsline{toc}{subsection}{Questão 18}
 \begin{BoxQ}
     \textbf{Apresente a curva $I_{S}$ x Temperatura e determine os valores extremos da corrente. Compare a dependência teórica de $I_{S}$ com a temperatura e os resultados.}
 \end{BoxQ}
+
+Na Figura~\ref{fig:q18_is_temp} apresenta-se a variação da corrente de saída $I_S$ com a temperatura. A partir do traçado observa-se um crescimento aproximadamente linear ao longo da faixa analisada, com valores extremos de cerca de $20{,}783\,\mu\text{A}$ em $T=-20\,\degree\text{C}$ e $31{,}622\,\mu\text{A}$ em $T=120\,\degree\text{C}$ (leituras do gráfico). Esse comportamento é compatível com a dependência teórica de $I_S$ com a temperatura quando a corrente é proporcional à tensão térmica $U_T$, dado que $U_T = kT/q$ é diretamente proporcional a $T$. Assim, espera-se que $I_S$ cresça com a temperatura, apresentando tendência quase linear na faixa considerada, como confirmado experimentalmente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/18.png}
+    \caption{Questão 18. $I_S$ x Temperatura. Leitura dos extremos: $I_S\approx 20{,}783\,\mu$A em $-20\,\degree$C e $I_S\approx 31{,}622\,\mu$A em $120\,\degree$C.}
+    \label{fig:q18_is_temp}
+\end{figure}
 
 % Questão 19 removida (não existe no enunciado)
 
@@ -1081,6 +1107,32 @@ Mantendo $V_{DD}=3{,}0$\,V, varreu-se $V_{out}$ em análise DC. Define-se a tens
     	\texttt{.AC DEC 10 1K 10MEG}\\
     	\texttt{.probe AC Id(Mn4) Vd(5) v(6)}
 \end{BoxQ}
+
+O script de simulação utilizado pode ser verificado no bloco abaixo.
+
+\begin{codeblock}[title={Script de simulação (Questão 20)}]
+.option measDGT=8
+.option ingold=1
+.option precise
+.option list
+
+.DEFMOD PMOS4 MODP
+.DEFMOD NMOS4 MODN
+
+Xm VDD OUT VSS CORRENTE
+Vd VDD 0 DC 3V AC 0.1V
+Vs VSS 0 0V
+Vo OUT 0 0V
+
+.include "corrente.pex.netlist"
+.include Model35_Eldo
+.include restm.mod
+
+.AC DEC 10 1K 100MEG
+.probe AC Is(Xm.mM40)
+
+.end
+\end{codeblock}
 
 \subsection*{Questão 21}
 \addcontentsline{toc}{subsection}{Questão 21}
@@ -1094,11 +1146,17 @@ Mantendo $V_{DD}=3{,}0$\,V, varreu-se $V_{out}$ em análise DC. Define-se a tens
 	\textbf{Caso a fonte de alimentação apresente ruídos acima de 0,1\,V em frequências acima da permitida, qual providência simples pode ser tomada para reduzi-los?}
 \end{BoxQ}
 
+Uma providência simples e eficaz para atenuar ruídos de alta frequência na alimentação consiste em implementar um filtro passa‑baixa na própria linha de $V_{DD}$ por meio de capacitores de \textit{decoupling} conectados entre $V_{DD}$ e GND, fisicamente próximos ao bloco alimentado. O capacitor oferece baixa impedância para componentes rápidos do ruído e as desvia para o terra, estabilizando a tensão de suprimento na banda de operação. Em prática, utiliza-se um capacitor de alta capacitância (eventualmente complementado por capacitores menores em paralelo para reduzir a ESL/ESR efetiva), de modo que a frequência de corte do polo $f_c \approx 1/(2\pi R_{fonte} C)$ fique abaixo do limite especificado (por exemplo, cerca de $3{,}97\,\text{MHz}$ no caso em que se admitiu $0{,}1$\,V de perturbação). A proximidade ao ponto de consumo, o retorno de terra de baixa indutância e o roteamento compacto são essenciais para a eficácia da desacoplagem.
+
 \subsection*{Questão 23}
 \addcontentsline{toc}{subsection}{Questão 23}
 \begin{BoxQ}
 	\textbf{Tecnologias CMOS são desenvolvidas para fornecer transistores MOS, NMOS e PMOS. Apesar disso, não raramente são também disponibilizados transistores bipolares. Verifique os transistores bipolares LAT2 e VERT10 fornecidos pela AMS, manual ENG-183. Que tipo de transistores são (NPN ou PNP) e por que são chamados de lateral, LAT2, e vertical, VERT10?}
 \end{BoxQ}
+
+Os dispositivos LAT2 e VERT10 são transistores bipolares do tipo PNP. A denominação “lateral” (LAT2) e “vertical” (VERT10) descreve a direção predominante do fluxo de portadores em relação às camadas do \textit{wafer}. No PNP vertical, a corrente percorre o empilhamento de camadas de forma aproximadamente perpendicular à superfície: o emissor é formado por uma difusão $P^+$ inserida no poço ($\text{Nwell}$), o poço atua como base e o substrato $P$ funciona como coletor comum. Essa geometria conduz a um dispositivo cujo coletor está tipicamente amarrado ao substrato, oferecendo boa área útil para coleta e, em geral, ganho superior ao do lateral, ao custo de menor liberdade para isolar o coletor.
+
+No PNP lateral, por sua vez, emissor e coletor são difusões $P^+$ posicionadas no mesmo poço $N$ (que serve de base), separadas lateralmente por uma região de base controlada; o fluxo de corrente ocorre paralelo à superfície do chip. Essa construção facilita o isolamento do coletor e a integração próxima a dispositivos PMOS, porém tende a apresentar ganho de corrente menor e maior sensibilidade a gradientes e efeitos de borda quando comparada à versão vertical. Em síntese, ambos são PNP. O adjetivo “vertical” reflete a condução através da pilha de camadas (substrato como coletor), enquanto “lateral” descreve a condução predominantemente ao longo do plano do \textit{wafer} dentro do mesmo poço.
 
 \subsection*{Questão 24}
 \addcontentsline{toc}{subsection}{Questão 24}
