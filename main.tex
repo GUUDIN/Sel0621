@@ -1140,6 +1140,15 @@ Vo OUT 0 0V
 	\textbf{Apresente o gráfico $I_{S}$ (em dB) x frequência (em escala logarítmica) (mostre os comandos do ELDO utilizados). Caso se deseje que o ruído na saída se mantenha inferior a 1\% da corrente nominal, para um ruído de 0,1\,V na fonte de alimentação, qual a máxima frequência que o ruído pode ter?}
 \end{BoxQ}
 
+Na Figura~\ref{fig:q21_is_db}, apresenta-se o espectro de $I_S$ (em dB) em função da frequência, obtido a partir da simulação AC com excitação de 0,1\,V em $V_{DD}$. Para que o ruído na saída se mantenha inferior a 1\% da corrente nominal, adotando $I_S=25\,\mu$A, o limite em magnitude é $0{,}01\times 25\,\mu\text{A}=0{,}25\,\mu\text{A}$. Em dB (20\,log10), o critério fica $20\log_{10}\!\left(\dfrac{0{,}25\,\mu\text{A}}{1\,\text{A}}\right)\approx -132{,}04\,\text{dB}$ quando referido a 1\,A. Assim, a frequência máxima permitida é aquela em que a curva de $|I_S|$ cruza (ou passa abaixo de) $-132{,}04$\,dB; este ponto é lido diretamente no gráfico.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/21.png}
+    \caption{Questão 21. $I_S$ (dB) x frequência com excitação AC de 0,1\,V em $V_{DD}$. }
+    \label{fig:q21_is_db}
+\end{figure}
+
 \subsection*{Questão 22}
 \addcontentsline{toc}{subsection}{Questão 22}
 \begin{BoxQ}
