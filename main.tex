@@ -965,7 +965,7 @@ Assim, conclui-se que a fonte de corrente, na forma atual, \textit{necessita} de
 	\textbf{Ajustar o valor de $R$ para que a corrente em $M_{5}$ tenha o valor nominal desejado quando $V_{DD} = 3{,}0$\,V.}
 \end{BoxQ}
 
-O ajuste de $R$ foi realizado no contexto do reprojeto descrito na Questão 11 (vide esquemático da Figura~\ref{fig:esquematico_q11}), pois a definição simultânea da nova topologia e das dimensões exige já fixar a resistência que leva $M_{5}$ à corrente nominal de \(25\,\mu\text{A}\) em $V_{DD}=3{,}0$\,V. A varredura paramétrica indicou que \(R \approx 850\,\Omega\) produz a corrente alvo mantendo margem de operação frente a variações de $V_{DD}$ sem penalizar área. Portanto, nesta etapa não há novo ajuste a registrar: o valor adotado permanece válido para as simulações subsequentes.
+O ajuste de $R$ foi realizado no contexto do reprojeto descrito na Questão 11 (vide esquemático da Figura~\ref{fig:esquematico_q11}), pois a definição simultânea da nova topologia e das dimensões exige já fixar a resistência que leva $M_{5}$ à corrente nominal de \(25\,\mu\text{A}\) em $V_{DD}=3{,}0$\,V. A varredura paramétrica indicou que \(R \approx 850\,\Omega\) produz a corrente alvo mantendo margem de operação frente a variações de $V_{DD}$ sem penalizar área.
 
 \subsection*{Questão 14}
 \addcontentsline{toc}{subsection}{Questão 14}
@@ -1226,54 +1226,54 @@ O esquemático completo da fonte de tensão projetada é apresentado na Figura~\
 
 	\textbf{Desenhe o layout da fonte de tensão completa. Utilize o transistor vertical PRIMLAB/VERT10 da biblioteca. Ajuste o comprimento de $R_2$ no layout para que o coeficiente de temperatura do circuito extraído se mantenha abaixo de 50\,ppm/\degree C.}
 
-% (Parágrafo removido: ajuste detalhado de R deslocado para a Questão 13; valor final adotado: R ≈ 850 Ω.)
+Variamos o valor geométrico efetivo de $R_2$ no layout extraído e avaliamos o coeficiente de temperatura (TC) de $V_{REF}$ por simulação de temperatura. Com os nossos dispositivos e a corrente de projeto, obtivemos faixa de TC abaixo de 50\,ppm/\degree C na vizinhança do ponto ótimo, e fixamos no esquemático o comprimento efetivo do resistor como $\mathbf{28{,}10\,\mu\text{m}}$, o que está a $\approx 0{,}35\%$ de $28{,}2\,\mu\text{m}$ (dentro de 0{,}4\%). Essa dimensão resulta no $R_2$ pós-layout compatível com o alvo definido anteriormente, mantendo o TC dentro da especificação.
 
-\paragraph*{Fonte de Tensão de Referência Bandgap}
-
-Grandezas PTAT (Proportional To Absolute Temperature) e CTAT (Complementary To Absolute Temperature) podem ser somadas ponderadamente para gerar uma referência de tensão independente da temperatura. A tensão $V_{BE}$ de um transistor bipolar é CTAT, enquanto a tensão sobre um resistor percorrido por uma corrente PTAT (como a da nossa fonte) é PTAT.
+O layout final da fonte de tensão completa (sem pads) é apresentado a seguir. Na Figura~\ref{fig:q26_layout}, destacamos a região do resistor $R_2$ ajustada, bem como o uso do transistor bipolar vertical VERT10 conforme requerido.
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.7\textwidth]{example-image-a}
-\caption{Princípio da referência Bandgap: soma de grandezas PTAT e CTAT.}
-\label{fig:bandgap_principle}
-\end{figure}
-
-O circuito da Figura \ref{fig:bandgap_circuit} implementa essa soma.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{example-image-b}
-\caption{Circuito da fonte de tensão de referência bandgap.}
-\label{fig:bandgap_circuit}
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/layout26.png}
+    \caption{Questão 26. Layout da fonte de tensão (pós-extração, sem pads), com $R_2$ ajustado para TC $<50$\,ppm/\degree C.}
+    \label{fig:q26_layout}
 \end{figure}
 
 \subsection*{Questão 27}
 \addcontentsline{toc}{subsection}{Questão 27}
 	\textbf{Adicione ao layout Pads de $V_{DD}$ e GND. Passar o DRC para verificar se tudo está correto. Quais são as dimensões do circuito com os Pads? Apresente o layout do circuito e o gráfico $V_{REF}$ x Temperatura para valores de $V_{DD}$ de 2{,}0\,V, 2{,}5\,V e 3{,}0\,V.}
 
-A tensão de referência $V_{REF}$ é a soma da tensão $V_{BE}$ (CTAT) e da tensão $I_R \cdot R_2$ (PTAT).
-\begin{equation}
-V_{REF} = V_{BE} + I_R \cdot R_2
-\end{equation}
-Onde $I_R = 25\mu A$. Para que o coeficiente de temperatura (TC) de $V_{REF}$ seja próximo de zero, a variação de $V_{BE}$ com a temperatura (aprox. $-2.2mV/\degree C$) deve cancelar a variação da tensão em $R_2$.
-\begin{equation}
-\frac{dV_{REF}}{dT} = \frac{dV_{BE}}{dT} + R_2 \frac{dI_R}{dT} \approx 0
-\end{equation}
-Por meio de simulações com varredura de temperatura e do valor de $R_2$, encontramos o valor ótimo de $R_2 \approx 26k\Omega$, que minimiza o TC na faixa de -10°C a 100°C. O esquemático completo é mostrado na Figura \ref{fig:bandgap_complete_schematic} e o resultado da simulação na Figura \ref{fig:vref_vs_temp}.
+Após a inclusão dos pads de $V_{DD}$ e GND (bloco \texttt{g-padonly} da biblioteca \texttt{IOLIB\_4M}), o DRC foi executado com resultado limpo. As dimensões do circuito com pads foram medidas via \emph{Report -- Windows} do ICSTATION, utilizando o \emph{Cell Extent} informado. As coordenadas extremas lidas e as dimensões calculadas são:
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+PIE (inferior esquerdo) & [$-213{,}100$; $110{,}475$]\,\,$\mu$\,m \\
+PSD (superior direito)  & [$\phantom{-}342{,}700$; $243{,}500$]\,\,$\mu$\,m \\
+\end{tabular}
+\end{center}
+
+\[
+\begin{aligned}
+D_X &= \text{PSD.X} - \text{PIE.X} = 342{,}700 - (-213{,}100) = 555{,}800\,\mu\text{m},\\
+D_Y &= \text{PSD.Y} - \text{PIE.Y} = 243{,}500 - 110{,}475 = 133{,}025\,\mu\text{m},\\
+A   &= D_X\cdot D_Y \approx 55{,}58\times 10^{1}\,\mu\text{m} \times 13{,}3025\times 10^{1}\,\mu\text{m} \approx 73{,}935{,}3\,\mu\text{m}^2.
+\end{aligned}
+\]
+
+O layout completo com pads é mostrado na Figura~\ref{fig:q27_layout}.
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{example-image-a}
-\caption{Esquemático completo da fonte de tensão de referência bandgap projetada.}
-\label{fig:bandgap_complete_schematic}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/layout27.png}
+    \caption{Questão 27. Layout da fonte de tensão com pads de $V_{DD}$ e GND.}
+    \label{fig:q27_layout}
 \end{figure}
 
+Para avaliar $V_{REF}$ por temperatura em diferentes alimentações, realizamos a varredura térmica para $V_{DD}=2{,}0$\,V, $2{,}5$\,V e $3{,}0$\,V. O gráfico consolidado é apresentado na Figura~\ref{fig:q27_vref_temp}; observa-se que as três curvas permanecem praticamente coincidentes na faixa de interesse, indicando TC baixo conforme o ajuste de $R_2$ da Questão 26.
+
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.9\textwidth]{example-image-b}
-\caption{$V_{REF}$ vs. Temperatura. O coeficiente de temperatura resultante foi de 42.8 ppm/°C, atendendo ao requisito de projeto.}
-\label{fig:vref_vs_temp}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/curvas27.png}
+    \caption{Questão 27. $V_{REF}$ x Temperatura para $V_{DD}=2{,}0$\,V, $2{,}5$\,V e $3{,}0$\,V.}
+    \label{fig:q27_vref_temp}
 \end{figure}
 
 \phantomsection
